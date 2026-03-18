@@ -45,6 +45,8 @@ This starts:
 - **Django backend** on port `8000`
 - **Vite dev server** (webapp) on port `5173`
 
+Turbo opens a terminal UI so each dev process has its own log view instead of one shared stream.
+
 > **Note:** The first run will be slower because Docker needs to build the backend image. Subsequent runs will be fast.
 
 ## Project Structure
@@ -63,7 +65,7 @@ project-lomo/
 
 | Command              | Description                                |
 | -------------------- | ------------------------------------------ |
-| `bun run dev`        | Start all apps in dev mode                 |
+| `bun run dev`        | Start all apps in Turbo's terminal UI      |
 | `bun run dev:web`    | Start only the webapp                      |
 | `bun run dev:stop`   | Stop Docker services (postgres + backend)  |
 | `bun run dev:logs`   | Tail Docker service logs                   |
@@ -74,7 +76,7 @@ project-lomo/
 
 ## Contributing
 
-1. Create a branch: `git checkout -b your-feature`
+1. Create a branch: `git checkout -b feat/your-feature`
 2. Make your changes
 3. Run `bun run lint` to check for issues
 4. Open a pull request against `main`
