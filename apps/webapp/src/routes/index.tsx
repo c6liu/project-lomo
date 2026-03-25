@@ -1,5 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
-
+import { createFileRoute } from "@tanstack/react-router";
 import Header from "../components/Header";
 import Availability from "../components/Availability";
 import RequestCard from "../components/RequestCard";
