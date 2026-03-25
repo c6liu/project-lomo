@@ -5,7 +5,7 @@ import Availability from "../components/Availability";
 import RequestCard from "../components/RequestCard";
 import BottomNav from "../components/BottomNav";
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/home')({
   component: Home,
 })
 
