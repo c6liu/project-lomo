@@ -4,13 +4,17 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 function RootLayout() {
 	return (
 		<>
-			<div className="p-2 flex gap-2">
+			<div className="flex gap-2 p-2">
 				<Link to="/" className="[&.active]:font-bold">
 					Home
 				</Link>
 				{" "}
 				<Link to="/about" className="[&.active]:font-bold">
 					About
+				</Link>
+				{" "}
+				<Link to="/showcase" className="[&.active]:font-bold">
+					Showcase
 				</Link>
 			</div>
 			<hr />
