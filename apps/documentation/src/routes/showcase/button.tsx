@@ -376,58 +376,58 @@ function ButtonPage() {
 						</div>
 					</DemoSection>
 
-				<DemoSection title="Rounded" description="Corner rounding intensity. Use 'full' for pill-shaped buttons.">
-					<div className="flex flex-wrap items-center gap-3">
-						{ROUNDED.map(rounded => (
-							<Button key={rounded} rounded={rounded}>
-								{rounded.charAt(0).toUpperCase() + rounded.slice(1)}
+					<DemoSection title="Rounded" description="Corner rounding intensity. Use 'full' for pill-shaped buttons.">
+						<div className="flex flex-wrap items-center gap-3">
+							{ROUNDED.map(rounded => (
+								<Button key={rounded} rounded={rounded}>
+									{rounded.charAt(0).toUpperCase() + rounded.slice(1)}
+								</Button>
+							))}
+						</div>
+					</DemoSection>
+
+					<DemoSection title="Border" description="Border size options. Combine with borderColor for custom styling.">
+						<div className="flex flex-wrap items-center gap-3">
+							{BORDER.map(border => (
+								<Button key={border} border={border} borderColor="terracotta">
+									{border.charAt(0).toUpperCase() + border.slice(1)}
+								</Button>
+							))}
+						</div>
+					</DemoSection>
+
+					<DemoSection title="Border × Color" description="Border styling with all available colors.">
+						<div className="flex flex-col gap-4">
+							{BORDER.filter(b => b !== "none").map(border => (
+								<div key={border} className="flex flex-wrap items-center gap-3">
+									{COLORS.map(color => (
+										<Button key={color} border={border} borderColor={color}>
+											{color.charAt(0).toUpperCase() + color.slice(1)}
+										</Button>
+									))}
+								</div>
+							))}
+						</div>
+					</DemoSection>
+
+					<DemoSection title="Rounded + Border" description="Combine rounded corners with borders for custom button designs.">
+						<div className="flex flex-wrap items-center gap-3">
+							<Button rounded="small" border="small" borderColor="sage">
+								Small Rounded
 							</Button>
-						))}
-					</div>
-				</DemoSection>
-
-				<DemoSection title="Border" description="Border size options. Combine with borderColor for custom styling.">
-					<div className="flex flex-wrap items-center gap-3">
-						{BORDER.map(border => (
-							<Button key={border} border={border} borderColor="terracotta">
-								{border.charAt(0).toUpperCase() + border.slice(1)}
+							<Button rounded="medium" border="medium" borderColor="terracotta">
+								Medium Rounded
 							</Button>
-						))}
-					</div>
-				</DemoSection>
-
-				<DemoSection title="Border × Color" description="Border styling with all available colors.">
-					<div className="flex flex-col gap-4">
-						{BORDER.filter(b => b !== "none").map(border => (
-							<div key={border} className="flex flex-wrap items-center gap-3">
-								{COLORS.map(color => (
-									<Button key={color} border={border} borderColor={color}>
-										{color.charAt(0).toUpperCase() + color.slice(1)}
-									</Button>
-								))}
-							</div>
-						))}
-					</div>
-				</DemoSection>
-
-				<DemoSection title="Rounded + Border" description="Combine rounded corners with borders for custom button designs.">
-					<div className="flex flex-wrap items-center gap-3">
-						<Button rounded="small" border="small" borderColor="sage">
-							Small Rounded
-						</Button>
-						<Button rounded="medium" border="medium" borderColor="terracotta">
-							Medium Rounded
-						</Button>
-						<Button rounded="large" border="large" borderColor="yellow">
-							Large Rounded
-						</Button>
-						<Button rounded="full" border="medium" borderColor="red">
-							Pill Button
-						</Button>
-					</div>
-				</DemoSection>
-			</div>
-		</DocSection>
+							<Button rounded="large" border="large" borderColor="yellow">
+								Large Rounded
+							</Button>
+							<Button rounded="full" border="medium" borderColor="red">
+								Pill Button
+							</Button>
+						</div>
+					</DemoSection>
+				</div>
+			</DocSection>
 
 			{/* ── API Reference ── */}
 

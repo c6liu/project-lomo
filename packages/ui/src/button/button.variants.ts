@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants";
-import { focusRings, ghostColors, interactiveBase, interactiveSizes, outlineColors, softColors, solidColors } from "../variants/index.ts";
 import { tw } from "../utils/tw.ts";
+import { focusRings, ghostColors, interactiveBase, interactiveSizes, outlineColors, softColors, solidColors } from "../variants/index.ts";
 
 // Border color styles (step 9: solid color)
 const borderColors: Record<string, string> = {
