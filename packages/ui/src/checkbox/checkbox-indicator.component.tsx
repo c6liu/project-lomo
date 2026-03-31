@@ -7,6 +7,7 @@ export interface CheckboxIndicatorProps {
 	variant?: VariantProps<typeof checkboxIndicatorVariants>["variant"];
 	size?: VariantProps<typeof checkboxIndicatorVariants>["size"];
 	color?: VariantProps<typeof checkboxIndicatorVariants>["color"];
+	alignment?: VariantProps<typeof checkboxIndicatorVariants>["alignment"];
 	className?: string;
 }
 
@@ -14,6 +15,7 @@ export function CheckboxIndicator({
 	variant,
 	size,
 	color,
+	alignment = "top",
 	className,
 }: CheckboxIndicatorProps) {
 	const ctx = useFieldContext();
@@ -29,6 +31,7 @@ export function CheckboxIndicator({
 				variant: v,
 				size: s,
 				color: c,
+				alignment,
 				class: className,
 			})}
 		>

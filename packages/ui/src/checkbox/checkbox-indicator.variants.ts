@@ -61,6 +61,11 @@ export const checkboxIndicatorVariants = tv({
 				"group-data-focus-visible:ring-2 group-data-focus-visible:ring-offset-2 group-data-focus-visible:ring-amber-8",
 			),
 		},
+		alignment: {
+			top: "self-start",
+			center: "self-center",
+			bottom: "self-end",
+		},
 	},
 	compoundVariants: [
 		/* ── Unchecked: surface variant ── */

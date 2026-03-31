@@ -58,6 +58,7 @@ const CHECKBOX_INDICATOR_PROPS = [
 	{ name: "variant", type: "\"surface\" | \"classic\"", default: "\"surface\"" },
 	{ name: "size", type: "1 | 2 | 3", default: "2" },
 	{ name: "color", type: "\"terracotta\" | \"sage\" | ... | \"amber\"", default: "\"terracotta\"" },
+	{ name: "alignment", type: "\"top\" | \"center\" | \"bottom\"", default: "\"top\"" },
 	{ name: "className", type: "string", default: "undefined" },
 ];
 
@@ -750,6 +751,24 @@ function CheckboxCardPage() {
 							{COLORS.map(color => (
 								<CheckboxCard key={color} color={color} defaultSelected value={color}>
 									<Text weight="medium">{color.charAt(0).toUpperCase() + color.slice(1)}</Text>
+								</CheckboxCard>
+							))}
+						</div>
+					</DemoSection>
+
+					<DemoSection title="Indicator Alignment" description="CheckboxIndicator can be aligned vertically within the card.">
+						<div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+							{(["top", "center", "bottom"] as const).map(alignment => (
+								<CheckboxCard key={alignment} value={alignment} defaultSelected className="h-24">
+									<section className="flex items-start gap-3">
+										<CheckboxIndicator alignment={alignment} />
+										<div className="flex flex-col gap-1">
+											<Text weight="medium">
+												{alignment.charAt(0).toUpperCase() + alignment.slice(1)}
+											</Text>
+											<Text size={1} color="gray">Indicator alignment</Text>
+										</div>
+									</section>
 								</CheckboxCard>
 							))}
 						</div>

@@ -72,7 +72,12 @@ export function Checkbox({
 					<>
 						<span
 							aria-hidden="true"
-							className={checkboxIndicatorVariants({ variant: v, size: s, color: c })}
+							className={checkboxIndicatorVariants({
+								variant: v,
+								size: s,
+								color: c,
+								alignment: "center",
+							})}
 						>
 							{isIndeterminate
 								? <DashSVG />
