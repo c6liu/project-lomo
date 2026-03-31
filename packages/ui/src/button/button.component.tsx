@@ -10,12 +10,12 @@ export type ButtonProps = ButtonBaseProps & (
 	| { "icon": true; "aria-label": string }
 );
 
-export function Button({ variant, size, color, icon, className, ...props }: ButtonProps) {
+export function Button({ variant, size, color, rounded, border, borderColor, icon, className, ...props }: ButtonProps) {
 	return (
 		<AriaButton
 			{...props}
 			className={composeRenderProps(className, cls =>
-				buttonVariants({ variant, size, color, icon, class: cls }))}
+				buttonVariants({ variant, size, color, rounded, border, borderColor, icon, class: cls }))}
 		/>
 	);
 }
