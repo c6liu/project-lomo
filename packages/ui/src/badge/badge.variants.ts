@@ -21,6 +21,9 @@ const borderColors: Record<string, string> = {
 	gray: "border-[var(--gray-9)]",
 };
 
+/**
+ * Visual styles and variant definitions for the Badge component.
+ */
 export const badgeVariants = tv({
 	base: tw(
 		"inline-flex items-center justify-center",

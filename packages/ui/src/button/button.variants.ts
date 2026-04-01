@@ -11,6 +11,9 @@ const borderColors: Record<string, string> = {
 	gray: "border-[var(--gray-9)]",
 };
 
+/**
+ * Visual styles and variant definitions for the Button component.
+ */
 export const buttonVariants = tv({
 	base: interactiveBase,
 	variants: {

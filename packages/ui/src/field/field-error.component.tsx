@@ -4,8 +4,15 @@ import { cn } from "../utils/cn.ts";
 import { fieldSmallSizes } from "../variants/index.ts";
 import { useFieldContext } from "./field.context.ts";
 
+/**
+ * Props for the FieldError component.
+ */
 export interface FieldErrorProps extends AriaFieldErrorProps {}
 
+/**
+ * A component for displaying validation errors for form fields.
+ * Built on top of React Aria Components' FieldError.
+ */
 export function FieldError({ className, children, ...props }: FieldErrorProps) {
 	const { size } = useFieldContext();
 	if (children != null) {

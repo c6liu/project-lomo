@@ -4,10 +4,16 @@ import type { TextElementType } from "./text.variants.ts";
 import { Text as AriaText } from "react-aria-components";
 import { textVariants } from "./text.variants.ts";
 
+/**
+ * Props for the Text component.
+ */
 export type TextProps = Omit<AriaTextProps, "elementType"> & VariantProps<typeof textVariants> & {
 	elementType?: TextElementType;
 };
 
+/**
+ * A primitive text component for rendering consistent typography.
+ */
 export function Text({
 	size,
 	weight,

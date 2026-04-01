@@ -7,6 +7,9 @@ import {
 	typographySizes,
 } from "../variants/index.ts";
 
+/**
+ * Visual styles and variant definitions for the Text component.
+ */
 export const textVariants = tv({
 	variants: {
 		size: typographySizes,

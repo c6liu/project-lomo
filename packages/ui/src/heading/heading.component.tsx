@@ -16,10 +16,16 @@ const levelToSize: Record<HeadingLevel, HeadingSize> = {
 	6: 4,
 };
 
+/**
+ * Props for the Heading component.
+ */
 export type HeadingProps = Omit<AriaHeadingProps, "level"> & VariantProps<typeof headingVariants> & {
 	level?: HeadingLevel;
 };
 
+/**
+ * A heading component for displaying titles and section headers.
+ */
 export function Heading({
 	level = 3,
 	size,

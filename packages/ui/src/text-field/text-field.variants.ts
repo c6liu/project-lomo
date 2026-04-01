@@ -1,6 +1,9 @@
 import { tv } from "tailwind-variants";
 import { fieldGaps } from "../variants/index.ts";
 
+/**
+ * Visual styles and variant definitions for the TextField component.
+ */
 export const textFieldVariants = tv({
 	base: "flex w-full",
 	variants: {

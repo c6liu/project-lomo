@@ -5,11 +5,18 @@ import { TextField as AriaTextField, composeRenderProps } from "react-aria-compo
 import { FieldContext } from "../field/index.ts";
 import { textFieldVariants } from "./text-field.variants.ts";
 
+/**
+ * Props for the TextField component.
+ */
 export type TextFieldProps = AriaTextFieldProps & VariantProps<typeof textFieldVariants> & {
 	variant?: FieldVariant;
 	color?: FieldColor;
 };
 
+/**
+ * A text field component that allows users to enter and edit text.
+ * Built on top of React Aria Components' TextField.
+ */
 export function TextField({
 	variant = "surface",
 	size = 2,

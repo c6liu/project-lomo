@@ -2,6 +2,9 @@ import { tv } from "tailwind-variants";
 import { tw } from "../utils/tw.ts";
 import { CHECKBOX_DEFAULTS } from "./checkbox.context.ts";
 
+/**
+ * Visual styles and variant definitions for the Checkbox component.
+ */
 export const checkboxVariants = tv({
 	base: tw(
 		"group inline-flex items-center",

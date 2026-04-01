@@ -7,6 +7,9 @@ import { checkboxIndicatorVariants } from "./checkbox-indicator.variants.ts";
 import { CHECKBOX_DEFAULTS, useCheckboxGroupStyleContext } from "./checkbox.context.ts";
 import { checkboxVariants } from "./checkbox.variants.ts";
 
+/**
+ * Props for the Checkbox component.
+ */
 export type CheckboxProps = Omit<AriaCheckboxProps, "children">
 	& VariantProps<typeof checkboxVariants> & {
 		children?: ReactNode;
@@ -48,6 +51,10 @@ function DashSVG() {
 	);
 }
 
+/**
+ * A checkbox component that allows users to select one or more options from a set.
+ * Built on top of React Aria Components' Checkbox.
+ */
 export function Checkbox({
 	variant,
 	size,

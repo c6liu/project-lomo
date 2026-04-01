@@ -6,6 +6,9 @@ import {
 	fieldSoftColors,
 } from "../variants/index.ts";
 
+/**
+ * Visual styles and variant definitions for the Group component.
+ */
 export const groupVariants = tv({
 	base: tw(
 		"inline-flex items-center w-full",

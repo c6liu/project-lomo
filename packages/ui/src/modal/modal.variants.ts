@@ -2,6 +2,9 @@ import { tv } from "tailwind-variants";
 import { tw } from "../utils/tw.ts";
 import { cardSizes } from "../variants/card-styles.ts";
 
+/**
+ * Visual styles and variant definitions for the Modal component.
+ */
 export const modalVariants = tv({
 	base: tw(
 		"relative w-full max-w-lg",

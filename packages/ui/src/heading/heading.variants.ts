@@ -7,6 +7,9 @@ import {
 	typographySizes,
 } from "../variants/index.ts";
 
+/**
+ * Visual styles and variant definitions for the Heading component.
+ */
 export const headingVariants = tv({
 	variants: {
 		size: typographySizes,
