@@ -18,14 +18,12 @@ import { Anatomy, CodeExample, DocSection, FeatureList, UsageGuidelines } from "
 const COLORS = ["terracotta", "sage", "yellow", "gray", "red", "amber"] as const;
 const VARIANTS = ["ghost", "surface", "classic"] as const;
 const SIZES = [1, 2, 3, 4, 5] as const;
-const ROUNDED = ["none", "small", "medium", "large", "full"] as const;
 const BORDER = ["none", "small", "medium", "large"] as const;
 
 const PROPS = [
 	{ name: "variant", type: "\"ghost\" | \"surface\" | \"classic\"", default: "\"surface\"" },
 	{ name: "size", type: "1 | 2 | 3 | 4 | 5", default: "1" },
 	{ name: "color", type: "\"terracotta\" | \"sage\" | \"yellow\" | \"gray\" | \"red\" | \"amber\"", default: "\"gray\"" },
-	{ name: "rounded", type: "\"none\" | \"small\" | \"medium\" | \"large\" | \"full\"", default: "undefined (inherits theme)" },
 	{ name: "border", type: "\"none\" | \"small\" | \"medium\" | \"large\"", default: "\"none\"" },
 	{ name: "borderColor", type: "\"terracotta\" | \"sage\" | \"yellow\" | \"gray\" | \"red\" | \"amber\"", default: "undefined" },
 ];
@@ -43,12 +41,11 @@ function CardPage() {
 			<Playground
 				componentName="Card"
 				childrenLabel="Card content"
-				defaults={{ variant: "surface", size: 1, color: "gray", rounded: undefined, border: "none", borderColor: "terracotta" }}
+				defaults={{ variant: "surface", size: 1, color: "gray", border: "none", borderColor: "terracotta" }}
 				controls={[
 					{ name: "variant", type: "segment", options: VARIANTS },
 					{ name: "size", type: "segment", options: SIZES },
 					{ name: "color", type: "segment", options: COLORS },
-					{ name: "rounded", type: "segment", options: ROUNDED },
 					{ name: "border", type: "segment", options: BORDER },
 					{ name: "borderColor", type: "segment", options: COLORS },
 				]}
@@ -58,7 +55,6 @@ function CardPage() {
 						variant={props.variant as any}
 						size={props.size as any}
 						color={props.color as any}
-						rounded={props.rounded as any}
 						border={props.border as any}
 						borderColor={props.borderColor as any}
 					>
@@ -425,13 +421,23 @@ function CardPage() {
 						</div>
 					</DemoSection>
 
-					<DemoSection title="Rounded" description="Corner rounding intensity. Use 'full' for pill-shaped containers.">
+					<DemoSection title="Radius Overrides" description="Override the global radius preset for specific cards using the data-radius attribute.">
 						<div className="flex flex-wrap items-start gap-4">
-							{ROUNDED.map(rounded => (
-								<Card key={rounded} rounded={rounded} size={2} className="w-48">
-									<Text size={2} weight="medium">{rounded.charAt(0).toUpperCase() + rounded.slice(1)}</Text>
-								</Card>
-							))}
+							<Card data-radius="none" size={2} className="w-48">
+								<Text size={2} weight="medium">None</Text>
+							</Card>
+							<Card data-radius="small" size={2} className="w-48">
+								<Text size={2} weight="medium">Small</Text>
+							</Card>
+							<Card data-radius="medium" size={2} className="w-48">
+								<Text size={2} weight="medium">Medium</Text>
+							</Card>
+							<Card data-radius="large" size={2} className="w-48">
+								<Text size={2} weight="medium">Large</Text>
+							</Card>
+							<Card data-radius="full" size={2} className="w-48">
+								<Text size={2} weight="medium">Full</Text>
+							</Card>
 						</div>
 					</DemoSection>
 
@@ -459,22 +465,6 @@ function CardPage() {
 						</div>
 					</DemoSection>
 
-					<DemoSection title="Rounded + Border" description="Combine rounded corners with borders for custom card designs.">
-						<div className="flex flex-wrap items-start gap-4">
-							<Card rounded="small" border="small" borderColor="sage" size={2} className="w-48">
-								<Text size={2} weight="medium">Small Rounded</Text>
-							</Card>
-							<Card rounded="medium" border="medium" borderColor="terracotta" size={2} className="w-48">
-								<Text size={2} weight="medium">Medium Rounded</Text>
-							</Card>
-							<Card rounded="large" border="large" borderColor="yellow" size={2} className="w-48">
-								<Text size={2} weight="medium">Large Rounded</Text>
-							</Card>
-							<Card rounded="full" border="medium" borderColor="red" size={2} className="w-48">
-								<Text size={2} weight="medium">Pill Card</Text>
-							</Card>
-						</div>
-					</DemoSection>
 				</div>
 			</DocSection>
 

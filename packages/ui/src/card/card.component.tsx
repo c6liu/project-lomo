@@ -4,11 +4,11 @@ import { cardVariants } from "./card.variants.ts";
 
 export type CardProps = ComponentPropsWithRef<"div"> & VariantProps<typeof cardVariants>;
 
-export function Card({ variant, size, color, rounded, border, borderColor, className, ...props }: CardProps) {
+export function Card({ variant, size, color, border, borderColor, className, ...props }: CardProps) {
 	return (
 		<div
 			{...props}
-			className={cardVariants({ variant, size, color, rounded, border, borderColor, class: className })}
+			className={cardVariants({ variant, size, color, border, borderColor, class: className })}
 		/>
 	);
 }

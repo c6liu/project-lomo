@@ -1,5 +1,4 @@
 import { tv } from "tailwind-variants";
-import { tw } from "../utils/tw.ts";
 import { cardBase, cardClassicColors, cardGhostColors, cardSizes, cardSurfaceColors } from "../variants/index.ts";
 
 // Border color styles (step 9: solid color)
@@ -28,13 +27,6 @@ export const cardVariants = tv({
 			gray: "",
 			red: "",
 			amber: "",
-		},
-		rounded: {
-			none: "rounded-none",
-			small: tw("rounded-[calc(var(--radius-1)*1.5)]"),
-			medium: tw("rounded-[calc(var(--radius-1)*2)]"),
-			large: tw("rounded-[calc(var(--radius-1)*2.5)]"),
-			full: tw("rounded-[max(var(--radius-4),9999px)]"),
 		},
 		border: {
 			none: "border-none",
@@ -97,7 +89,6 @@ export const cardVariants = tv({
 		variant: "surface",
 		size: 1,
 		color: "gray",
-		rounded: undefined,
 		border: "none",
 		borderColor: undefined,
 	},

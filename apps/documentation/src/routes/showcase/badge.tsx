@@ -7,14 +7,12 @@ import { Anatomy, CodeExample, DocSection, FeatureList, UsageGuidelines } from "
 const COLORS = ["terracotta", "sage", "yellow", "gray", "red", "amber"] as const;
 const VARIANTS = ["solid", "soft", "surface", "outline"] as const;
 const SIZES = [1, 2, 3] as const;
-const ROUNDED = ["none", "small", "medium", "large", "full"] as const;
 const BORDER = ["none", "small", "medium", "large"] as const;
 
 const PROPS = [
 	{ name: "variant", type: "\"solid\" | \"soft\" | \"surface\" | \"outline\"", default: "\"soft\"" },
 	{ name: "size", type: "1 | 2 | 3", default: "2" },
 	{ name: "color", type: "\"terracotta\" | \"sage\" | \"yellow\" | \"gray\" | \"red\" | \"amber\"", default: "\"gray\"" },
-	{ name: "rounded", type: "\"none\" | \"small\" | \"medium\" | \"large\" | \"full\"", default: "undefined (inherits theme)" },
 	{ name: "border", type: "\"none\" | \"small\" | \"medium\" | \"large\"", default: "\"none\"" },
 	{ name: "borderColor", type: "\"terracotta\" | \"sage\" | \"yellow\" | \"gray\" | \"red\" | \"amber\"", default: "undefined" },
 	{ name: "highContrast", type: "boolean", default: "false" },
@@ -33,12 +31,11 @@ function BadgePage() {
 			<Playground
 				componentName="Badge"
 				childrenLabel="Badge"
-				defaults={{ variant: "soft", size: 2, color: "gray", rounded: undefined, border: "none", borderColor: "terracotta", highContrast: false }}
+				defaults={{ variant: "soft", size: 2, color: "gray", border: "none", borderColor: "terracotta", highContrast: false }}
 				controls={[
 					{ name: "variant", type: "segment", options: VARIANTS },
 					{ name: "size", type: "segment", options: SIZES },
 					{ name: "color", type: "segment", options: COLORS },
-					{ name: "rounded", type: "segment", options: ROUNDED },
 					{ name: "border", type: "segment", options: BORDER },
 					{ name: "borderColor", type: "segment", options: COLORS },
 					{ name: "highContrast", type: "toggle" },
@@ -49,7 +46,6 @@ function BadgePage() {
 						variant={props.variant as any}
 						size={props.size as any}
 						color={props.color as any}
-						rounded={props.rounded as any}
 						border={props.border as any}
 						borderColor={props.borderColor as any}
 						highContrast={props.highContrast as boolean}
@@ -222,13 +218,13 @@ function BadgePage() {
 						</div>
 					</DemoSection>
 
-					<DemoSection title="Rounded" description="Corner rounding intensity. Use 'full' for pill-shaped badges.">
+					<DemoSection title="Radius Overrides" description="Override the global radius preset for specific badges using the data-radius attribute.">
 						<div className="flex flex-wrap items-center gap-3">
-							{ROUNDED.map(rounded => (
-								<Badge key={rounded} rounded={rounded}>
-									{rounded.charAt(0).toUpperCase() + rounded.slice(1)}
-								</Badge>
-							))}
+							<Badge data-radius="none">None</Badge>
+							<Badge data-radius="small">Small</Badge>
+							<Badge data-radius="medium">Medium</Badge>
+							<Badge data-radius="large">Large</Badge>
+							<Badge data-radius="full">Full</Badge>
 						</div>
 					</DemoSection>
 
@@ -254,22 +250,6 @@ function BadgePage() {
 						</div>
 					</DemoSection>
 
-					<DemoSection title="Rounded + Border" description="Combine rounded corners with borders for custom badge designs.">
-						<div className="flex flex-wrap items-center gap-3">
-							<Badge rounded="small" border="small" borderColor="sage">
-								Small Rounded
-							</Badge>
-							<Badge rounded="medium" border="medium" borderColor="terracotta">
-								Medium Rounded
-							</Badge>
-							<Badge rounded="large" border="large" borderColor="yellow">
-								Large Rounded
-							</Badge>
-							<Badge rounded="full" border="medium" borderColor="red">
-								Pill Badge
-							</Badge>
-						</div>
-					</DemoSection>
 				</div>
 			</DocSection>
 

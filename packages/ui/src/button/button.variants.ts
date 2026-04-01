@@ -1,5 +1,4 @@
 import { tv } from "tailwind-variants";
-import { tw } from "../utils/tw.ts";
 import { focusRings, ghostColors, interactiveBase, interactiveSizes, outlineColors, softColors, solidColors } from "../variants/index.ts";
 
 // Border color styles (step 9: solid color)
@@ -31,13 +30,6 @@ export const buttonVariants = tv({
 			amber: focusRings.amber,
 		},
 		icon: { true: "" },
-		rounded: {
-			none: "rounded-none",
-			small: tw("rounded-[calc(var(--radius-1)*1.5)]"),
-			medium: tw("rounded-[calc(var(--radius-1)*2)]"),
-			large: tw("rounded-[calc(var(--radius-1)*2.5)]"),
-			full: tw("rounded-[max(var(--radius-2),9999px)]"),
-		},
 		border: {
 			none: "border-none",
 			small: "border",
@@ -117,7 +109,6 @@ export const buttonVariants = tv({
 		size: 2,
 		color: "terracotta",
 		icon: false,
-		rounded: undefined,
 		border: "none",
 		borderColor: undefined,
 	},

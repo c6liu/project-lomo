@@ -15,7 +15,6 @@ const COLORS = ["terracotta", "sage", "yellow", "gray", "red", "amber"] as const
 const VARIANTS = ["solid", "soft", "outline", "ghost"] as const;
 const SIZES = [1, 2, 3, 4] as const;
 const ICON_MODES = ["none", "leading", "only", "loading"] as const;
-const ROUNDED = ["none", "small", "medium", "large", "full"] as const;
 const BORDER = ["none", "small", "medium", "large"] as const;
 const ICON_SIZES: Record<number, string> = { 1: "size-4", 2: "size-5", 3: "size-5", 4: "size-6" };
 
@@ -23,7 +22,6 @@ const PROPS = [
 	{ name: "variant", type: "\"solid\" | \"soft\" | \"outline\" | \"ghost\"", default: "\"solid\"" },
 	{ name: "size", type: "1 | 2 | 3 | 4", default: "2" },
 	{ name: "color", type: "\"terracotta\" | \"sage\" | \"yellow\" | \"gray\" | \"red\" | \"amber\"", default: "\"terracotta\"" },
-	{ name: "rounded", type: "\"none\" | \"small\" | \"medium\" | \"large\" | \"full\"", default: "undefined (inherits theme)" },
 	{ name: "border", type: "\"none\" | \"small\" | \"medium\" | \"large\"", default: "\"none\"" },
 	{ name: "borderColor", type: "\"terracotta\" | \"sage\" | \"yellow\" | \"gray\" | \"red\" | \"amber\"", default: "undefined" },
 	{ name: "icon", type: "boolean", default: "false" },
@@ -55,12 +53,11 @@ function ButtonPage() {
 							return "Button";
 					}
 				}}
-				defaults={{ variant: "solid", size: 2, color: "terracotta", iconMode: "none", rounded: undefined, border: "none", borderColor: "terracotta", isDisabled: false }}
+				defaults={{ variant: "solid", size: 2, color: "terracotta", iconMode: "none", border: "none", borderColor: "terracotta", isDisabled: false }}
 				controls={[
 					{ name: "variant", type: "segment", options: VARIANTS },
 					{ name: "size", type: "segment", options: SIZES },
 					{ name: "color", type: "segment", options: COLORS },
-					{ name: "rounded", type: "segment", options: ROUNDED },
 					{ name: "border", type: "segment", options: BORDER },
 					{ name: "borderColor", type: "segment", options: COLORS },
 					{ name: "iconMode", type: "segment", options: ICON_MODES },
@@ -82,7 +79,6 @@ function ButtonPage() {
 						variant: props.variant as any,
 						size: props.size as any,
 						color: props.color as any,
-						rounded: props.rounded as any,
 						border: props.border as any,
 						borderColor: props.borderColor as any,
 					};
@@ -259,24 +255,6 @@ function ButtonPage() {
 					</CodeExample>
 
 					<CodeExample
-						title="Rounded Corners"
-						description="Customize corner rounding from subtle to pill-shaped. Use 'full' for circular or pill-shaped buttons."
-						code={`<div className="flex gap-3">
-  <Button rounded="small">Subtle</Button>
-  <Button rounded="medium">Medium</Button>
-  <Button rounded="large">Large</Button>
-  <Button rounded="full">Pill</Button>
-</div>`}
-					>
-						<div className="flex gap-3">
-							<Button rounded="small">Subtle</Button>
-							<Button rounded="medium">Medium</Button>
-							<Button rounded="large">Large</Button>
-							<Button rounded="full">Pill</Button>
-						</div>
-					</CodeExample>
-
-					<CodeExample
 						title="Border Styles"
 						description="Add borders to buttons with customizable size and color. Borders work with all variant types."
 						code={`<div className="flex flex-col gap-3">
@@ -376,13 +354,13 @@ function ButtonPage() {
 						</div>
 					</DemoSection>
 
-					<DemoSection title="Rounded" description="Corner rounding intensity. Use 'full' for pill-shaped buttons.">
+					<DemoSection title="Radius Overrides" description="Override the global radius preset for specific buttons using the data-radius attribute.">
 						<div className="flex flex-wrap items-center gap-3">
-							{ROUNDED.map(rounded => (
-								<Button key={rounded} rounded={rounded}>
-									{rounded.charAt(0).toUpperCase() + rounded.slice(1)}
-								</Button>
-							))}
+							<Button data-radius="none">None</Button>
+							<Button data-radius="small">Small</Button>
+							<Button data-radius="medium">Medium</Button>
+							<Button data-radius="large">Large</Button>
+							<Button data-radius="full">Full</Button>
 						</div>
 					</DemoSection>
 
@@ -410,22 +388,6 @@ function ButtonPage() {
 						</div>
 					</DemoSection>
 
-					<DemoSection title="Rounded + Border" description="Combine rounded corners with borders for custom button designs.">
-						<div className="flex flex-wrap items-center gap-3">
-							<Button rounded="small" border="small" borderColor="sage">
-								Small Rounded
-							</Button>
-							<Button rounded="medium" border="medium" borderColor="terracotta">
-								Medium Rounded
-							</Button>
-							<Button rounded="large" border="large" borderColor="yellow">
-								Large Rounded
-							</Button>
-							<Button rounded="full" border="medium" borderColor="red">
-								Pill Button
-							</Button>
-						</div>
-					</DemoSection>
 				</div>
 			</DocSection>
 
