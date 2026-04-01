@@ -6,13 +6,15 @@ import { DemoSection, PageHeader, Playground, PropTable } from "./-components";
 import { Anatomy, DocSection, FeatureList } from "./-doc-components";
 
 const COLORS = ["terracotta", "sage", "yellow", "gray", "red", "amber"] as const;
-const VARIANTS = ["lomo", "classic"] as const;
+const VARIANTS = ["pill", "classic"] as const;
 const ORIENTATIONS = ["horizontal", "vertical"] as const;
 
 const PROPS = [
-	{ name: "variant", type: "\"lomo\" | \"classic\"", default: "\"classic\"" },
+	{ name: "variant", type: "\"pill\" | \"classic\"", default: "\"classic\"" },
 	{ name: "orientation", type: "\"horizontal\" | \"vertical\"", default: "\"horizontal\"" },
 	{ name: "color", type: "\"terracotta\" | \"sage\" | \"yellow\" | \"gray\" | \"red\" | \"amber\"", default: "\"terracotta\"" },
+	{ name: "bold", type: "boolean", default: "false" },
+	{ name: "elevated", type: "boolean", default: "false" },
 ];
 
 function TabsPage() {
@@ -25,11 +27,13 @@ function TabsPage() {
 
 			<Playground
 				componentName="Tabs"
-				defaults={{ variant: "lomo", orientation: "horizontal", color: "terracotta" }}
+				defaults={{ variant: "pill", orientation: "horizontal", color: "terracotta", bold: true, elevated: true }}
 				controls={[
 					{ name: "variant", type: "segment", options: VARIANTS },
 					{ name: "orientation", type: "segment", options: ORIENTATIONS },
 					{ name: "color", type: "segment", options: COLORS },
+					{ name: "bold", type: "toggle" },
+					{ name: "elevated", type: "toggle" },
 				]}
 			>
 				{(props) => (
@@ -67,7 +71,7 @@ function TabsPage() {
 			<FeatureList
 				features={[
 					"Supports both horizontal and vertical orientations.",
-					"Customizable 'lomo' variant with a unique pill-shaped design.",
+					"Composable 'pill', 'bold', and 'elevated' options for the signature project design.",
 					"Built-in support for icons and labels in tabs.",
 					"Context-based prop sharing (variant and color) for a cleaner API.",
 					"Accessible keyboard navigation and ARIA support via React Aria.",
@@ -76,9 +80,9 @@ function TabsPage() {
 
 			<DocSection title="Examples">
 				<div className="flex flex-col gap-8">
-					<DemoSection title="Lomo Horizontal (Mobile Tab Bar)" description="The signature Lomo design for main navigation.">
+					<DemoSection title="Pill + Bold + Elevated (Signature Design)" description="The signature project design for main navigation.">
 						<div className="bg-sage-2 p-8 rounded-xl flex justify-center">
-							<Tabs variant="lomo">
+							<Tabs variant="pill" bold elevated>
 								<TabList>
 									<Tab id="leaf" icon={<HomeIcon className="size-6" />} />
 									<Tab id="plus" icon={<PlusIcon className="size-6" />} />
@@ -88,9 +92,9 @@ function TabsPage() {
 						</div>
 					</DemoSection>
 
-					<DemoSection title="Lomo Vertical (Sidebar)" description="Adapts the Lomo design for vertical sidebar navigation.">
+					<DemoSection title="Sidebar Layout" description="Adapts the design for vertical sidebar navigation.">
 						<div className="bg-sage-2 p-8 rounded-xl flex justify-center min-h-[300px]">
-							<Tabs variant="lomo" orientation="vertical">
+							<Tabs variant="pill" bold elevated orientation="vertical">
 								<TabList>
 									<Tab id="leaf" icon={<HomeIcon className="size-6" />} label="Home" />
 									<Tab id="plus" icon={<PlusIcon className="size-6" />} label="Request" />

@@ -16,9 +16,11 @@ import {
 } from "react-aria-components";
 import { tabsVariants, type TabsVariants } from "./tabs.variants.ts";
 
-const TabsContext = createContext<Pick<TabsVariants, "variant" | "color">>({
+const TabsContext = createContext<Pick<TabsVariants, "variant" | "color" | "bold" | "elevated">>({
 	variant: "classic",
 	color: "terracotta",
+	bold: false,
+	elevated: false,
 });
 
 function useTabsContext() {
@@ -31,12 +33,14 @@ export function Tabs({
 	variant = "classic",
 	color = "terracotta",
 	orientation = "horizontal",
+	bold = false,
+	elevated = false,
 	className,
 	children,
 	...props
 }: TabsProps) {
 	return (
-		<TabsContext.Provider value={{ variant, color }}>
+		<TabsContext.Provider value={{ variant, color, bold, elevated }}>
 			<AriaTabs
 				{...props}
 				orientation={orientation}
@@ -44,6 +48,8 @@ export function Tabs({
 					tabsVariants({
 						variant,
 						color,
+						bold,
+						elevated,
 						orientation: state.orientation,
 						class: cls,
 					}).root())}
@@ -54,11 +60,13 @@ export function Tabs({
 	);
 }
 
-export type TabListProps<T extends object> = AriaTabListProps<T> & Pick<TabsVariants, "variant" | "color">;
+export type TabListProps<T extends object> = AriaTabListProps<T> & Pick<TabsVariants, "variant" | "color" | "bold" | "elevated">;
 
 export function TabList<T extends object>({
 	variant: variantProp,
 	color: colorProp,
+	bold: boldProp,
+	elevated: elevatedProp,
 	className,
 	children,
 	...props
@@ -66,6 +74,8 @@ export function TabList<T extends object>({
 	const context = useTabsContext();
 	const variant = variantProp ?? context.variant;
 	const color = colorProp ?? context.color;
+	const bold = boldProp ?? context.bold;
+	const elevated = elevatedProp ?? context.elevated;
 
 	return (
 		<AriaTabList
@@ -74,6 +84,8 @@ export function TabList<T extends object>({
 				tabsVariants({
 					variant,
 					color,
+					bold,
+					elevated,
 					orientation: state.orientation,
 					class: cls,
 				}).list())}
@@ -88,7 +100,7 @@ export function TabList<T extends object>({
 	);
 }
 
-export type TabProps = AriaTabProps & Pick<TabsVariants, "variant" | "color"> & {
+export type TabProps = AriaTabProps & Pick<TabsVariants, "variant" | "color" | "bold" | "elevated"> & {
 	icon?: ReactNode;
 	label?: ReactNode;
 };
@@ -96,6 +108,8 @@ export type TabProps = AriaTabProps & Pick<TabsVariants, "variant" | "color"> & 
 export function Tab({
 	variant: variantProp,
 	color: colorProp,
+	bold: boldProp,
+	elevated: elevatedProp,
 	icon,
 	label,
 	className,
@@ -105,6 +119,8 @@ export function Tab({
 	const context = useTabsContext();
 	const variant = variantProp ?? context.variant;
 	const color = colorProp ?? context.color;
+	const bold = boldProp ?? context.bold;
+	const elevated = elevatedProp ?? context.elevated;
 
 	return (
 		<AriaTab
@@ -113,6 +129,8 @@ export function Tab({
 				tabsVariants({
 					variant,
 					color,
+					bold,
+					elevated,
 					orientation: state.orientation,
 					class: cls,
 				}).tab())}
@@ -124,6 +142,7 @@ export function Tab({
 					{children}
 					{variant === "classic" && state.isSelected && (
 						<div
+							data-orientation={state.orientation}
 							className={tabsVariants({
 								variant,
 								color,

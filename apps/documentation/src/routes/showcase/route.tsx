@@ -43,6 +43,7 @@ const NAV_GROUPS = [
 			{ name: "Checkbox", to: "/showcase/checkbox" },
 			{ name: "Checkbox Card", to: "/showcase/checkbox-card" },
 			{ name: "Modal", to: "/showcase/modal" },
+			{ name: "Tabs", to: "/showcase/tabs" },
 			{ name: "TextField", to: "/showcase/text-field" },
 		],
 	},

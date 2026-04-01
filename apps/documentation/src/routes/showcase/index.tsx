@@ -146,11 +146,11 @@ const COMPONENT_CARDS = [
 		description: "Organizes content into separate views.",
 		to: "/showcase/tabs",
 		preview: (
-			<Tabs variant="lomo">
-				<TabList variant="lomo">
-					<Tab id="1" />
-					<Tab id="2" />
-					<Tab id="3" />
+			<Tabs variant="pill" bold elevated>
+				<TabList>
+					<Tab id="1" label="One" />
+					<Tab id="2" label="Two" />
+					<Tab id="3" label="Three" />
 				</TabList>
 			</Tabs>
 		),
