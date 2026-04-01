@@ -65,13 +65,6 @@ export const badgeVariants = tv({
 			true: "",
 			false: "",
 		},
-		rounded: {
-			none: "rounded-none",
-			small: tw("rounded-[calc(var(--radius-1)*1.5)]"),
-			medium: tw("rounded-[calc(var(--radius-1)*2)]"),
-			large: tw("rounded-[calc(var(--radius-1)*2.5)]"),
-			full: tw("rounded-[max(var(--radius-1),9999px)]"),
-		},
 		border: {
 			none: "border-none",
 			small: "border",
@@ -169,7 +162,6 @@ export const badgeVariants = tv({
 		size: 2,
 		color: "gray",
 		highContrast: false,
-		rounded: undefined,
 		border: "none",
 		borderColor: undefined,
 	},
