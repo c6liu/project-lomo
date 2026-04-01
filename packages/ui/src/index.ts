@@ -32,3 +32,6 @@ export type { InputProps, TextAreaProps, TextFieldProps } from "./text-field/ind
 
 export { Text } from "./text/index.ts";
 export type { TextProps } from "./text/index.ts";
+
+export { Tab, TabList, TabPanel, Tabs, tabsVariants } from "./tabs/index.ts";
+export type { TabListProps, TabPanelProps, TabProps, TabsProps } from "./tabs/index.ts";

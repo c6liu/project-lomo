@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Checkbox, CheckboxCard, CheckboxCardGroup, CheckboxIndicator, DialogTrigger, Group, Heading, Input, Label, Modal, ModalOverlay, Text, TextField, Link as UILink } from "@repo/ui";
+import { Badge, Button, Card, Checkbox, CheckboxCard, CheckboxCardGroup, CheckboxIndicator, DialogTrigger, Group, Heading, Input, Label, Modal, ModalOverlay, Tab, TabList, Tabs, Text, TextField, Link as UILink } from "@repo/ui";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 const COMPONENT_CARDS = [
@@ -139,6 +139,20 @@ const COMPONENT_CARDS = [
 					</Group>
 				</TextField>
 			</div>
+		),
+	},
+	{
+		name: "Tabs",
+		description: "Organizes content into separate views.",
+		to: "/showcase/tabs",
+		preview: (
+			<Tabs variant="lomo">
+				<TabList variant="lomo">
+					<Tab id="1" />
+					<Tab id="2" />
+					<Tab id="3" />
+				</TabList>
+			</Tabs>
 		),
 	},
 ] as const;
