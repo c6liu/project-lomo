@@ -3,6 +3,9 @@ import { useFieldContext } from "../field/index.ts";
 import { checkboxIndicatorVariants } from "./checkbox-indicator.variants.ts";
 import { CHECKBOX_DEFAULTS } from "./checkbox.context.ts";
 
+/**
+ * Props for the CheckboxIndicator component.
+ */
 export interface CheckboxIndicatorProps {
 	variant?: VariantProps<typeof checkboxIndicatorVariants>["variant"];
 	size?: VariantProps<typeof checkboxIndicatorVariants>["size"];
@@ -10,6 +13,9 @@ export interface CheckboxIndicatorProps {
 	className?: string;
 }
 
+/**
+ * A visual indicator for the Checkbox component.
+ */
 export function CheckboxIndicator({
 	variant,
 	size,

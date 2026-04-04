@@ -2,10 +2,17 @@ import { cn } from "../utils/cn.ts";
 import { fieldSlotSizes } from "../variants/index.ts";
 import { useFieldContext } from "./field.context.ts";
 
+/**
+ * Props for the InputSlot component.
+ */
 export interface InputSlotProps extends React.ComponentPropsWithoutRef<"div"> {
+	/** The side of the input field where the slot should be placed. */
 	side?: "start" | "end";
 }
 
+/**
+ * A slot component for adding icons or other elements to an input field.
+ */
 export function InputSlot({
 	side = "start",
 	className,

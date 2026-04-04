@@ -1,7 +1,13 @@
 import { cn } from "../utils/cn.ts";
 
+/**
+ * Props for the LoaderIcon component.
+ */
 export interface LoaderIconProps extends React.ComponentPropsWithRef<"svg"> {}
 
+/**
+ * A spinning loader icon component for indicating background activity.
+ */
 export function LoaderIcon({ className, ...props }: LoaderIconProps) {
 	return (
 		<svg

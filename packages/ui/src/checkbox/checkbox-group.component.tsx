@@ -17,12 +17,19 @@ const checkboxGroupVariants = tv({
 	},
 });
 
+/**
+ * Props for the CheckboxGroup component.
+ */
 export type CheckboxGroupProps = AriaCheckboxGroupProps & {
 	variant?: "surface" | "classic";
 	size?: 1 | 2 | 3;
 	color?: Colors;
 };
 
+/**
+ * A group of related checkbox components.
+ * Built on top of React Aria Components' CheckboxGroup.
+ */
 export function CheckboxGroup({
 	variant = CHECKBOX_DEFAULTS.variant,
 	size = CHECKBOX_DEFAULTS.size,

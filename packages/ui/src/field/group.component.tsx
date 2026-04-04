@@ -5,8 +5,15 @@ import { Group as AriaGroup, composeRenderProps, InputContext, Provider, TextAre
 import { useFieldContext } from "./field.context.ts";
 import { groupVariants } from "./group.variants.ts";
 
+/**
+ * Props for the Group component.
+ */
 export interface GroupProps extends AriaGroupProps {}
 
+/**
+ * A group component for grouping form field elements together.
+ * Built on top of React Aria Components' Group.
+ */
 export function Group({ className, ...props }: GroupProps) {
 	const { variant, size, color } = useFieldContext();
 
