@@ -87,7 +87,7 @@ By lowering the barrier to asking for and offering help, LoMo helps build the tr
 
 ## AI Agents
 
-See [AGENTS.md](AGENTS.md) for AI agent instructions (code style, conventions, project structure).
+[AGENTS.md](AGENTS.md) contains instructions for AI agents. Human contributors should refer to [CONTRIBUTING.md](CONTRIBUTING.md) and [ORIENTATION.md](ORIENTATION.md) for project conventions and code style.
 
 ## License
 

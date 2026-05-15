@@ -35,8 +35,8 @@ docs: add API endpoint documentation
 
 ## Important Notes
 
-- **Backend runs in Docker.** Do not install Python or Django on your host machine. See [GETTING_STARTED.md](GETTING_STARTED.md) for how `bun run dev` starts everything.
-- **Frontend code style is enforced by ESLint.** Tabs, double quotes, semicolons. Run `bun run lint:fix` to auto-format. See `apps/webapp/AGENTS.md` for full details.
+- **Backend Infrastructure.** We are pivoting to a Convex-based serverless backend. See `ORIENTATION.md` for more details.
+- **Code Style.** We use ESLint to enforce a consistent style: tabs for indentation, double quotes for strings, and mandatory semicolons. Run `bun run lint:fix` to auto-format your changes.
 
 ## Code of Conduct
 

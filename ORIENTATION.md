@@ -58,7 +58,7 @@ Community organizers need an "Admin" view to manage requests.
 
 ## 🛠️ How to "Get Used To It"
 
-1.  **Read the `AGENTS.md` files**: They contain the "Source of Truth" for coding rules.
+1.  **Read the Documentation**: This guide and `CONTRIBUTING.md` contain the project's coding rules and standards.
 2.  **Explore Convex**: Check the `convex/` directory to see how data is structured.
 3.  **Run the Lint**: Use `bun run lint:fix` to keep your code compliant with our standards.
 
