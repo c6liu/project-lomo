@@ -5,14 +5,13 @@ This guide walks you through setting up the LoMo project for local development.
 ## Prerequisites
 
 - **[Bun](https://bun.sh) 1.0+** — used as the package manager and runtime
-- **[Docker](https://www.docker.com)** — used to run PostgreSQL and the Django backend locally
 - **Git 2.30+**
+- **Docker** — *(Optional)* used for the legacy Django backend (we are pivoting to Convex)
 
 To verify:
 
 ```bash
 bun --version
-docker --version
 git --version
 ```
 
@@ -39,23 +38,21 @@ This installs dependencies for all workspaces (`apps/webapp`, `packages/eslint-c
 bun run dev
 ```
 
-This starts:
+This starts the **Vite dev server** (webapp) and the **Convex backend**.
 
-- **PostgreSQL 17** on port `5432` (User: `postgres`, Password: `postgres`, Database: `lomo`)
-- **Django backend** on port `8000`
-- **Vite dev server** (webapp) on port `5173`
+Turbo opens a terminal UI so each dev process has its own log view instead of one shared stream. Use the arrow keys to switch between logs.
 
-Turbo opens a terminal UI so each dev process has its own log view instead of one shared stream.
+## Next Steps
 
-> **Note:** The first run will be slower because Docker needs to build the backend image. Subsequent runs will be fast.
+Now that you're up and running, check out **[ORIENTATION.md](ORIENTATION.md)** to understand the codebase structure, our tech stack (React 19 + Convex), and how we design for non-technical users.
 
 ## Project Structure
 
 ```
 project-lomo/
 ├── apps/
-│   ├── webapp/               # React 19 + TypeScript + Vite frontend
-│   └── backend/              # Django 5 + DRF backend (Docker)
+│   └── webapp/               # React 19 + TypeScript + Vite frontend
+├── convex/                   # Convex serverless backend (TypeScript)
 ├── packages/
 │   └── eslint-config/        # Shared ESLint configuration
 └── package.json              # Root workspace config (Bun)
