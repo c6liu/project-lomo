@@ -1,6 +1,6 @@
-import { Heading } from "@repo/ui/heading";
 import { LomoLogo } from "@repo/ui/icons";
 import { Text } from "@repo/ui/text";
+import Link from "next/link";
 
 export default function AuthLayout({
   children,
@@ -13,16 +13,14 @@ export default function AuthLayout({
       data-radius="full"
     >
       {/* Main content — vertically centered */}
-      <div className="m-auto w-full max-w-104 flex-1 flex-col justify-center gap-2">
+      <div className="m-auto w-full max-w-104 flex-1 flex flex-col justify-center gap-2">
         {/* Logo */}
-        <div className="mb-4 flex w-full items-center gap-3 h-fit">
+        <Link
+          href="/"
+          className="mb-4 flex w-full items-center justify-center gap-3 h-fit"
+        >
           <LomoLogo className="size-24 flex" />
-          <Heading level={1} color="gray" highContrast className="font-display">
-            Welcome to
-            <br />
-            LoMo
-          </Heading>
-        </div>
+        </Link>
 
         {/* Form slot */}
         {children}
