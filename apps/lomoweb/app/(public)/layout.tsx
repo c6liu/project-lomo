@@ -27,7 +27,11 @@ export default function AuthLayout({
       </div>
       {/* Safety footer */}
       <footer className="px-6 text-center">
-        <Text size={2} color="red" className="mx-auto max-w-sm leading-relaxed">
+        <Text
+          size={2}
+          color="darkred"
+          className="mx-auto max-w-sm leading-relaxed"
+        >
           If you are in immediate danger, contact local emergency services. LoMo
           is not a replacement for that.
         </Text>
