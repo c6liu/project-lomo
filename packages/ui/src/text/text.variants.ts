@@ -20,6 +20,7 @@ export const textVariants = tv({
 			red: "text-red-11",
 			amber: "text-amber-11",
 			darkred: "text-darkred-11",
+			black: "text-black",
 		},
 		highContrast: {
 			true: "",
@@ -35,11 +36,12 @@ export const textVariants = tv({
 		{ highContrast: true, color: "red", class: "text-red-12" },
 		{ highContrast: true, color: "amber", class: "text-amber-12" },
 		{ highContrast: true, color: "darkred", class: "text-darkred-12" },
+		{ highContrast: true, color: "black", class: "text-black" },
 	],
 	defaultVariants: {
 		size: 3,
 		weight: "regular",
-		color: "gray",
+		color: "black",
 		highContrast: false,
 		trim: "normal",
 	},

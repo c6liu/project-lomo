@@ -12,7 +12,7 @@ export default async function WelcomePage() {
 
   return (
     <div className="flex flex-col gap-6 text-left">
-      <Heading level={2} color="gray">
+      <Heading level={2} color="gray" className="font-display text-center">
         Welcome to LoMo
       </Heading>
       <div className="flex flex-col gap-2">
@@ -42,10 +42,15 @@ export default async function WelcomePage() {
       </div>
 
       <div className="flex flex-col gap-3">
-        <Button>
+        <Button
+          variant="ghost"
+          size={3}
+          border="large"
+          borderColor="terracotta"
+        >
           <Link href="/signin">Sign In</Link>
         </Button>
-        <Button variant="outline">
+        <Button size={3} color="yellow" border="large" borderColor="terracotta">
           <Link href="/signup">Sign Up</Link>
         </Button>
       </div>
