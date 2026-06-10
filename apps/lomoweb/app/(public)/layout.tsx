@@ -32,8 +32,9 @@ export default function AuthLayout({
           color="darkred"
           className="mx-auto max-w-sm leading-relaxed"
         >
-          If you are in immediate danger, contact local emergency services. LoMo
-          is not a replacement for that.
+          If you are experiencing an emergency, please reach out to local
+          emergency services or a crisis professional immediately. LoMo is here
+          to help with community needs once you are safe.
         </Text>
       </footer>
     </div>
