@@ -47,10 +47,17 @@ export default async function WelcomePage() {
           size={3}
           border="large"
           borderColor="terracotta"
+          className="text-black"
         >
           <Link href="/signin">Sign In</Link>
         </Button>
-        <Button size={3} color="yellow" border="large" borderColor="terracotta">
+        <Button
+          size={3}
+          color="yellow"
+          border="large"
+          borderColor="terracotta"
+          textColor="black"
+        >
           <Link href="/signup">Sign Up</Link>
         </Button>
       </div>

@@ -9,6 +9,17 @@ import {
 	solidColors,
 } from "../variants/index.ts";
 
+export const textColorVariants = {
+	terracotta: "text-terracotta-11",
+	sage: "text-sage-11",
+	yellow: "text-yellow-11",
+	gray: "text-gray-11",
+	red: "text-red-11",
+	amber: "text-amber-11",
+	darkred: "text-darkred-11",
+	black: "text-black",
+};
+
 // Border color styles (step 9: solid color)
 const borderColors: Record<string, string> = {
 	terracotta: "border-[var(--terracotta-9)]",
@@ -55,6 +66,7 @@ export const buttonVariants = tv({
 			amber: borderColors.amber,
 			darkred: borderColors.darkred,
 		},
+		textColor: textColorVariants,
 	},
 	compoundVariants: [
 		// Min-width (2× height) — keeps short-label buttons from looking circular
@@ -161,5 +173,6 @@ export const buttonVariants = tv({
 		icon: false,
 		border: "none",
 		borderColor: undefined,
+		textColor: undefined,
 	},
 });
