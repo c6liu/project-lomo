@@ -39,6 +39,7 @@ export const groupVariants = tv({
 			gray: fieldFocusRings.gray,
 			red: fieldFocusRings.red,
 			amber: fieldFocusRings.amber,
+			darkred: fieldFocusRings.darkred,
 		},
 	},
 	compoundVariants: [
@@ -48,6 +49,7 @@ export const groupVariants = tv({
 		{ variant: "soft", color: "gray", class: fieldSoftColors.gray },
 		{ variant: "soft", color: "red", class: fieldSoftColors.red },
 		{ variant: "soft", color: "amber", class: fieldSoftColors.amber },
+		{ variant: "soft", color: "darkred", class: fieldSoftColors.darkred },
 		{
 			variant: "soft",
 			class: tw("data-invalid:bg-red-3", "data-invalid:data-hovered:bg-red-4"),
