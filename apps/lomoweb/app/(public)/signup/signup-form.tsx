@@ -113,9 +113,11 @@ export function SignUpForm() {
 			const mapped = SERVER_ERROR_MAP[error.code ?? ""];
 			if (mapped?.field) {
 				setFieldErrors({ [mapped.field]: mapped.message });
-			} else if (mapped) {
+			}
+			else if (mapped) {
 				setFormError(mapped.message);
-			} else {
+			}
+			else {
 				setFormError(
 					error.message ?? "Something went wrong. Please try again.",
 				);
@@ -128,7 +130,8 @@ export function SignUpForm() {
 		if (phoneTrimmed.length > 0) {
 			try {
 				await updatePublicProfile({ phone: phoneTrimmed });
-			} catch (e) {
+			}
+			catch (e) {
 				console.error(e);
 				window.alert(
 					"Your account was created, but we could not save your phone number. You can add it under Profile in the app.",

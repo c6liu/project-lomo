@@ -77,9 +77,11 @@ export function SignInForm() {
 			const mapped = SERVER_ERROR_MAP[error.code ?? ""];
 			if (mapped?.field) {
 				setFieldErrors({ [mapped.field]: mapped.message });
-			} else if (mapped) {
+			}
+			else if (mapped) {
 				setFormError(mapped.message);
-			} else {
+			}
+			else {
 				setFormError(
 					error.message ?? "Something went wrong. Please try again.",
 				);

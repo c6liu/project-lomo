@@ -1,8 +1,8 @@
 import { Button } from "@repo/ui/button";
-import { Text } from "@repo/ui/text";
 import { Heading } from "@repo/ui/heading";
-import { isAuthenticated } from "@/lib/auth-server";
+import { Text } from "@repo/ui/text";
 import { redirect } from "next/navigation";
+import { isAuthenticated } from "@/lib/auth-server";
 
 export default async function WelcomePage() {
 	if (await isAuthenticated()) {
