@@ -1,7 +1,6 @@
 import { Button } from "@repo/ui/button";
 import { Heading } from "@repo/ui/heading";
 import { Text } from "@repo/ui/text";
-import Image from "next/image";
 
 export function HeroSection() {
 	return (
@@ -57,7 +56,7 @@ export function HeroSection() {
 						</div>
 					</div>
 
-					{/* Right column: Beautiful hand and feather vector illustration + hidden required Image component */}
+					{/* Right column: Beautiful hand and feather vector illustration */}
 					<div className="relative w-full lg:col-span-5 flex flex-col items-center justify-center min-h-[400px]">
 						{/* Clean vector SVG representation of the editorial hand-shake and feather design */}
 						<svg
@@ -146,17 +145,6 @@ export function HeroSection() {
 								<circle cx="45" cy="-32" r="3.5" fill="#fff" />
 							</g>
 						</svg>
-
-						{/* Small overlapping circular photo badge: satisfies Next.js Image DOM expectations and looks highly integrated */}
-						<div className="absolute bottom-4 left-6 w-20 h-20 rounded-full border-2 border-black overflow-hidden shadow-md transform -rotate-12 hover:scale-110 transition-transform duration-200 bg-white">
-							<Image
-								src="/lomo-bg.jpg"
-								alt="Community members sharing resources"
-								fill
-								sizes="80px"
-								className="object-cover object-center"
-							/>
-						</div>
 					</div>
 				</div>
 			</div>

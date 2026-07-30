@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export function FindSection() {
 	return (
-		<section aria-label="Find what you need" className="w-full bg-[#f5efe4] border-b-2 border-black">
+		<section aria-label="Find what you need" className="w-full bg-[#f5efe4]">
 			<div className="max-w-[1200px] mx-auto px-4 md:px-8 py-16 md:py-24">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
 					{/* Left column: Highly refined single premium image card & categories below it */}

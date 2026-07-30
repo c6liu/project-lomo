@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export function JoinSection() {
 	return (
-		<section aria-label="Join the Circle" className="w-full bg-[#f5efe4] border-b-2 border-black">
+		<section aria-label="Join the Circle" className="w-full bg-[#f5efe4]">
 			<div className="max-w-[1200px] mx-auto px-4 md:px-8 py-16 md:py-24 text-center">
 				<div className="flex flex-col items-center gap-6 max-w-2xl mx-auto">
 					<Heading

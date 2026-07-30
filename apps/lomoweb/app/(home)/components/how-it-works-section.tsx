@@ -11,7 +11,7 @@ const STEPS = [
 
 export function HowItWorksSection() {
 	return (
-		<section aria-label="How it works" className="w-full bg-[#f5efe4] border-b-2 border-black">
+		<section aria-label="How it works" className="w-full bg-[#f5efe4]">
 			<div className="max-w-[1200px] mx-auto px-4 md:px-8 py-16 md:py-20">
 				<div className="flex flex-col gap-3 max-w-3xl mb-12">
 					<span className="text-[#7a343b] font-display font-black text-sm tracking-widest uppercase select-none">
@@ -32,7 +32,7 @@ export function HowItWorksSection() {
 							variant="surface"
 							color="gray"
 							size={2}
-							className="relative flex flex-col p-6 bg-white border-2 border-black rounded-[24px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all duration-150 cursor-default"
+							className="relative flex flex-col p-6 bg-white border-2 border-black rounded-[24px] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-default"
 						>
 							{/* Number container styled as a yellow pill */}
 							<div className="flex items-center justify-between mb-5">

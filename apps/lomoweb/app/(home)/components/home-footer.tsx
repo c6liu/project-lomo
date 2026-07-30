@@ -3,7 +3,7 @@ import { Text } from "@repo/ui/text";
 
 export function HomeFooter() {
 	return (
-		<footer className="w-full bg-terracotta-12 text-[#f5efe4] border-t-2 border-black">
+		<footer className="w-full bg-terracotta-12 text-[#f5efe4]">
 			<div className="max-w-[1200px] mx-auto px-4 md:px-8 py-12 md:py-16 flex flex-col items-center gap-10">
 				{/* Top section: Brand Identity */}
 				<div className="flex flex-col items-center gap-3 text-center">
