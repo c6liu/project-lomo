@@ -40,6 +40,7 @@ import {
 
 } from "@/lib/open-request-filters";
 import { REQUEST_CATEGORIES } from "@/lib/request-flow/categories";
+import { isRequestUrgent } from "@/lib/request-urgency";
 import { StatusFilterChips } from "./status-filter-chips";
 
 const HelpAreaMap = dynamic(
@@ -405,7 +406,7 @@ function HomeDashboardPanel(props: {
 															summary={item.summary}
 															badges={(
 																<>
-																	{item.isUrgent
+																	{isRequestUrgent(item)
 																		? (
 																				<Badge variant="soft" size={1} color="red">
 																					Urgent
@@ -469,7 +470,7 @@ function HomeDashboardPanel(props: {
 																				</Badge>
 																			)
 																		: null}
-																	{item.isUrgent
+																	{isRequestUrgent(item)
 																		? (
 																				<Badge variant="soft" size={1} color="red">
 																					Urgent
@@ -630,13 +631,22 @@ function RequestingHelpPanel(props: {
 								title={r.title}
 								summary={r.summary}
 								badges={(
-									<Badge
-										variant="soft"
-										size={1}
-										color={statusBadgeColor(r.status as HelpRequestStatus)}
-									>
-										{HELP_REQUEST_STATUS_LABEL[r.status as HelpRequestStatus]}
-									</Badge>
+									<>
+										{isRequestUrgent(r)
+											? (
+													<Badge variant="soft" size={1} color="red">
+														Urgent
+													</Badge>
+												)
+											: null}
+										<Badge
+											variant="soft"
+											size={1}
+											color={statusBadgeColor(r.status as HelpRequestStatus)}
+										>
+											{HELP_REQUEST_STATUS_LABEL[r.status as HelpRequestStatus]}
+										</Badge>
+									</>
 								)}
 							/>
 						</li>
@@ -693,6 +703,7 @@ function locationFiltersEqual(a: LocationFilter, b: LocationFilter): boolean {
 
 function OfferingHelpPanel() {
 	const profileRow = useQuery(api.users.getMyProfileRow);
+	const myPending = useQuery(api.helpRequests.listMine, { statusFilter: "pending" });
 	const [filters, setFilters] = useState<OpenRequestFilters>(EMPTY_OPEN_REQUEST_FILTERS);
 	const [categoriesOpen, setCategoriesOpen] = useState(false);
 	const [locationOpen, setLocationOpen] = useState(false);
@@ -758,6 +769,7 @@ function OfferingHelpPanel() {
 					<Text size={2} color="gray" className="mt-1">
 						People in the community are looking for support. Open a request
 						to read more — if it feels like a fit, you can offer to help.
+						Your own requests stay under My requests.
 					</Text>
 				</div>
 			</div>
@@ -967,6 +979,19 @@ function OfferingHelpPanel() {
 							? "No open requests match these filters. Try adjusting them or check back again soon."
 							: "No open requests right now. Check back again soon."}
 					</Text>
+					{myPending !== undefined && myPending.length > 0 && (
+						<Text size={2} color="gray" className="mt-3 text-center">
+							You have
+							{" "}
+							{myPending.length === 1 ? "a pending request" : `${myPending.length} pending requests`}
+							{" "}
+							under My requests. Helpers will see
+							{" "}
+							{myPending.length === 1 ? "it" : "them"}
+							{" "}
+							here — your own posts are not listed on this page.
+						</Text>
+					)}
 				</Card>
 			)}
 
@@ -987,7 +1012,7 @@ function OfferingHelpPanel() {
 													</Badge>
 												)
 											: null}
-										{r.isUrgent
+										{isRequestUrgent(r)
 											? (
 													<Badge variant="soft" size={1} color="red">
 														Urgent

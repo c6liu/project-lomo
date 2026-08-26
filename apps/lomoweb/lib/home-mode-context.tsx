@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import type { HomeAppMode } from "@/lib/app-home-mode";
 import { createContext, use, useRef, useState } from "react";
 import {
+
 	readStoredHomeMode,
 	writeStoredHomeMode,
 } from "@/lib/app-home-mode";
