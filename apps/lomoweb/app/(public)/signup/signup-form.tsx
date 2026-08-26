@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { z } from "zod";
 import { AUTH_CONNECTION_ERROR_MESSAGE, authClient } from "@/lib/auth-client";
+import { useConvexAuthReady } from "@/lib/use-convex-auth-ready";
 
 const signupSchema = z
 	.object({
@@ -74,6 +75,7 @@ export function SignUpForm() {
 	const [formError, setFormError] = useState<string | null>(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const updatePublicProfile = useMutation(api.users.updatePublicProfile);
+	const waitForConvexAuth = useConvexAuthReady();
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
@@ -128,11 +130,20 @@ export function SignUpForm() {
 
 		const phoneTrimmed = result.data.phone.trim();
 		if (phoneTrimmed.length > 0) {
-			try {
-				await updatePublicProfile({ phone: phoneTrimmed });
+			// `signUp.email` resolves once the session cookie is set, but the Convex
+			// client still needs to pick up a JWT. Mutating before then fails with
+			// `Unauthenticated`.
+			let saved = false;
+			if (await waitForConvexAuth()) {
+				try {
+					await updatePublicProfile({ phone: phoneTrimmed });
+					saved = true;
+				}
+				catch (e) {
+					console.error(e);
+				}
 			}
-			catch (e) {
-				console.error(e);
+			if (!saved) {
 				window.alert(
 					"Your account was created, but we could not save your phone number. You can add it under Profile in the app.",
 				);
