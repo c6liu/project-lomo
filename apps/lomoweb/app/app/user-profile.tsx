@@ -12,8 +12,9 @@ import { Text } from "@repo/ui/text";
 import { Input, TextField } from "@repo/ui/text-field";
 import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { useServerRowSync } from "@/lib/use-server-row-sync";
 import {
 	HelperPreferencesFields,
 	helperPreferencesFromProfile,
@@ -41,15 +42,28 @@ export function UserProfile({
 	const [safetyAcknowledged, setSafetyAcknowledged] = useState(false);
 	const [savingProfile, setSavingProfile] = useState(false);
 	const [savingPreferences, setSavingPreferences] = useState(false);
+	/*
+	 * Confirmation that the write landed. Without it the only signal was the button
+	 * label flicking back from "Saving…", which is easy to miss and left users
+	 * unsure whether a toggle had actually persisted.
+	 */
+	const [preferencesSaved, setPreferencesSaved] = useState(false);
 	const [savingSafety, setSavingSafety] = useState(false);
 	const [confirmingDelete, setConfirmingDelete] = useState(false);
 	const [deletePassword, setDeletePassword] = useState("");
 	const [deleteError, setDeleteError] = useState<string | null>(null);
 	const [deletingAccount, setDeletingAccount] = useState(false);
 
-	const syncedProfileRef = useRef(profileRow);
-	if (profileRow && profileRow !== syncedProfileRef.current) {
-		syncedProfileRef.current = profileRow;
+	/*
+	 * Load the stored values into the form. This has to be a hook with a sentinel
+	 * rather than `useRef(profileRow)`: this page is usually reached by client-side
+	 * navigation, so the query is already resolved on the first render, and
+	 * seeding the ref with the row made the sync condition false forever. The form
+	 * then kept its defaults — showing "I can offer support" as off whatever was
+	 * saved, and writing those defaults back on save.
+	 */
+	const shouldSyncProfile = useServerRowSync(profileRow);
+	if (shouldSyncProfile && profileRow) {
 		setFirstName(profileRow.firstName ?? "");
 		setPronouns(profileRow.pronouns ?? "");
 		setPhone(profileRow.phone ?? "");
@@ -109,6 +123,7 @@ export function UserProfile({
 
 	async function handleSavePreferences() {
 		setSavingPreferences(true);
+		setPreferencesSaved(false);
 		try {
 			await updateHelperPreferences({
 				canHelpNow: preferenceValues.canHelpNow,
@@ -117,6 +132,8 @@ export function UserProfile({
 				helpAreaCenterLng: preferenceValues.helpAreaCenterLng,
 				helpAreaRadiusKm: preferenceValues.helpAreaRadiusKm,
 			});
+			// Only set on success, so it can't claim a save that threw.
+			setPreferencesSaved(true);
 		}
 		catch (e) {
 			console.error(e);
@@ -241,7 +258,11 @@ export function UserProfile({
 								<div className="flex flex-col gap-4">
 									<HelperPreferencesFields
 										values={preferenceValues}
-										onChange={setPreferenceValues}
+										onChange={(next) => {
+											setPreferenceValues(next);
+											// Any further edit makes the confirmation stale.
+											setPreferencesSaved(false);
+										}}
 									/>
 									<Button
 										variant="solid"
@@ -252,6 +273,23 @@ export function UserProfile({
 									>
 										{savingPreferences ? "Saving…" : "Save preferences"}
 									</Button>
+									{/*
+									  `role="status"` so the confirmation is announced rather than
+									  only being a visual change next to the button.
+									*/}
+									<div role="status" aria-live="polite">
+										{preferencesSaved
+											? (
+													<Text size={2} color="sage">
+														Preferences saved.
+														{" "}
+														{preferenceValues.canHelpNow
+															? "You'll see open requests again."
+															: "You're now Resting — Open Requests is hidden."}
+													</Text>
+												)
+											: null}
+									</div>
 								</div>
 							)}
 				</div>

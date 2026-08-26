@@ -5,7 +5,8 @@ import { Heading } from "@repo/ui/heading";
 import { Text } from "@repo/ui/text";
 import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { useServerRowSync } from "@/lib/use-server-row-sync";
 import {
 	HelperPreferencesFields,
 	helperPreferencesFromProfile,
@@ -21,9 +22,9 @@ export function PreferencesStep() {
 	const [values, setValues] = useState(() => helperPreferencesFromProfile(undefined));
 	const [saving, setSaving] = useState(false);
 
-	const syncedRef = useRef(profileRow);
-	if (profileRow && profileRow !== syncedRef.current) {
-		syncedRef.current = profileRow;
+	// Same sentinel-based sync as the profile page — see `useServerRowSync`.
+	const shouldSync = useServerRowSync(profileRow);
+	if (shouldSync && profileRow) {
 		setValues(helperPreferencesFromProfile(profileRow));
 	}
 
