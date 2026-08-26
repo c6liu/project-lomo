@@ -62,7 +62,7 @@ function UserListSkeleton() {
 			<ul className="grid grid-cols-1 gap-4 sm:grid-cols-2" aria-label="Loading users">
 				{Array.from({ length: 6 }, (_, i) => `skeleton-${i}`).map(key => (
 					<li key={key}>
-						<Card size={2} className="rounded-[20px] border border-gray-6">
+						<Card size={2} className="rounded-4 border border-gray-6">
 							<div className="flex items-start gap-3">
 								<div className="h-10 w-10 animate-pulse rounded-full bg-gray-3" />
 								<div className="flex-1">
@@ -210,7 +210,7 @@ function UserCard({ user }: { user: UserCardUser }) {
 		<li>
 			<Link
 				href={`/app/admin/users/${user._id}`}
-				className="block rounded-[20px] border border-gray-6 bg-white p-4 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+				className="block rounded-4 border border-gray-6 bg-white p-4 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
 			>
 				<div className="flex items-start gap-3">
 					{/* Avatar */}
@@ -260,7 +260,7 @@ function UserCard({ user }: { user: UserCardUser }) {
 
 function EmptyState() {
 	return (
-		<Card size={2} className="rounded-[20px] border border-gray-6">
+		<Card size={2} className="rounded-4 border border-gray-6">
 			<div className="flex flex-col items-center gap-2 py-6 text-center">
 				<Text size={3} weight="medium" color="gray">
 					No users match your criteria

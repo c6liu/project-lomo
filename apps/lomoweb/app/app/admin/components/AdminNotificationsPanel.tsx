@@ -94,7 +94,7 @@ export function AdminNotificationsPanel({ isOpen, onClose }: AdminNotificationsP
 									<div
 										// eslint-disable-next-line react/no-array-index-key
 										key={i}
-										className="h-20 animate-pulse rounded-[12px] bg-terracotta-3"
+										className="h-20 animate-pulse rounded-2 bg-terracotta-3"
 									/>
 								))}
 							</div>
@@ -114,7 +114,7 @@ export function AdminNotificationsPanel({ isOpen, onClose }: AdminNotificationsP
 									<li key={notification._id}>
 										<button
 											type="button"
-											className={`w-full rounded-[12px] border p-3 text-left transition-colors focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2 ${
+											className={`w-full rounded-2 border p-3 text-left transition-colors focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2 ${
 												notification.isRead
 													? "border-terracotta-6 bg-white"
 													: "border-terracotta-6 bg-yellow-2"

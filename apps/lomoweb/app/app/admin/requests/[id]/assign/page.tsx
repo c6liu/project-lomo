@@ -32,7 +32,7 @@ function AssignPageSkeleton() {
 			<ul className="flex flex-col gap-3" aria-label="Loading volunteers">
 				{Array.from({ length: 5 }, (_, i) => `skeleton-${i}`).map(key => (
 					<li key={key}>
-						<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+						<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 							<div className="flex items-center gap-3">
 								<div className="h-10 w-10 animate-pulse rounded-full bg-terracotta-3" />
 								<div className="flex-1">
@@ -72,7 +72,7 @@ function VolunteerCard({
 			<button
 				type="button"
 				onClick={() => onSelect(volunteer)}
-				className="flex w-full items-center gap-3 rounded-[20px] border-2 border-terracotta-6 bg-white p-4 text-left transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+				className="flex w-full items-center gap-3 rounded-4 border-2 border-terracotta-6 bg-white p-4 text-left transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 				aria-label={`Assign ${volunteer.name ?? volunteer.email ?? "unnamed volunteer"}`}
 			>
 				{/* Avatar */}
@@ -243,7 +243,7 @@ export default function AssignHelperPage() {
 								{/* Volunteer list */}
 								{filteredVolunteers.length === 0
 									? (
-											<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+											<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 												<div className="flex flex-col items-center gap-2 py-6 text-center">
 													<Text size={3} weight="medium" color="terracotta">
 														No volunteers found

@@ -74,18 +74,18 @@ function UserDetailSkeleton() {
 			</div>
 
 			{/* Profile card skeleton */}
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<div className="h-4 w-32 animate-pulse rounded bg-terracotta-3" />
 				<div className="mt-3 h-4 w-48 animate-pulse rounded bg-terracotta-3" />
 				<div className="mt-3 h-4 w-24 animate-pulse rounded bg-terracotta-3" />
 			</Card>
 
 			{/* Sections skeleton */}
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<div className="h-5 w-36 animate-pulse rounded bg-terracotta-3" />
 				<div className="mt-4 h-16 w-full animate-pulse rounded bg-terracotta-3" />
 			</Card>
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<div className="h-5 w-36 animate-pulse rounded bg-terracotta-3" />
 				<div className="mt-4 h-16 w-full animate-pulse rounded bg-terracotta-3" />
 			</Card>
@@ -264,7 +264,7 @@ export default function UserDetailPage() {
 	if (!userData) {
 		return (
 			<div className="mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col items-center justify-center px-4 py-8 sm:px-6 lg:py-10">
-				<Card size={2} className="rounded-[20px] border border-gray-6">
+				<Card size={2} className="rounded-4 border border-gray-6">
 					<Text size={3} color="gray" className="text-center">
 						User not found.
 					</Text>
@@ -325,7 +325,7 @@ export default function UserDetailPage() {
 
 			{/* Profile Info Card */}
 			<section aria-labelledby="profile-heading" className="mb-6">
-				<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+				<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 					<Heading level={2} size={5} weight="medium" id="profile-heading" className="mb-3">
 						Profile Information
 					</Heading>
@@ -382,7 +382,7 @@ export default function UserDetailPage() {
 
 				{activeRequests.length === 0
 					? (
-							<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+							<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 								<Text size={2} color="terracotta" className="text-center">
 									No active requests
 								</Text>
@@ -410,7 +410,7 @@ export default function UserDetailPage() {
 
 				{pastRequests.length === 0
 					? (
-							<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+							<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 								<Text size={2} color="terracotta" className="text-center">
 									No past requests
 								</Text>
@@ -433,14 +433,14 @@ export default function UserDetailPage() {
 
 				{activityHistory.length === 0
 					? (
-							<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+							<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 								<Text size={2} color="terracotta" className="text-center">
 									No activity yet
 								</Text>
 							</Card>
 						)
 					: (
-							<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+							<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 								<ul className="flex flex-col gap-3" role="list" aria-label="Activity history">
 									{activityHistory.map(entry => (
 										<li key={`${entry._id}-${entry.date}`} className="flex items-start gap-3 border-b border-terracotta-3 pb-3 last:border-b-0 last:pb-0">

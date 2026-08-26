@@ -45,7 +45,7 @@ export function AdminAccessGate({ children }: AdminAccessGateProps) {
 	if (!isAdmin) {
 		return (
 			<div className="flex min-h-screen items-center justify-center bg-surface-warm">
-				<div className="mx-4 flex max-w-md flex-col items-center gap-4 rounded-[20px] border-2 border-terracotta-6 bg-white p-8 text-center shadow-sm">
+				<div className="mx-4 flex max-w-md flex-col items-center gap-4 rounded-4 border-2 border-terracotta-6 bg-white p-8 text-center shadow-sm">
 					<Heading level={1} className="text-terracotta-9">
 						Access Denied
 					</Heading>

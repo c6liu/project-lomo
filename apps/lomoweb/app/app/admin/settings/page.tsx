@@ -3,8 +3,10 @@
 import { api } from "@repo/convex-backend/convex/_generated/api";
 import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
+import { Description, FieldError, Group, Label } from "@repo/ui/field";
 import { Heading } from "@repo/ui/heading";
 import { Text } from "@repo/ui/text";
+import { Input, TextField } from "@repo/ui/text-field";
 import { useMutation, useQuery } from "convex/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AdminErrorBoundary } from "../components/AdminErrorBoundary";
@@ -17,7 +19,7 @@ function SettingsSkeleton() {
 	return (
 		<div className="flex flex-col gap-6">
 			{["section-prefs", "section-notifs", "section-magic"].map(key => (
-				<Card key={key} size={2} className="rounded-[20px] border border-gray-6">
+				<Card key={key} size={2} className="rounded-4 border border-gray-6">
 					<div className="h-5 w-40 animate-pulse rounded bg-gray-3" />
 					<div className="mt-4 h-10 w-full animate-pulse rounded bg-gray-3" />
 					<div className="mt-3 h-4 w-3/4 animate-pulse rounded bg-gray-3" />
@@ -115,8 +117,8 @@ function SettingsForm({ initialSettings }: { initialSettings: SettingsData }) {
 		return null;
 	}, []);
 
-	const handleThresholdChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		const raw = e.target.value;
+	// react-aria's TextField reports the raw string rather than a change event.
+	const handleThresholdChange = useCallback((raw: string) => {
 		const num = Number.parseInt(raw, 10);
 		if (Number.isNaN(num)) {
 			setThreshold(0);
@@ -169,50 +171,33 @@ function SettingsForm({ initialSettings }: { initialSettings: SettingsData }) {
 	return (
 		<div className="flex flex-col gap-6">
 			{/* Admin Preferences Section */}
-			<Card size={2} className="rounded-[20px] border border-gray-6">
+			<Card size={2} className="rounded-4 border border-gray-6">
 				<Heading level={2} size={5} weight="medium" className="mb-4">
 					Admin Preferences
 				</Heading>
-				<div className="flex flex-col gap-2">
-					<label
-						htmlFor="attention-threshold"
-						className="text-sm font-medium text-gray-12"
-					>
-						Attention threshold (days)
-					</label>
-					<Text size={1} color="gray" className="mb-1">
+				{/*
+				  `TextField` handles the label, description, and error associations, so
+				  the manual htmlFor / aria-describedby / aria-invalid wiring is gone.
+				*/}
+				<TextField
+					name="attentionThreshold"
+					value={String(threshold)}
+					isInvalid={!!thresholdError}
+					onChange={handleThresholdChange}
+				>
+					<Label>Attention threshold (days)</Label>
+					<Description>
 						Requests pending longer than this are flagged for attention (1-30 days).
-					</Text>
-					<input
-						id="attention-threshold"
-						type="number"
-						min={1}
-						max={30}
-						step={1}
-						value={threshold}
-						onChange={handleThresholdChange}
-						aria-describedby={thresholdError ? "threshold-error" : undefined}
-						aria-invalid={!!thresholdError}
-						className={`
-							w-full rounded-2 border px-3 py-2 text-sm text-gray-12
-							focus:outline-none focus:ring-2 focus:ring-gray-8 focus:ring-offset-2
-							${thresholdError ? "border-red-8" : "border-gray-6"}
-						`}
-					/>
-					{thresholdError && (
-						<Text
-							id="threshold-error"
-							size={1}
-							className="text-red-9"
-						>
-							{thresholdError}
-						</Text>
-					)}
-				</div>
+					</Description>
+					<Group>
+						<Input type="number" inputMode="numeric" min={1} max={30} step={1} />
+					</Group>
+					<FieldError>{thresholdError}</FieldError>
+				</TextField>
 			</Card>
 
 			{/* Notification Settings Section */}
-			<Card size={2} className="rounded-[20px] border border-gray-6">
+			<Card size={2} className="rounded-4 border border-gray-6">
 				<Heading level={2} size={5} weight="medium" className="mb-4">
 					Notification Settings
 				</Heading>
@@ -239,7 +224,7 @@ function SettingsForm({ initialSettings }: { initialSettings: SettingsData }) {
 			</Card>
 
 			{/* Magic Link Management Section */}
-			<Card size={2} className="rounded-[20px] border border-gray-6">
+			<Card size={2} className="rounded-4 border border-gray-6">
 				<Heading level={2} size={5} weight="medium" className="mb-4">
 					Magic Link Management
 				</Heading>

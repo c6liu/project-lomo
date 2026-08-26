@@ -29,7 +29,7 @@ function DashboardSkeleton() {
 			{/* Breakdown cards skeleton */}
 			<div className="grid gap-4 sm:grid-cols-2">
 				{["breakdown-active", "breakdown-closed"].map(key => (
-					<Card key={key} border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+					<Card key={key} border="medium" borderColor="terracotta" size={2} className="rounded-4">
 						<div className="h-5 w-32 animate-pulse rounded bg-terracotta-3" />
 						<div className="mt-4 h-3 w-full animate-pulse rounded-full bg-terracotta-3" />
 						<div className="mt-3 flex gap-4">
@@ -44,7 +44,7 @@ function DashboardSkeleton() {
 			<div className="flex flex-col gap-3">
 				<div className="h-6 w-48 animate-pulse rounded bg-terracotta-3" />
 				{["attention-1", "attention-2", "attention-3"].map(key => (
-					<Card key={key} border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+					<Card key={key} border="medium" borderColor="terracotta" size={2} className="rounded-4">
 						<div className="h-4 w-3/4 animate-pulse rounded bg-terracotta-3" />
 						<div className="mt-2 h-3 w-1/2 animate-pulse rounded bg-terracotta-3" />
 					</Card>
@@ -72,7 +72,7 @@ function StatsSection({ totalUsers, helpers, magicLinks }: StatsSectionProps) {
 	];
 
 	return (
-		<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+		<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 			<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-0 sm:divide-x sm:divide-terracotta-6">
 				{stats.map(stat => (
 					<div key={stat.label} className="flex-1 px-4 py-1 text-center">
@@ -142,7 +142,7 @@ interface ActiveRequestBreakdownProps {
 
 function ActiveRequestBreakdown({ inProgress, waiting, total }: ActiveRequestBreakdownProps) {
 	return (
-		<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+		<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 			<div className="mb-3 flex items-baseline justify-between">
 				<Heading level={2} size={5} weight="medium">Active Requests</Heading>
 				<Text size={3} weight="bold" color="terracotta">{total}</Text>
@@ -170,7 +170,7 @@ interface ClosedRequestBreakdownProps {
 
 function ClosedRequestBreakdown({ completed, cancelled, total }: ClosedRequestBreakdownProps) {
 	return (
-		<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+		<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 			<div className="mb-3 flex items-baseline justify-between">
 				<Heading level={2} size={5} weight="medium">Closed Requests</Heading>
 				<Text size={3} weight="bold" color="terracotta">{total}</Text>
@@ -206,7 +206,7 @@ function AttentionCard({ item }: { item: AttentionItem }) {
 		<li>
 			<Link
 				href={`/app/admin/requests/${item._id}`}
-				className="block rounded-[20px] border-2 border-terracotta-6 bg-white p-4 transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+				className="block rounded-4 border-2 border-terracotta-6 bg-white p-4 transition-shadow hover:shadow-md focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 			>
 				<div className="flex items-start justify-between gap-2">
 					<div className="min-w-0 flex-1">
@@ -259,7 +259,7 @@ function AttentionNeededSection({ items }: { items: AttentionItem[] }) {
 
 			{items.length === 0
 				? (
-						<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+						<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 							<Text size={2} color="terracotta" className="text-center">
 								No requests currently need coordinator action.
 							</Text>

@@ -87,7 +87,7 @@ export class AdminErrorBoundary extends Component<
 function PageErrorFallback({ onReload }: { onReload: () => void }) {
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-surface-warm">
-			<div className="mx-4 flex max-w-md flex-col items-center gap-4 rounded-[20px] border-2 border-terracotta-6 bg-white p-8 text-center shadow-sm">
+			<div className="mx-4 flex max-w-md flex-col items-center gap-4 rounded-4 border-2 border-terracotta-6 bg-white p-8 text-center shadow-sm">
 				<Heading level={1} className="text-terracotta-9">
 					Something went wrong
 				</Heading>
@@ -111,7 +111,7 @@ function SectionErrorFallback({
 	onRetry: () => void;
 }) {
 	return (
-		<div className="mx-auto flex w-full max-w-lg flex-col items-center gap-3 rounded-[20px] border-2 border-terracotta-6 bg-white p-6 text-center shadow-sm">
+		<div className="mx-auto flex w-full max-w-lg flex-col items-center gap-3 rounded-4 border-2 border-terracotta-6 bg-white p-6 text-center shadow-sm">
 			<Heading level={2} size={6} className="text-terracotta-9">
 				Something went wrong
 			</Heading>
@@ -129,7 +129,7 @@ function SectionErrorFallback({
 
 function PanelErrorFallback({ onRetry }: { onRetry: () => void }) {
 	return (
-		<div className="flex flex-col items-center gap-2 rounded-[20px] border-2 border-terracotta-6 bg-white p-4 text-center shadow-sm">
+		<div className="flex flex-col items-center gap-2 rounded-4 border-2 border-terracotta-6 bg-white p-4 text-center shadow-sm">
 			<Text className="text-sm text-terracotta-9">
 				Failed to load this panel.
 			</Text>

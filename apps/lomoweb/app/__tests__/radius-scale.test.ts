@@ -36,6 +36,16 @@ const ROOT_OPTS_INTO_PILL_SCALE = /data-radius="full"/;
  */
 const RAW_TAILWIND_RADIUS = /\brounded-(?:sm|md|lg|xl|2xl|3xl|4xl)\b/g;
 
+/**
+ * Arbitrary pixel radii, e.g. `rounded-[20px]`. These pin a fixed value and so
+ * ignore `--radius-factor` entirely, which is how the admin area ended up
+ * hardcoding 20px on 48 surfaces while every other route scaled.
+ *
+ * Arbitrary values built *from* tokens — `rounded-[max(var(--radius-3),12px)]` —
+ * are fine and deliberately not matched.
+ */
+const HARDCODED_PIXEL_RADIUS = /\brounded-(?:[a-z]+-)?\[[0-9.]+(?:px|rem)\]/g;
+
 function appSourceFiles(): string[] {
 	return readdirSync(APP_DIR, { recursive: true, encoding: "utf-8" })
 		.filter(relative => TS_SOURCE.test(relative))
@@ -53,22 +63,44 @@ function withoutComments(source: string): string {
 		.replace(LINE_COMMENT, "$1");
 }
 
+function findRadiusOffenders(pattern: RegExp) {
+	return appSourceFiles()
+		.map(file => ({
+			file: file.slice(APP_DIR.length + 1),
+			matches: withoutComments(readFileSync(file, "utf-8")).match(pattern),
+		}))
+		.filter((entry): entry is { file: string; matches: RegExpMatchArray } => entry.matches !== null);
+}
+
+function describeOffenders(offenders: { file: string; matches: RegExpMatchArray }[]) {
+	return offenders
+		.map(({ file, matches }) => `  ${file}: ${[...new Set(matches)].join(", ")}`)
+		.join("\n");
+}
+
 describe("radius values come from the token ramp", () => {
 	it("no file uses Tailwind's stock radii instead of the token scale", () => {
-		const offenders = appSourceFiles()
-			.map(file => ({
-				file: file.slice(APP_DIR.length + 1),
-				matches: withoutComments(readFileSync(file, "utf-8")).match(RAW_TAILWIND_RADIUS),
-			}))
-			.filter((entry): entry is { file: string; matches: RegExpMatchArray } => entry.matches !== null);
+		const offenders = findRadiusOffenders(RAW_TAILWIND_RADIUS);
 
 		if (offenders.length > 0) {
-			const detail = offenders
-				.map(({ file, matches }) => `  ${file}: ${[...new Set(matches)].join(", ")}`)
-				.join("\n");
 			expect.fail(
 				`Use the token radius ramp (rounded-1…rounded-6, rounded-full) so radii scale with --radius-factor.\n`
-				+ `Tailwind's stock radii are fixed pixel values and break that.\n${detail}`,
+				+ `Tailwind's stock radii are fixed pixel values and break that.\n${describeOffenders(offenders)}`,
+			);
+		}
+
+		expect(offenders).toEqual([]);
+	});
+
+	it("no file hardcodes a pixel radius", () => {
+		const offenders = findRadiusOffenders(HARDCODED_PIXEL_RADIUS);
+
+		if (offenders.length > 0) {
+			expect.fail(
+				`Hardcoded radii ignore --radius-factor. At the default factor of 2.5: `
+				+ `rounded-1=7.5px, 2=10px, 3=15px, 4=20px, 5=30px, 6=40px.\n`
+				+ `If you genuinely need a floor, compose from tokens instead, e.g. `
+				+ `rounded-[max(var(--radius-3),12px)].\n${describeOffenders(offenders)}`,
 			);
 		}
 

@@ -4,11 +4,13 @@ import type { Id } from "@repo/convex-backend/convex/_generated/dataModel";
 import { api } from "@repo/convex-backend/convex/_generated/api";
 import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
+import { FieldError, Group, Label } from "@repo/ui/field";
 import { Heading } from "@repo/ui/heading";
 import { Text } from "@repo/ui/text";
+import { Input, TextArea, TextField } from "@repo/ui/text-field";
 import { useMutation, useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 /* -------------------------------------------------------------------------- */
 /*                             Category Options                                 */
@@ -33,7 +35,7 @@ function EditRequestSkeleton() {
 	return (
 		<div className="flex flex-col gap-6">
 			<div className="h-8 w-48 animate-pulse rounded bg-terracotta-3" />
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<div className="flex flex-col gap-4">
 					<div className="h-4 w-20 animate-pulse rounded bg-terracotta-3" />
 					<div className="h-10 w-full animate-pulse rounded bg-terracotta-3" />
@@ -78,13 +80,6 @@ function EditRequestForm({ request }: { request: RequestData }) {
 	const [summaryError, setSummaryError] = useState<string | null>(null);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const [isSaving, setIsSaving] = useState(false);
-
-	const titleRef = useRef<HTMLInputElement>(null);
-
-	// Auto-focus title field on mount
-	useEffect(() => {
-		titleRef.current?.focus();
-	}, []);
 
 	const validate = useCallback((): boolean => {
 		let valid = true;
@@ -156,99 +151,63 @@ function EditRequestForm({ request }: { request: RequestData }) {
 
 	return (
 		<div className="flex flex-col gap-6">
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<div className="flex flex-col gap-5">
-					{/* Title field */}
-					<div className="flex flex-col gap-1.5">
-						<label
-							htmlFor="edit-title"
-							className="text-sm font-medium text-terracotta-9"
-						>
-							Title
-						</label>
-						<input
-							ref={titleRef}
-							id="edit-title"
-							type="text"
-							value={title}
-							onChange={(e) => {
-								setTitle(e.target.value);
-								if (titleError)
-									setTitleError(null);
-							}}
-							aria-describedby={titleError ? "edit-title-error" : undefined}
-							aria-invalid={!!titleError}
-							className={`
-								w-full rounded-2 border px-3 py-2 text-sm text-terracotta-9
-								focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2
-								${titleError ? "border-red-8" : "border-terracotta-6"}
-							`}
-						/>
-						{titleError && (
-							<Text
-								id="edit-title-error"
-								size={1}
-								className="text-red-9"
-								role="alert"
-							>
-								{titleError}
-							</Text>
-						)}
-					</div>
+					{/*
+					  These were hand-rolled inputs duplicating the design system's field
+					  styling, focus ring, and error wiring. `TextField` owns the
+					  label/error association and the `isInvalid` plumbing, so the manual
+					  `aria-describedby` / `aria-invalid` bookkeeping is gone.
+					*/}
+					<TextField
+						name="title"
+						color="terracotta"
+						// Replaces a ref + mount effect that existed only to focus this field.
+						autoFocus
+						value={title}
+						isInvalid={!!titleError}
+						onChange={(value) => {
+							setTitle(value);
+							if (titleError)
+								setTitleError(null);
+						}}
+					>
+						<Label>Title</Label>
+						<Group>
+							<Input />
+						</Group>
+						<FieldError>{titleError}</FieldError>
+					</TextField>
 
-					{/* Summary field */}
-					<div className="flex flex-col gap-1.5">
-						<label
-							htmlFor="edit-summary"
-							className="text-sm font-medium text-terracotta-9"
-						>
-							Summary
-						</label>
-						<input
-							id="edit-summary"
-							type="text"
-							value={summary}
-							onChange={(e) => {
-								setSummary(e.target.value);
-								if (summaryError)
-									setSummaryError(null);
-							}}
-							aria-describedby={summaryError ? "edit-summary-error" : undefined}
-							aria-invalid={!!summaryError}
-							className={`
-								w-full rounded-2 border px-3 py-2 text-sm text-terracotta-9
-								focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2
-								${summaryError ? "border-red-8" : "border-terracotta-6"}
-							`}
-						/>
-						{summaryError && (
-							<Text
-								id="edit-summary-error"
-								size={1}
-								className="text-red-9"
-								role="alert"
-							>
-								{summaryError}
-							</Text>
-						)}
-					</div>
+					<TextField
+						name="summary"
+						color="terracotta"
+						value={summary}
+						isInvalid={!!summaryError}
+						onChange={(value) => {
+							setSummary(value);
+							if (summaryError)
+								setSummaryError(null);
+						}}
+					>
+						<Label>Summary</Label>
+						<Group>
+							<Input />
+						</Group>
+						<FieldError>{summaryError}</FieldError>
+					</TextField>
 
-					{/* Details field */}
-					<div className="flex flex-col gap-1.5">
-						<label
-							htmlFor="edit-details"
-							className="text-sm font-medium text-terracotta-9"
-						>
-							Details
-						</label>
-						<textarea
-							id="edit-details"
-							value={details}
-							onChange={e => setDetails(e.target.value)}
-							rows={5}
-							className="w-full rounded-2 border border-terracotta-6 px-3 py-2 text-sm text-terracotta-9 focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2"
-						/>
-					</div>
+					<TextField
+						name="details"
+						color="terracotta"
+						value={details}
+						onChange={setDetails}
+					>
+						<Label>Details</Label>
+						<Group>
+							<TextArea rows={5} />
+						</Group>
+					</TextField>
 
 					{/* Category field */}
 					<div className="flex flex-col gap-1.5">

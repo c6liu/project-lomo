@@ -33,7 +33,7 @@ function RequestDetailSkeleton() {
 			</div>
 
 			{/* Details skeleton */}
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<div className="h-4 w-full animate-pulse rounded bg-terracotta-3" />
 				<div className="mt-3 h-4 w-5/6 animate-pulse rounded bg-terracotta-3" />
 				<div className="mt-3 h-4 w-2/3 animate-pulse rounded bg-terracotta-3" />
@@ -43,7 +43,7 @@ function RequestDetailSkeleton() {
 			{/* Person cards skeleton */}
 			<div className="grid gap-4 sm:grid-cols-2">
 				{["requester-skel", "helper-skel"].map(key => (
-					<Card key={key} border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+					<Card key={key} border="medium" borderColor="terracotta" size={2} className="rounded-4">
 						<div className="flex items-center gap-3">
 							<div className="h-10 w-10 animate-pulse rounded-full bg-terracotta-3" />
 							<div className="flex-1">
@@ -115,7 +115,7 @@ function PersonCard({
 }) {
 	if (!person) {
 		return (
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<Heading level={2} size={4} weight="medium" className="mb-2">
 					{label}
 				</Heading>
@@ -129,7 +129,7 @@ function PersonCard({
 	const initial = (person.name ?? person.email ?? "?").charAt(0).toUpperCase();
 
 	return (
-		<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+		<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 			<Heading level={2} size={4} weight="medium" className="mb-3">
 				{label}
 			</Heading>
@@ -163,7 +163,7 @@ function PersonCard({
 function LocationSection({ lat, lng }: { lat: number; lng: number }) {
 	return (
 		<section aria-labelledby="location-heading">
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<Heading level={2} size={4} weight="medium" id="location-heading" className="mb-2">
 					Location
 				</Heading>
@@ -198,7 +198,7 @@ function PayloadSection({ payload }: { payload: string }) {
 
 	return (
 		<section aria-labelledby="payload-heading">
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<Heading level={2} size={4} weight="medium" id="payload-heading" className="mb-3">
 					Payload Data
 				</Heading>
@@ -281,7 +281,7 @@ function MessageHistorySection({
 	if (chatMessages.length === 0) {
 		return (
 			<section aria-labelledby="messages-heading">
-				<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+				<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 					<Heading level={2} size={4} weight="medium" id="messages-heading" className="mb-2">
 						Message History
 					</Heading>
@@ -295,7 +295,7 @@ function MessageHistorySection({
 
 	return (
 		<section aria-labelledby="messages-heading">
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<Heading level={2} size={4} weight="medium" id="messages-heading" className="mb-3">
 					Message History
 				</Heading>
@@ -366,7 +366,7 @@ function ActivitySection({
 
 	return (
 		<section aria-labelledby="activity-heading">
-			<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+			<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 				<Heading level={2} size={4} weight="medium" id="activity-heading" className="mb-3">
 					Activity
 				</Heading>
@@ -837,7 +837,7 @@ function RequestDetailContent({ request }: { request: RequestDetailData }) {
 
 			{/* Details Section */}
 			<section aria-labelledby="details-heading">
-				<Card border="medium" borderColor="terracotta" size={2} className="rounded-[20px]">
+				<Card border="medium" borderColor="terracotta" size={2} className="rounded-4">
 					<Heading level={2} size={4} weight="medium" id="details-heading" className="mb-3">
 						Details
 					</Heading>

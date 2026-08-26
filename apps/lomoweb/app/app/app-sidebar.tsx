@@ -122,12 +122,20 @@ export function AppSidebar() {
 	return (
 		<>
 			{/* Desktop sidebar (lg+) */}
+			{/*
+			  Pinned to the viewport rather than stretching with the page.
+			  `h-screen` gives it a definite height so the flex row can't grow it to the
+			  full content height — which is what previously pushed Sign out and
+			  Settings to the bottom of a long page instead of the bottom of the screen.
+			  The document remains the scroll container, so the `window.scrollTo` in
+			  `handleTabClick` still works.
+			*/}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="hidden lg:flex lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-gray-6 lg:bg-gray-1"
+				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-gray-6 lg:bg-gray-1"
 			>
 				{/* Logo header */}
-				<div className="flex h-14 items-center border-b border-gray-6 px-4">
+				<div className="flex h-14 shrink-0 items-center border-b border-gray-6 px-4">
 					<Link
 						href="/app"
 						className="flex items-center gap-2 rounded-1 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
@@ -141,7 +149,7 @@ export function AppSidebar() {
 
 				{/* Back to app link (admin only) */}
 				{isOnAdminRoute && (
-					<div className="px-3 pt-3">
+					<div className="shrink-0 px-3 pt-3">
 						<Link
 							href="/app"
 							className="flex items-center gap-2 rounded-2 px-3 py-2 text-sm font-medium text-gray-11 transition-colors hover:bg-gray-3 hover:text-gray-12"
@@ -158,7 +166,12 @@ export function AppSidebar() {
 				  promise arrow-key traversal and panel swapping that never happen. The
 				  enclosing <nav> supplies the landmark and label.
 				*/}
-				<ul role="list" className="flex flex-1 flex-col gap-1 p-3">
+				{/*
+				  `min-h-0` is load-bearing: without it a flex child refuses to shrink
+				  below its content, so a nav list taller than the viewport would overflow
+				  the pinned sidebar instead of scrolling inside it.
+				*/}
+				<ul role="list" className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-3">
 					{tabs.map(tab => (
 						<li key={tab.id}>
 							<SidebarTab
@@ -184,8 +197,8 @@ export function AppSidebar() {
 					)}
 				</ul>
 
-				{/* Sign out at the bottom of sidebar */}
-				<div className="border-t border-gray-6 p-3">
+				{/* Sign out, pinned to the bottom of the viewport-height sidebar */}
+				<div className="shrink-0 border-t border-gray-6 p-3">
 					<button
 						type="button"
 						onClick={() => void handleSignOut()}
