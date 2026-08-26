@@ -11,6 +11,7 @@ import {
 	helperPreferencesFromProfile,
 } from "../helper-preferences-fields";
 import { OnboardingStepFooter } from "./onboarding-step-footer";
+import { stepBody, stepHeading } from "./styles";
 
 export function PreferencesStep() {
 	const router = useRouter();
@@ -50,11 +51,11 @@ export function PreferencesStep() {
 
 	return (
 		<div className="flex min-h-full flex-col gap-6">
-			<div className="flex flex-col gap-2">
-				<Heading level={2} size={8} className="font-display">
+			<div className="flex flex-col gap-3">
+				<Heading level={2} size={8} className={stepHeading}>
 					Set your preference
 				</Heading>
-				<Text size={2} color="gray">
+				<Text size={3} className={stepBody}>
 					You can update these anytime from your profile.
 				</Text>
 			</div>
