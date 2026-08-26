@@ -1,6 +1,7 @@
-import type { FunctionReturnType } from "convex/server";
 import type { api } from "@repo/convex-backend/convex/_generated/api";
+import type { FunctionReturnType } from "convex/server";
 import type { RequestCategoryId } from "@/lib/request-flow/types";
+import { isRequestUrgent } from "@/lib/request-urgency";
 import { REQUEST_CATEGORIES } from "@/lib/request-flow/categories";
 
 type OpenRequestListItem = FunctionReturnType<
@@ -11,10 +12,10 @@ export const OPEN_REQUEST_CATEGORY_IDS: RequestCategoryId[] = REQUEST_CATEGORIES
 	.filter(category => category.implemented)
 	.map(category => category.id);
 
-export type OpenRequestFilters = {
+export interface OpenRequestFilters {
 	categories: RequestCategoryId[];
 	urgentOnly: boolean;
-};
+}
 
 export const EMPTY_OPEN_REQUEST_FILTERS: OpenRequestFilters = {
 	categories: [],
@@ -43,7 +44,7 @@ export function filterOpenRequests(
 		if (filterByCategory && !selectedCategories.has(item.category)) {
 			return false;
 		}
-		if (filters.urgentOnly && !item.isUrgent) {
+		if (filters.urgentOnly && !isRequestUrgent(item)) {
 			return false;
 		}
 		return true;
