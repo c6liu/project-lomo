@@ -763,7 +763,9 @@ function OfferingHelpPanel() {
 						<Heading id="open-request-category-filter-title" level={2} size={4}>
 							Categories
 						</Heading>
+						{/* Named by the dialog's own heading, which is this group's only label. */}
 						<CheckboxGroup
+							aria-labelledby="open-request-category-filter-title"
 							value={filters.categories}
 							onChange={(value) => {
 								setFilters(current => ({

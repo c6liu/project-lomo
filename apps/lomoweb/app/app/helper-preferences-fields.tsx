@@ -4,6 +4,7 @@ import { Checkbox, CheckboxGroup } from "@repo/ui/checkbox";
 import { Switch } from "@repo/ui/switch";
 import { Text } from "@repo/ui/text";
 import dynamic from "next/dynamic";
+import { useId } from "react";
 import {
 	DEFAULT_HELP_AREA_CENTER,
 	DEFAULT_HELP_AREA_RADIUS_KM,
@@ -36,6 +37,9 @@ interface HelperPreferencesFieldsProps {
 }
 
 export function HelperPreferencesFields({ values, onChange }: HelperPreferencesFieldsProps) {
+	// One base id, suffixed per group — `useId` can't be called inside the map.
+	const groupLabelPrefix = useId();
+
 	return (
 		<div className="flex flex-col gap-8">
 			<div className="flex flex-col gap-2">
@@ -60,10 +64,16 @@ export function HelperPreferencesFields({ values, onChange }: HelperPreferencesF
 
 				{HELPER_PREFERENCE_GROUPS.map(group => (
 					<div key={group.id} className="flex flex-col gap-2">
-						<Text size={2} weight="medium">
+						{/*
+						  The heading is pointed at with `aria-labelledby` rather than
+						  duplicated into an `aria-label`, so the group's accessible name is
+						  the same text sighted users read, and stays in sync with it.
+						*/}
+						<Text id={`${groupLabelPrefix}-${group.id}`} size={2} weight="medium">
 							{group.label}
 						</Text>
 						<CheckboxGroup
+							aria-labelledby={`${groupLabelPrefix}-${group.id}`}
 							value={values.helpPreferences}
 							onChange={helpPreferences => onChange({ ...values, helpPreferences })}
 							className="gap-2"

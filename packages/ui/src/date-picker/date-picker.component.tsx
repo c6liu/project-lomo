@@ -106,8 +106,13 @@ export function DatePicker({
 					</Button>
 				</Group>
 
+				{/*
+				  The Dialog needs an explicit name: react-aria only derives one from a
+				  `<Heading slot="title">`, and Calendar's heading is the month label, not
+				  a dialog title.
+				*/}
 				<Popover className={calendarPopoverVariants()}>
-					<Dialog className="outline-none">
+					<Dialog aria-label="Choose a date" className="outline-none">
 						<Calendar />
 					</Dialog>
 				</Popover>
