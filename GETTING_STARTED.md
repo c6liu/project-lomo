@@ -71,6 +71,8 @@ bunx convex run seed:run
 
 This inserts sample users, requests, messages, and notifications so the admin dashboard has content to display. It's idempotent — safe to re-run anytime.
 
+Seeded requests carry a spread of deadlines (`neededByInDays` in `apps/convex-backend/convex/lib/seedData.ts`, resolved relative to seed time) — including one already overdue and unmatched, and one no-deadline request — so the admin dashboard has something to show under every "needs attention" case without waiting for real data to accumulate.
+
 ### 7. Start everything
 
 ```bash
