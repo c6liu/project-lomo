@@ -13,7 +13,7 @@ import { useMutation, useQuery } from "convex/react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { deriveUserStatus } from "../../lib/filters";
+import { deriveUserStatus, USER_STATUS_BADGE_COLOR } from "../../lib/filters";
 
 /* -------------------------------------------------------------------------- */
 /*                                  Types                                       */
@@ -30,14 +30,6 @@ interface MiniRequest {
 /* -------------------------------------------------------------------------- */
 /*                            Status badge helpers                              */
 /* -------------------------------------------------------------------------- */
-
-type UserStatus = "Volunteer" | "Resting" | "Member";
-
-const USER_STATUS_BADGE_COLOR: Record<UserStatus, "sage" | "yellow" | "gray"> = {
-	Volunteer: "sage",
-	Resting: "yellow",
-	Member: "gray",
-};
 
 const REQUEST_STATUS_BADGE_COLOR: Record<HelpRequestStatus, "gray" | "yellow" | "sage" | "red"> = {
 	pending: "gray",
@@ -193,8 +185,10 @@ export default function UserDetailPage() {
 
 	const userData = useQuery(api.users.adminGetUser, { userId });
 	const blockUser = useMutation(api.users.adminBlockUser);
+	const unblockUser = useMutation(api.users.adminUnblockUser);
 
 	const [isBlocking, setIsBlocking] = useState(false);
+	const [isUnblocking, setIsUnblocking] = useState(false);
 	const [blockDialogOpen, setBlockDialogOpen] = useState(false);
 
 	const isLoading = userData === undefined;
@@ -247,6 +241,22 @@ export default function UserDetailPage() {
 		}
 		finally {
 			setIsBlocking(false);
+		}
+	}
+
+	/*
+	 * Unblocking restores the account to whatever it was before — the derived
+	 * status falls back to Volunteer/Resting/Member from the user's own settings,
+	 * which blocking never overwrote. Requests cancelled at block time stay
+	 * cancelled; those are not restored.
+	 */
+	async function handleUnblock() {
+		setIsUnblocking(true);
+		try {
+			await unblockUser({ userId });
+		}
+		finally {
+			setIsUnblocking(false);
 		}
 	}
 
@@ -358,13 +368,11 @@ export default function UserDetailPage() {
 							<Text size={2} color="terracotta">{registrationDate}</Text>
 						</div>
 
-						{userData.blocked && (
-							<div className="mt-1">
-								<Badge variant="solid" color="red" size={1}>
-									Blocked
-								</Badge>
-							</div>
-						)}
+						{/*
+						  No separate "Blocked" badge here: blocking now derives the
+						  Status badge above, so a second pill would be the same fact
+						  twice and could contradict it if one was ever updated alone.
+						*/}
 					</div>
 				</Card>
 			</section>
@@ -472,27 +480,46 @@ export default function UserDetailPage() {
 
 			{/* Action Buttons */}
 			<section aria-label="User actions" className="flex flex-col gap-3 sm:flex-row">
-				{/* Block button with confirmation dialog */}
-				<DialogTrigger isOpen={blockDialogOpen} onOpenChange={setBlockDialogOpen}>
-					<Button
-						variant="solid"
-						color="red"
-						size={3}
-						className="flex-1"
-						isDisabled={userData.blocked === true}
-					>
-						{userData.blocked ? "User Blocked" : "Block"}
-					</Button>
-					<ModalOverlay isDismissable>
-						<Modal aria-label="Confirm block user" size={2}>
-							<BlockConfirmationDialog
-								userName={userData.name ?? "this user"}
-								onConfirm={handleBlock}
-								isPending={isBlocking}
-							/>
-						</Modal>
-					</ModalOverlay>
-				</DialogTrigger>
+				{/*
+				  Blocking is admin-only and has no self-service equivalent, so this
+				  page is the only place the Blocked status can be set or cleared.
+				  Unblock is a plain button: it is the recoverable direction, so it
+				  does not need a confirmation step the way blocking does.
+				*/}
+				{userData.blocked === true
+					? (
+							<Button
+								variant="solid"
+								color="gray"
+								size={3}
+								className="flex-1"
+								isDisabled={isUnblocking}
+								onPress={() => void handleUnblock()}
+							>
+								{isUnblocking ? "Unblocking..." : "Unblock"}
+							</Button>
+						)
+					: (
+							<DialogTrigger isOpen={blockDialogOpen} onOpenChange={setBlockDialogOpen}>
+								<Button
+									variant="solid"
+									color="red"
+									size={3}
+									className="flex-1"
+								>
+									Block
+								</Button>
+								<ModalOverlay isDismissable>
+									<Modal aria-label="Confirm block user" size={2}>
+										<BlockConfirmationDialog
+											userName={userData.name ?? "this user"}
+											onConfirm={handleBlock}
+											isPending={isBlocking}
+										/>
+									</Modal>
+								</ModalOverlay>
+							</DialogTrigger>
+						)}
 
 				{/* Message button */}
 				<Button

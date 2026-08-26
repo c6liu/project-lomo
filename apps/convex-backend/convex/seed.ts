@@ -107,6 +107,13 @@ export const run = internalMutation({
 				email: u.email,
 				pronouns: u.pronouns,
 				isVolunteer: VOLUNTEERS.some(v => v.handle === u.handle),
+				/*
+				 * Both drive the derived user status shown in admin
+				 * (Blocked > Volunteer > Resting > Member). Defaulted rather than left
+				 * undefined so a seeded row reads the same as one written by the app.
+				 */
+				canHelpNow: u.canHelpNow ?? false,
+				blocked: u.blocked ?? false,
 			});
 			userIdByHandle.set(u.handle, id);
 		}
@@ -136,6 +143,9 @@ export const run = internalMutation({
 				details: r.details,
 				status: r.status,
 				emailRelayToken: r.emailRelayToken,
+				// Seeded requests carry no payload, so this cannot be derived the way
+				// `helpRequests.create` does — it has to be written directly.
+				isUrgent: r.isUrgent ?? false,
 				...(r.neededByInDays !== undefined
 					? {
 							neededBy: endOfDayFromNow(r.neededByInDays),

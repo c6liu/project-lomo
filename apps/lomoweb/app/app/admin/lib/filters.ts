@@ -3,6 +3,9 @@
  * No React, no Convex client imports — just data in, data out.
  */
 
+import type { UserStatus } from "@/lib/user-status";
+import { deriveUserStatus } from "@/lib/user-status";
+
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
@@ -25,7 +28,13 @@ export type HelpRequestStatus
 
 export type TimeRange = "today" | "last7days" | "last30days" | "alltime";
 
-export type UserStatus = "Volunteer" | "Resting" | "Member";
+/*
+ * User status derivation lives in `@/lib/user-status` because the signed-in app
+ * needs it too (to hide Open Requests while resting), not just admin. Re-exported
+ * here so existing admin imports keep working through one path.
+ */
+export type { UserStatus };
+export { deriveUserStatus, USER_STATUS_BADGE_COLOR } from "@/lib/user-status";
 
 export interface AdminRequestRow {
 	_id: string;
@@ -52,6 +61,8 @@ export interface AdminUserRow {
 	email?: string | null;
 	isVolunteer?: boolean;
 	canHelpNow?: boolean;
+	/** Admin-set. Derives the "Blocked" status, which overrides the others. */
+	blocked?: boolean;
 }
 
 export interface UserFilters {
@@ -195,27 +206,6 @@ export function filterUsers(
 
 		return true;
 	});
-}
-
-// ---------------------------------------------------------------------------
-// deriveUserStatus
-// ---------------------------------------------------------------------------
-
-/**
- * Derives a display status for a user based on their volunteer flags.
- *
- * - "Volunteer" if isVolunteer === true AND canHelpNow === true
- * - "Resting" if isVolunteer === true AND canHelpNow is not true
- * - "Member" otherwise (not a volunteer)
- */
-export function deriveUserStatus(user: {
-	isVolunteer?: boolean;
-	canHelpNow?: boolean;
-}): UserStatus {
-	if (user.isVolunteer === true) {
-		return user.canHelpNow === true ? "Volunteer" : "Resting";
-	}
-	return "Member";
 }
 
 // ---------------------------------------------------------------------------

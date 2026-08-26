@@ -1,6 +1,7 @@
 import type { AdminRequestRow, AdminUserRow, HelpRequestStatus, RequestCategory, RequestFilters, UserFilters } from "../lib/filters";
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
+import { canOfferHelp } from "@/lib/user-status";
 import {
 
 	deriveUserStatus,
@@ -55,7 +56,11 @@ const arbAdminUserRow: fc.Arbitrary<AdminUserRow> = fc.record({
 	email: fc.option(fc.string({ minLength: 0, maxLength: 40 }), { nil: null }),
 	isVolunteer: fc.option(fc.boolean(), { nil: undefined }),
 	canHelpNow: fc.option(fc.boolean(), { nil: undefined }),
+	blocked: fc.option(fc.boolean(), { nil: undefined }),
 });
+
+/** Every value the three status inputs can take, including absent. */
+const arbOptionalBoolean = fc.constantFrom<boolean | undefined>(true, false, undefined);
 
 /** Generates a search string of ≥2 chars (the activation threshold) */
 const arbActiveSearch = fc.string({ minLength: 2, maxLength: 50 });
@@ -349,25 +354,38 @@ describe("property 7: user status derivation correctness", () => {
 		);
 	});
 
+	it("derives 'Blocked' whenever blocked=true, regardless of the other flags", () => {
+		fc.assert(
+			fc.property(
+				fc.record({
+					isVolunteer: arbOptionalBoolean,
+					canHelpNow: arbOptionalBoolean,
+					blocked: fc.constant(true as const),
+				}),
+				(user) => {
+					expect(deriveUserStatus(user)).toBe("Blocked");
+				},
+			),
+			{ numRuns: 100 },
+		);
+	});
+
 	it("covers all possible boolean/undefined combinations exhaustively", () => {
 		fc.assert(
 			fc.property(
 				fc.record({
-					isVolunteer: fc.oneof(
-						fc.constant(true),
-						fc.constant(false),
-						fc.constant(undefined),
-					) as fc.Arbitrary<boolean | undefined>,
-					canHelpNow: fc.oneof(
-						fc.constant(true),
-						fc.constant(false),
-						fc.constant(undefined),
-					) as fc.Arbitrary<boolean | undefined>,
+					isVolunteer: arbOptionalBoolean,
+					canHelpNow: arbOptionalBoolean,
+					blocked: arbOptionalBoolean,
 				}),
 				(user) => {
 					const status = deriveUserStatus(user);
 
-					if (user.isVolunteer === true && user.canHelpNow === true) {
+					// Blocked is checked first: it outranks every other combination.
+					if (user.blocked === true) {
+						expect(status).toBe("Blocked");
+					}
+					else if (user.isVolunteer === true && user.canHelpNow === true) {
 						expect(status).toBe("Volunteer");
 					}
 					else if (user.isVolunteer === true) {
@@ -378,7 +396,67 @@ describe("property 7: user status derivation correctness", () => {
 					}
 				},
 			),
-			{ numRuns: 200 },
+			{ numRuns: 300 },
+		);
+	});
+});
+
+// ---------------------------------------------------------------------------
+// Property 8: Open-request eligibility agrees with the derived status
+// ---------------------------------------------------------------------------
+
+describe("property 8: canOfferHelp agrees with the derived status", () => {
+	/**
+	 * `canOfferHelp` gates the Open Requests tab and the resting panel, while
+	 * `deriveUserStatus` drives the admin badge. They read the same fields, so
+	 * they must never disagree: only a "Volunteer" may browse open requests.
+	 */
+	it("returns true exactly when the derived status is 'Volunteer'", () => {
+		fc.assert(
+			fc.property(
+				fc.record({
+					isVolunteer: arbOptionalBoolean,
+					canHelpNow: arbOptionalBoolean,
+					blocked: arbOptionalBoolean,
+				}),
+				(user) => {
+					/*
+					 * `canOfferHelp` intentionally does not read `isVolunteer` — that
+					 * field has no UI and defaults to true for every real account, so
+					 * gating on it would lock out users who never chose anything. The
+					 * equivalence therefore holds for volunteers, and for the rest the
+					 * only requirement is that blocked and resting are always refused.
+					 */
+					if (user.isVolunteer === true) {
+						expect(canOfferHelp(user)).toBe(deriveUserStatus(user) === "Volunteer");
+					}
+					if (user.blocked === true || user.canHelpNow !== true) {
+						expect(canOfferHelp(user)).toBe(false);
+					}
+				},
+			),
+			{ numRuns: 300 },
+		);
+	});
+
+	it("refuses a null or undefined user", () => {
+		expect(canOfferHelp(null)).toBe(false);
+		expect(canOfferHelp(undefined)).toBe(false);
+	});
+
+	it("a blocked user is never allowed to offer help", () => {
+		fc.assert(
+			fc.property(
+				fc.record({
+					isVolunteer: arbOptionalBoolean,
+					canHelpNow: arbOptionalBoolean,
+					blocked: fc.constant(true as const),
+				}),
+				(user) => {
+					expect(canOfferHelp(user)).toBe(false);
+				},
+			),
+			{ numRuns: 100 },
 		);
 	});
 });

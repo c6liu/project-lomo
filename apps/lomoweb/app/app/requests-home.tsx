@@ -41,6 +41,7 @@ import {
 
 } from "@/lib/open-request-filters";
 import { REQUEST_CATEGORIES } from "@/lib/request-flow/categories";
+import { canOfferHelp } from "@/lib/user-status";
 import { StatusFilterChips } from "./status-filter-chips";
 
 const HelpAreaMap = dynamic(
@@ -621,6 +622,50 @@ function locationFiltersEqual(a: LocationFilter, b: LocationFilter): boolean {
 		&& a.radiusKm === b.radiusKm;
 }
 
+/**
+ * Shown instead of the open request list while the user is resting or blocked.
+ *
+ * The mode is remembered in `sessionStorage`, so someone can switch on resting
+ * in their profile and land back here with `offer_help` still selected. Without
+ * this the panel would render an empty list and read as a bug rather than as the
+ * break they asked for.
+ */
+function RestingPanel({ blocked }: { blocked: boolean }) {
+	const router = useRouter();
+
+	return (
+		<>
+			<div>
+				<Heading level={1} size={7}>
+					Open requests
+				</Heading>
+			</div>
+			<Card size={2} variant="surface" className="p-6">
+				<div className="flex flex-col items-center gap-4 text-center">
+					<Badge variant="soft" size={1} color={blocked ? "red" : "yellow"}>
+						{blocked ? "Blocked" : "Resting"}
+					</Badge>
+					<Text size={3} color="gray">
+						{blocked
+							? "Your account is currently restricted, so open requests aren't available. Contact a coordinator if you think this is a mistake."
+							: "You're taking a break, so open requests are hidden. Nothing is waiting on you."}
+					</Text>
+					{!blocked && (
+						<Button
+							variant="solid"
+							color="sage"
+							size={2}
+							onPress={() => router.push("/app/profile")}
+						>
+							Update helper preferences
+						</Button>
+					)}
+				</div>
+			</Card>
+		</>
+	);
+}
+
 function OfferingHelpPanel() {
 	const profileRow = useQuery(api.users.getMyProfileRow);
 	const [filters, setFilters] = useState<OpenRequestFilters>(EMPTY_OPEN_REQUEST_FILTERS);
@@ -643,9 +688,16 @@ function OfferingHelpPanel() {
 		setLocationReady(true);
 	}
 
+	/*
+	 * Treated as "may help" until the profile arrives so the list can start
+	 * loading. The backend withholds open requests for resting and blocked users
+	 * regardless of what is asked for here.
+	 */
+	const mayOfferHelp = profileRow === undefined || canOfferHelp(profileRow);
+
 	const openForOthers = useQuery(
 		api.helpRequests.listPendingFromOthers,
-		locationReady
+		locationReady && mayOfferHelp
 			? {
 					filterCenterLat: locationFilter.centerLat,
 					filterCenterLng: locationFilter.centerLng,
@@ -653,6 +705,11 @@ function OfferingHelpPanel() {
 				}
 			: "skip",
 	);
+
+	// Placed after every hook above so the hook order stays stable across renders.
+	if (profileRow !== undefined && !mayOfferHelp) {
+		return <RestingPanel blocked={profileRow?.blocked === true} />;
+	}
 
 	const filteredRequests = openForOthers === undefined
 		? undefined

@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useHomeMode } from "@/lib/home-mode-context";
+import { canOfferHelp } from "@/lib/user-status";
 
 // --- Tab Configuration ---
 
@@ -86,9 +87,20 @@ export function AppSidebar() {
 	const router = useRouter();
 	const { mode, setMode } = useHomeMode();
 	const isAdmin = useQuery(api.helpRequests.isAdmin, {});
+	const profileRow = useQuery(api.users.getMyProfileRow);
 	const isOnAdminRoute = pathname.startsWith("/app/admin");
 
-	const tabs = isOnAdminRoute ? ADMIN_TABS : APP_TABS;
+	/*
+	 * While resting (or blocked) the Open Requests tab is removed rather than
+	 * disabled: a break should not leave a permanent reminder of work in the nav.
+	 * Kept until the profile has loaded so the tab doesn't flicker in and out for
+	 * users who can help.
+	 */
+	const showOpenRequestsTab = profileRow === undefined || canOfferHelp(profileRow);
+
+	const tabs = isOnAdminRoute
+		? ADMIN_TABS
+		: APP_TABS.filter(tab => tab.id !== "open-requests" || showOpenRequestsTab);
 	const activeTabId = isOnAdminRoute
 		? getActiveAdminTabId(pathname)
 		: getActiveAppTabId(pathname, mode);

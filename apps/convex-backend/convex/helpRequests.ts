@@ -16,6 +16,7 @@ import { markNotificationsReadForRequest } from "./lib/notificationHelpers";
 import { purgeRequest } from "./lib/purgeRequest";
 import { extractGeocodableAddress, extractPayloadCoordinates } from "./lib/requestLocation";
 import { extractIsUrgent, extractNeededBy, extractNeedsDelivery } from "./lib/requestMetadata";
+import { assertNotBlocked, canOfferHelp, isBlocked } from "./lib/userStatus";
 import { redactHelpRequestForVolunteer } from "./redactHelpRequest";
 import { requestCategory, requestStatus } from "./schema";
 
@@ -295,6 +296,14 @@ export const listPendingFromOthers = query({
 			return [];
 		}
 		const user = await getCurrentUserRow(ctx);
+		/*
+		 * Resting and blocked users get nothing here. Hiding the Open Requests tab
+		 * in the UI is not enough on its own — this query is callable directly, and
+		 * "taking a break" has to mean the requests are genuinely withheld.
+		 */
+		if (!canOfferHelp(user)) {
+			return [];
+		}
 		const rows = await ctx.db
 			.query("helpRequests")
 			.withIndex("by_status", q => q.eq("status", "pending"))
@@ -421,7 +430,11 @@ export const homeDashboard = query({
 		const pendingMineTotal = owned.filter(r => r.status === "pending").length;
 
 		const userRow = user;
-		const canHelpNow = userRow.canHelpNow === true;
+		/*
+		 * Named `canHelpNow` for the client, but it answers "may this user browse
+		 * open requests", which is false while resting *and* while blocked.
+		 */
+		const canHelpNow = canOfferHelp(userRow);
 		const helpArea = helpAreaFromUser(userRow);
 
 		if (!canHelpNow) {
@@ -526,6 +539,7 @@ export const accept = mutation({
 	args: { requestId: v.id("helpRequests") },
 	handler: async (ctx, { requestId }) => {
 		const { user } = await getOrCreateCurrentUser(ctx);
+		assertNotBlocked(user);
 		const doc = await ctx.db.get("helpRequests", requestId);
 		if (!doc || doc.ownerUserId === user._id) {
 			throw new Error("Not found");
@@ -568,6 +582,16 @@ export const volunteerOfferHelp = mutation({
 	args: { requestId: v.id("helpRequests") },
 	handler: async (ctx, { requestId }) => {
 		const { user } = await getOrCreateCurrentUser(ctx);
+		assertNotBlocked(user);
+		/*
+		 * Resting users cannot offer help either. Without this a stale tab left
+		 * open before the break started could still submit an offer.
+		 */
+		if (!canOfferHelp(user)) {
+			throw new Error(
+				"You're currently resting. Turn \"I can offer support\" back on in your profile to help again.",
+			);
+		}
 		const doc = await ctx.db.get("helpRequests", requestId);
 		if (!doc || doc.ownerUserId === user._id) {
 			throw new Error("Not found");
@@ -827,8 +851,13 @@ export const listVolunteersForAdmin = query({
 			throw new Error("Forbidden");
 		}
 		const users = await ctx.db.query("users").take(MAX_ADMIN_ROWS);
+		/*
+		 * Blocked accounts are excluded: assigning one would notify a user who is
+		 * barred from accepting, leaving the request stuck. Resting volunteers stay
+		 * in the list — a coordinator can still reach out and ask.
+		 */
 		return users
-			.filter(u => u.isVolunteer !== false)
+			.filter(u => u.isVolunteer !== false && !isBlocked(u))
 			.sort((a, b) => (a.name ?? "").localeCompare(b.name ?? ""));
 	},
 });
@@ -850,6 +879,9 @@ export const assignVolunteer = mutation({
 		const volunteer = await ctx.db.get("users", volunteerUserId);
 		if (!volunteer) {
 			throw new Error("Volunteer not found.");
+		}
+		if (isBlocked(volunteer)) {
+			throw new Error("This account is blocked and cannot be assigned.");
 		}
 		if (doc.status !== "pending") {
 			throw new Error("Only pending requests can be assigned.");
@@ -949,6 +981,7 @@ export const create = mutation({
 	},
 	handler: async (ctx, args) => {
 		const { user } = await getOrCreateCurrentUser(ctx);
+		assertNotBlocked(user);
 
 		const coords = extractPayloadCoordinates(args.category, args.payload);
 		const requestId = await ctx.db.insert("helpRequests", {

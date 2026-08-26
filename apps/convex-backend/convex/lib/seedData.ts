@@ -29,6 +29,20 @@ export interface SeedUser {
 	firstName: string;
 	email: string;
 	pronouns: string;
+	/**
+	 * The "I can offer support" toggle from helper preferences. Omitted or false
+	 * puts a volunteer in the **Resting** status.
+	 *
+	 * Only meaningful for users in `VOLUNTEERS` — a requester is a **Member**
+	 * regardless, because status derivation checks `isVolunteer` first.
+	 */
+	canHelpNow?: boolean;
+	/**
+	 * Admin-set restriction. Derives the **Blocked** status, which overrides
+	 * Volunteer/Resting/Member. There is no self-service path to this field, so
+	 * seeding it is the only way to see that status without using the admin UI.
+	 */
+	blocked?: boolean;
 }
 
 export interface SeedRequest {
@@ -41,6 +55,15 @@ export interface SeedRequest {
 	assignedHelperHandle?: string;
 	helperHandle?: string;
 	emailRelayToken?: string;
+	/**
+	 * Whether the request carries the Urgent flag.
+	 *
+	 * Set explicitly here rather than inferred: in the app `isUrgent` is
+	 * denormalized out of the request payload by `extractIsUrgent`, but seeded
+	 * requests have no payload, so without this field every fixture would be
+	 * non-urgent and the Urgent badge would never appear.
+	 */
+	isUrgent?: boolean;
 	/**
 	 * Days from seed time until the deadline; the seeder resolves it to an
 	 * end-of-day timestamp. Relative rather than absolute so the fixtures stay
@@ -84,16 +107,28 @@ export interface SeedAdminSettings {
 }
 
 // Volunteer profiles. `handle` doubles as a stable id so re-runs are clean.
+//
+// Between these and REQUESTERS every derived user status is represented, so the
+// admin user list has something in each filter bucket:
+//   Volunteer → vol-amara, vol-devin   (isVolunteer + canHelpNow)
+//   Resting   → vol-rosa               (isVolunteer, canHelpNow off)
+//   Member    → req-jordan, req-sam    (not volunteers)
+//   Blocked   → req-morgan             (blocked overrides everything else)
 export const VOLUNTEERS: SeedUser[] = [
-	{ handle: "vol-amara", name: "Amara Okafor", firstName: "Amara", email: "amara@example.test", pronouns: "she/her" },
-	{ handle: "vol-devin", name: "Devin Park", firstName: "Devin", email: "devin@example.test", pronouns: "they/them" },
-	{ handle: "vol-rosa", name: "Rosa Mendez", firstName: "Rosa", email: "rosa@example.test", pronouns: "she/her" },
+	{ handle: "vol-amara", name: "Amara Okafor", firstName: "Amara", email: "amara@example.test", pronouns: "she/her", canHelpNow: true },
+	{ handle: "vol-devin", name: "Devin Park", firstName: "Devin", email: "devin@example.test", pronouns: "they/them", canHelpNow: true },
+	// Taking a break: still matched to a seeded in-progress request, which is the
+	// realistic case — resting stops new offers, it does not abandon commitments.
+	{ handle: "vol-rosa", name: "Rosa Mendez", firstName: "Rosa", email: "rosa@example.test", pronouns: "she/her", canHelpNow: false },
 ];
 
 // Requester accounts (not volunteers) so requests have realistic owners.
 export const REQUESTERS: SeedUser[] = [
 	{ handle: "req-jordan", name: "Jordan Lee", firstName: "Jordan", email: "jordan@example.test", pronouns: "he/him" },
 	{ handle: "req-sam", name: "Sam Carter", firstName: "Sam", email: "sam@example.test", pronouns: "they/them" },
+	// Blocked account. Owns no seeded requests: blocking cancels a user's active
+	// requests, so a blocked owner with live requests would be an impossible state.
+	{ handle: "req-morgan", name: "Morgan Ellis", firstName: "Morgan", email: "morgan@example.test", pronouns: "she/her", blocked: true },
 ];
 
 // Requests spread across categories and statuses so every part of the
@@ -112,6 +147,8 @@ export const REQUESTS: SeedRequest[] = [
 		status: "pending",
 		// Unmatched and due tomorrow — the case the deadline alert exists to catch.
 		neededByInDays: 1,
+		// Urgent + unmatched: the combination that should surface most loudly.
+		isUrgent: true,
 	},
 	{
 		ownerHandle: "req-sam",
@@ -123,6 +160,8 @@ export const REQUESTS: SeedRequest[] = [
 		// Flexible window, comfortably far out — should not alert.
 		neededByInDays: 6,
 		neededByFlexible: true,
+		// Explicitly not urgent, so the pending list shows both kinds side by side.
+		isUrgent: false,
 	},
 	{
 		ownerHandle: "req-jordan",
@@ -159,6 +198,9 @@ export const REQUESTS: SeedRequest[] = [
 		emailRelayToken: "seedrelaytoken01",
 		neededByInDays: 3,
 		neededByFlexible: true,
+		// Urgent and already in progress — proves the badge is about the request,
+		// not about whether anyone has picked it up.
+		isUrgent: true,
 	},
 	{
 		ownerHandle: "req-sam",
@@ -185,6 +227,7 @@ export const REQUESTS: SeedRequest[] = [
 		// A past deadline is seedable and expresses the same "needs attention now"
 		// intent honestly.
 		neededByInDays: -2,
+		isUrgent: true,
 	},
 	{
 		ownerHandle: "req-sam",

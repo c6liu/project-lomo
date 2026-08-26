@@ -12,6 +12,7 @@ import {
 	messageEmailSubject,
 } from "./lib/messageEmail";
 import { extractNewReplyText } from "./lib/stripEmailReply";
+import { assertNotBlocked } from "./lib/userStatus";
 
 const MAX_BODY_LEN = 8000;
 const MAX_MESSAGES_PER_HOUR = 30;
@@ -125,6 +126,7 @@ export const post = mutation({
 	},
 	handler: async (ctx, { requestId, body }) => {
 		const { user } = await getOrCreateCurrentUser(ctx);
+		assertNotBlocked(user);
 		const trimmed = body.trim();
 		if (trimmed.length === 0) {
 			throw new Error("Message cannot be empty.");

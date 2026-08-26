@@ -42,6 +42,11 @@ export function HelperPreferencesFields({ values, onChange }: HelperPreferencesF
 
 	return (
 		<div className="flex flex-col gap-8">
+			{/*
+			  The stored field stays `canHelpNow` (positive), but the copy spells out
+			  the other side of the switch, because turning it off is a real state —
+			  "Resting" — with a visible consequence, not just an empty preference.
+			*/}
 			<div className="flex flex-col gap-2">
 				<Switch
 					isSelected={values.canHelpNow}
@@ -49,6 +54,11 @@ export function HelperPreferencesFields({ values, onChange }: HelperPreferencesF
 				>
 					I can offer support
 				</Switch>
+				<Text size={2} color="gray">
+					{values.canHelpNow
+						? "Turn this off to take a break. You'll show as Resting and Open Requests will be hidden until you switch it back on."
+						: "You're Resting. Open Requests stays hidden and nobody will be matched to you. Turn this on whenever you're ready to help again."}
+				</Text>
 			</div>
 
 			<div className="flex flex-col gap-4">

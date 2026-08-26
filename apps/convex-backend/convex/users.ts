@@ -192,3 +192,24 @@ export const adminBlockUser = mutation({
 		}
 	},
 });
+
+/**
+ * Lifts a block. Admin-only, like blocking — there is no self-service path to
+ * either direction.
+ *
+ * Only the `blocked` flag is cleared. The user's own settings (`isVolunteer`,
+ * `canHelpNow`) were never touched by blocking, so their derived status returns
+ * to whatever they had chosen. Requests cancelled when they were blocked stay
+ * cancelled; reviving them would resurrect matches the other party has already
+ * moved on from.
+ */
+export const adminUnblockUser = mutation({
+	args: { userId: v.id("users") },
+	handler: async (ctx, { userId }) => {
+		await requireAdmin(ctx);
+		const user = await ctx.db.get("users", userId);
+		if (!user)
+			throw new Error("User not found.");
+		await ctx.db.patch("users", userId, { blocked: false });
+	},
+});

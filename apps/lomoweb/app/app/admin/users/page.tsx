@@ -13,7 +13,7 @@ import { useState } from "react";
 import {
 	deriveUserStatus,
 	filterUsers,
-
+	USER_STATUS_BADGE_COLOR,
 } from "../lib/filters";
 
 /* -------------------------------------------------------------------------- */
@@ -27,6 +27,7 @@ const STATUS_OPTIONS: { value: UserStatus | null; label: string }[] = [
 	{ value: "Volunteer", label: "Volunteer" },
 	{ value: "Resting", label: "Resting" },
 	{ value: "Member", label: "Member" },
+	{ value: "Blocked", label: "Blocked" },
 ];
 
 const TIME_OPTIONS: { value: TimeRangeOption; label: string }[] = [
@@ -35,12 +36,6 @@ const TIME_OPTIONS: { value: TimeRangeOption; label: string }[] = [
 	{ value: "last30days", label: "Last 30 Days" },
 	{ value: "last90days", label: "Last 90 Days" },
 ];
-
-const USER_STATUS_BADGE_COLOR: Record<UserStatus, "sage" | "yellow" | "gray"> = {
-	Volunteer: "sage",
-	Resting: "yellow",
-	Member: "gray",
-};
 
 /* -------------------------------------------------------------------------- */
 /*                              UserListSkeleton                                */
@@ -195,6 +190,7 @@ interface UserCardUser {
 	email?: string | null;
 	isVolunteer?: boolean;
 	canHelpNow?: boolean;
+	blocked?: boolean;
 }
 
 function UserCard({ user }: { user: UserCardUser }) {

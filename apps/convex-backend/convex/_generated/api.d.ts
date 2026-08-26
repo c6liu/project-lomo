@@ -27,6 +27,7 @@ import type * as lib_resendEmail from "../lib/resendEmail.js";
 import type * as lib_seedData from "../lib/seedData.js";
 import type * as lib_siteEnv from "../lib/siteEnv.js";
 import type * as lib_stripEmailReply from "../lib/stripEmailReply.js";
+import type * as lib_userStatus from "../lib/userStatus.js";
 import type * as lib_verifyResendWebhook from "../lib/verifyResendWebhook.js";
 import type * as notifications from "../notifications.js";
 import type * as redactHelpRequest from "../redactHelpRequest.js";
@@ -62,6 +63,7 @@ declare const fullApi: ApiFromModules<{
   "lib/seedData": typeof lib_seedData;
   "lib/siteEnv": typeof lib_siteEnv;
   "lib/stripEmailReply": typeof lib_stripEmailReply;
+  "lib/userStatus": typeof lib_userStatus;
   "lib/verifyResendWebhook": typeof lib_verifyResendWebhook;
   notifications: typeof notifications;
   redactHelpRequest: typeof redactHelpRequest;
