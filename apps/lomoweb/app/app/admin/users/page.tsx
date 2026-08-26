@@ -5,6 +5,7 @@ import { api } from "@repo/convex-backend/convex/_generated/api";
 import { Badge } from "@repo/ui/badge";
 import { Card } from "@repo/ui/card";
 import { Heading } from "@repo/ui/heading";
+import { Icon } from "@repo/ui/icons";
 import { Text } from "@repo/ui/text";
 import { useQuery } from "convex/react";
 import Link from "next/link";
@@ -105,17 +106,10 @@ function SearchBar({
 				className="h-11 w-full rounded-full border border-gray-6 bg-white px-4 py-2 text-sm text-gray-12 placeholder:text-gray-9 focus:border-gray-8 focus:outline-none focus:ring-2 focus:ring-gray-8 focus:ring-offset-2"
 			/>
 			{/* Search icon */}
-			<svg
-				className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-9"
-				aria-hidden="true"
-				fill="none"
-				stroke="currentColor"
-				strokeWidth={2}
-				viewBox="0 0 24 24"
-			>
-				<circle cx="11" cy="11" r="8" />
-				<path d="m21 21-4.35-4.35" />
-			</svg>
+			<Icon
+				name="search"
+				className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-gray-9"
+			/>
 		</div>
 	);
 }
@@ -152,7 +146,7 @@ function FilterPills({
 							type="button"
 							aria-pressed={isActive}
 							onClick={() => onStatusChange(opt.value)}
-							className={`min-h-[44px] min-w-[44px] rounded-full border px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2 ${
+							className={`min-h-11 min-w-11 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2 ${
 								isActive
 									? "border-gray-12 bg-gray-12 text-white"
 									: "border-gray-6 bg-white text-gray-12 hover:bg-gray-3"
@@ -175,7 +169,7 @@ function FilterPills({
 							type="button"
 							aria-pressed={isActive}
 							onClick={() => onTimeChange(opt.value)}
-							className={`min-h-[44px] min-w-[44px] rounded-full border px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2 ${
+							className={`min-h-11 min-w-11 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2 ${
 								isActive
 									? "border-gray-12 bg-gray-12 text-white"
 									: "border-gray-6 bg-white text-gray-12 hover:bg-gray-3"

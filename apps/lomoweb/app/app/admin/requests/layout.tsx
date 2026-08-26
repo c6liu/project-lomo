@@ -119,7 +119,7 @@ function RequestListPanel() {
 									<li key={request._id}>
 										<Link
 											href={`/app/admin/requests/${request._id}`}
-											className={`block rounded-lg border p-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-8 focus-visible:ring-offset-2 ${
+											className={`block rounded-2 border p-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-8 focus-visible:ring-offset-2 ${
 												isSelected
 													? "border-terracotta-8 bg-terracotta-3"
 													: "border-gray-6 bg-white hover:bg-gray-2"

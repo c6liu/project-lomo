@@ -308,7 +308,7 @@ function MessageHistorySection({
 								className={`flex ${isOwner ? "justify-start" : "justify-end"}`}
 							>
 								<div
-									className={`max-w-[80%] rounded-2xl px-3 py-2 ${
+									className={`max-w-[80%] rounded-4 px-3 py-2 ${
 										isOwner
 											? "bg-terracotta-2 text-terracotta-9"
 											: "bg-sage-3 text-terracotta-9"
@@ -389,7 +389,7 @@ function ActivitySection({
 						}}
 						placeholder="Add a coordinator note…"
 						aria-label="Add a coordinator note"
-						className="min-h-[44px] flex-1 rounded-full border-2 border-terracotta-6 bg-gray-1 px-4 py-2 text-sm text-terracotta-9 placeholder:text-terracotta-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+						className="min-h-11 flex-1 rounded-full border-2 border-terracotta-6 bg-gray-1 px-4 py-2 text-sm text-terracotta-9 placeholder:text-terracotta-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 					/>
 					<Button
 						variant="solid"
@@ -417,7 +417,7 @@ function ActivitySection({
 										key={note._id}
 										className="border-b border-terracotta-3 pb-2 last:border-b-0 last:pb-0"
 									>
-										<div className="rounded-lg bg-terracotta-2 px-3 py-2">
+										<div className="rounded-2 bg-terracotta-2 px-3 py-2">
 											<p className="text-sm text-terracotta-9">{note.body}</p>
 											<p className="mt-1 text-xs text-terracotta-7">
 												{formatMessageTimestamp(note._creationTime)}
@@ -770,7 +770,7 @@ export default function RequestDetailPage() {
 								<button
 									type="button"
 									onClick={() => router.push("/app/admin/requests")}
-									className="min-h-[44px] rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+									className="min-h-11 rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 								>
 									← Back to requests
 								</button>
@@ -814,7 +814,7 @@ function RequestDetailContent({ request }: { request: RequestDetailData }) {
 			<button
 				type="button"
 				onClick={() => router.back()}
-				className="min-h-[44px] self-start rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+				className="min-h-11 self-start rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 				aria-label="Go back to requests list"
 			>
 				← Back

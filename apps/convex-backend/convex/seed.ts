@@ -17,14 +17,31 @@ import { ADMIN_SETTINGS, MESSAGES, NOTIFICATIONS, REQUESTERS, REQUESTS, SEED_PRE
  *
  * Seed data lives in `convex/lib/seedData.ts`.
  *
- * Note: Convex's `_creationTime` is system-managed and cannot be backdated. The
- * "attention needed" list depends on `_creationTime` being older than the threshold.
- * For immediate testing, lower the threshold to 1 day via the admin settings UI,
- * then wait ~24 hours — or just test the other dashboard sections first.
+ * Note: Convex's `_creationTime` is system-managed and cannot be backdated, so the
+ * age-based "attention needed" list cannot be seeded — to see that one, lower the
+ * threshold to 1 day in admin settings and wait ~24 hours.
+ *
+ * Deadlines are different. `neededBy` is an ordinary field, so `neededByInDays`
+ * on a seed request can put a deadline in the past and exercise deadline
+ * scenarios immediately. See `SeedRequest.neededByInDays`.
  */
 
 function isSeeded(value: string | undefined): boolean {
 	return value !== undefined && value.startsWith(SEED_PREFIX);
+}
+
+/**
+ * A deadline `days` from now, at the end of that local day.
+ *
+ * Negative values produce an already-overdue deadline. Unlike `_creationTime`,
+ * `neededBy` is an ordinary field, so deadline scenarios — including overdue
+ * ones — can be seeded directly and demoed straight away.
+ */
+function endOfDayFromNow(days: number): number {
+	const date = new Date();
+	date.setDate(date.getDate() + days);
+	date.setHours(23, 59, 59, 999);
+	return date.getTime();
 }
 
 async function clearSeeded(ctx: MutationCtx) {
@@ -119,6 +136,12 @@ export const run = internalMutation({
 				details: r.details,
 				status: r.status,
 				emailRelayToken: r.emailRelayToken,
+				...(r.neededByInDays !== undefined
+					? {
+							neededBy: endOfDayFromNow(r.neededByInDays),
+							neededByFlexible: r.neededByFlexible ?? false,
+						}
+					: {}),
 			});
 			requestIdByTitle.set(r.title, id);
 		}

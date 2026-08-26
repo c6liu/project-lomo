@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@repo/ui/icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type ConnectionStatus = "connected" | "disconnected" | "reconnected";
@@ -77,7 +78,7 @@ export function ConnectivityIndicator() {
 				aria-atomic="true"
 				className="mx-auto w-full max-w-4xl px-4 pt-3 sm:px-6"
 			>
-				<div className="flex items-center justify-between gap-3 rounded-lg border border-yellow-8 bg-yellow-3 px-4 py-3 text-sm text-gray-12">
+				<div className="flex items-center justify-between gap-3 rounded-2 border border-yellow-8 bg-yellow-3 px-4 py-3 text-sm text-gray-12">
 					<span>
 						<strong className="font-semibold">Connection lost.</strong>
 						{" "}
@@ -86,10 +87,10 @@ export function ConnectivityIndicator() {
 					<button
 						type="button"
 						onClick={handleDismiss}
-						className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded text-gray-12 hover:bg-yellow-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-8"
+						className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded text-gray-12 hover:bg-yellow-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-8"
 						aria-label="Dismiss connectivity warning"
 					>
-						<CloseIcon />
+						<Icon name="close" className="size-3.5" />
 					</button>
 				</div>
 			</div>
@@ -104,7 +105,7 @@ export function ConnectivityIndicator() {
 			aria-atomic="true"
 			className="mx-auto w-full max-w-4xl px-4 pt-3 sm:px-6"
 		>
-			<div className="flex items-center justify-between gap-3 rounded-lg border border-sage-7 bg-sage-3 px-4 py-3 text-sm text-gray-12">
+			<div className="flex items-center justify-between gap-3 rounded-2 border border-sage-7 bg-sage-3 px-4 py-3 text-sm text-gray-12">
 				<span>
 					<strong className="font-semibold">Connected.</strong>
 					{" "}
@@ -113,31 +114,12 @@ export function ConnectivityIndicator() {
 				<button
 					type="button"
 					onClick={handleDismiss}
-					className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded text-gray-12 hover:bg-sage-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-8"
+					className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded text-gray-12 hover:bg-sage-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-8"
 					aria-label="Dismiss connectivity status"
 				>
-					<CloseIcon />
+					<Icon name="close" className="size-3.5" />
 				</button>
 			</div>
 		</div>
-	);
-}
-
-function CloseIcon() {
-	return (
-		<svg
-			width={14}
-			height={14}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2.5}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<line x1="18" y1="6" x2="6" y2="18" />
-			<line x1="6" y1="6" x2="18" y2="18" />
-		</svg>
 	);
 }

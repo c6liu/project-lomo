@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@repo/ui/icons";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 // --- Types ---
@@ -27,27 +28,6 @@ export interface FilterPillGroupProps {
 	filters: FilterPillConfig[];
 	/** Called when "Clear all" is tapped — resets all filters */
 	onClearAll: () => void;
-}
-
-// --- Icons ---
-
-function ChevronDownIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			width={14}
-			height={14}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<polyline points="6 9 12 15 18 9" />
-		</svg>
-	);
 }
 
 // --- FilterPillGroup Component ---
@@ -79,7 +59,7 @@ export function FilterPillGroup({ filters, onClearAll }: FilterPillGroupProps) {
 					className={[
 						"rounded-full px-3 py-1.5",
 						"text-xs font-medium text-gray-11 underline",
-						"min-h-[44px] min-w-[44px]",
+						"min-h-11 min-w-11",
 						"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
 						"hover:text-gray-12",
 					].join(" ")}
@@ -246,7 +226,7 @@ function FilterPill({ config }: FilterPillInternalProps) {
 				className={[
 					"flex items-center gap-1 rounded-full border px-3 py-1.5",
 					"text-xs font-medium",
-					"min-h-[44px] min-w-[44px]",
+					"min-h-11 min-w-11",
 					"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
 					"transition-colors",
 					isActive
@@ -255,7 +235,10 @@ function FilterPill({ config }: FilterPillInternalProps) {
 				].join(" ")}
 			>
 				<span>{displayLabel}</span>
-				<ChevronDownIcon className={isActive ? "text-white" : "text-gray-11"} />
+				<Icon
+					name="chevronDown"
+					className={`size-3.5 ${isActive ? "text-white" : "text-gray-11"}`}
+				/>
 			</button>
 
 			{isOpen && (
@@ -271,7 +254,7 @@ function FilterPill({ config }: FilterPillInternalProps) {
 					tabIndex={0}
 					className={[
 						"absolute left-0 z-50 mt-1",
-						"min-w-[160px] rounded-xl border border-gray-6 bg-white",
+						"min-w-[160px] rounded-3 border border-gray-6 bg-white",
 						"py-1 shadow-md",
 						"outline-none focus-visible:ring-2 focus-visible:ring-gray-8",
 					].join(" ")}
@@ -294,7 +277,7 @@ function FilterPill({ config }: FilterPillInternalProps) {
 								}}
 								className={[
 									"cursor-pointer px-3 py-2 text-sm",
-									"min-h-[44px] flex items-center",
+									"min-h-11 flex items-center",
 									"outline-none",
 									focusedIndex === index ? "bg-gray-3" : "",
 									isSelected ? "font-medium text-gray-12" : "text-gray-11",

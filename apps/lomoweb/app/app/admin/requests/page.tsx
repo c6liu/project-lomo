@@ -206,7 +206,7 @@ function RequestCard({ request }: { request: RequestCardData }) {
 
 						{/* Latest coordinator note */}
 						{latestNote && (
-							<div className="mt-1.5 rounded-lg border border-gray-4 bg-gray-2 px-2 py-1">
+							<div className="mt-1.5 rounded-2 border border-gray-4 bg-gray-2 px-2 py-1">
 								<Text size={1} color="gray">
 									Note:
 									{" "}

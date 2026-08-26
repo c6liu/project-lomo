@@ -5,6 +5,7 @@ import { api } from "@repo/convex-backend/convex/_generated/api";
 import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
 import { Heading } from "@repo/ui/heading";
+import { Icon } from "@repo/ui/icons";
 import { DialogTrigger, Modal, ModalOverlay } from "@repo/ui/modal";
 import { Text } from "@repo/ui/text";
 import { useMutation, useQuery } from "convex/react";
@@ -190,7 +191,7 @@ export default function AssignHelperPage() {
 								<button
 									type="button"
 									onClick={() => router.push("/app/admin/requests")}
-									className="min-h-[44px] rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+									className="min-h-11 rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 								>
 									← Back to requests
 								</button>
@@ -202,7 +203,7 @@ export default function AssignHelperPage() {
 								<button
 									type="button"
 									onClick={() => router.push(`/app/admin/requests/${requestId}`)}
-									className="min-h-[44px] self-start rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+									className="min-h-11 self-start rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 									aria-label="Go back to request detail"
 								>
 									← Back
@@ -233,17 +234,10 @@ export default function AssignHelperPage() {
 										maxLength={100}
 										className="h-11 w-full rounded-full border-2 border-terracotta-6 bg-white px-4 py-2 text-sm text-terracotta-9 placeholder:text-terracotta-7 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 									/>
-									<svg
-										className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-terracotta-7"
-										aria-hidden="true"
-										fill="none"
-										stroke="currentColor"
-										strokeWidth={2}
-										viewBox="0 0 24 24"
-									>
-										<circle cx="11" cy="11" r="8" />
-										<path d="m21 21-4.35-4.35" />
-									</svg>
+									<Icon
+										name="search"
+										className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-terracotta-7"
+									/>
 								</div>
 
 								{/* Volunteer list */}

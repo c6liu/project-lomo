@@ -3,6 +3,7 @@
 import { api } from "@repo/convex-backend/convex/_generated/api";
 import { Button } from "@repo/ui/button";
 import { Heading } from "@repo/ui/heading";
+import { Icon } from "@repo/ui/icons";
 import { Modal, ModalOverlay } from "@repo/ui/modal";
 import { Text } from "@repo/ui/text";
 import { useMutation, useQuery } from "convex/react";
@@ -76,11 +77,11 @@ export function AdminNotificationsPanel({ isOpen, onClose }: AdminNotificationsP
 								variant="ghost"
 								color="gray"
 								size={1}
-								className="min-h-[44px] min-w-[44px]"
+								className="min-h-11 min-w-11"
 								aria-label="Close notifications"
 								onPress={onClose}
 							>
-								<CloseIcon />
+								<Icon name="close" className="size-4.5" />
 							</Button>
 						</div>
 					</div>
@@ -150,25 +151,6 @@ export function AdminNotificationsPanel({ isOpen, onClose }: AdminNotificationsP
 				</div>
 			</Modal>
 		</ModalOverlay>
-	);
-}
-
-function CloseIcon() {
-	return (
-		<svg
-			width={18}
-			height={18}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<line x1="18" y1="6" x2="6" y2="18" />
-			<line x1="6" y1="6" x2="18" y2="18" />
-		</svg>
 	);
 }
 

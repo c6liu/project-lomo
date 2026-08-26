@@ -14,9 +14,10 @@ import { tw } from "@repo/ui/utils";
  * | `#FFFFFF` input   | `white`         | exact             |
  * | `#000000` text    | `black`         | exact             |
  *
- * The shell sets `data-radius="full"`, which resolves `--radius-2` to 10px and
- * `max(--radius-3, --radius-full)` to a pill. That reproduces Figma's 10px
- * inputs and 90px buttons through tokens instead of hardcoded radii.
+ * The root layout sets `data-radius="full"` for the whole document, which
+ * resolves `--radius-2` to 10px and `max(--radius-3, --radius-full)` to a pill.
+ * That reproduces Figma's 10px inputs and 90px buttons through tokens instead
+ * of hardcoded radii.
  */
 
 /** Ink outline used on every onboarding control (Figma stroke `#4A352F`). */
@@ -49,7 +50,7 @@ export const fieldGroup = tw(
 /** Progress segment — 16px pill with a 4px ink outline. */
 export const progressSegment = tw(
 	"h-4 min-h-4 flex-1 rounded-full border-4 border-terracotta-9",
-	"shadow-[0px_4px_4px_rgba(0,0,0,0.25)]",
+	"shadow-brand-strong",
 );
 
 /** Progress segment, completed. */
@@ -61,7 +62,7 @@ export const progressSegmentEmpty = tw("bg-terracotta-9");
 /** Shared geometry for both footer actions — 52px tall, full-width pill. */
 const stepButton = tw(
 	"h-13 min-w-0 flex-1 text-xl text-black",
-	"shadow-[0px_4px_4px_rgba(0,0,0,0.15)]",
+	"shadow-brand",
 );
 
 /** Footer "Back" action — warm fill. */

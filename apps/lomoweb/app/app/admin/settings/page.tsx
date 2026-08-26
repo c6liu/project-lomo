@@ -194,7 +194,7 @@ function SettingsForm({ initialSettings }: { initialSettings: SettingsData }) {
 						aria-describedby={thresholdError ? "threshold-error" : undefined}
 						aria-invalid={!!thresholdError}
 						className={`
-							w-full rounded-lg border px-3 py-2 text-sm text-gray-12
+							w-full rounded-2 border px-3 py-2 text-sm text-gray-12
 							focus:outline-none focus:ring-2 focus:ring-gray-8 focus:ring-offset-2
 							${thresholdError ? "border-red-8" : "border-gray-6"}
 						`}

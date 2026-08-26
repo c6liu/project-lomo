@@ -179,7 +179,7 @@ function EditRequestForm({ request }: { request: RequestData }) {
 							aria-describedby={titleError ? "edit-title-error" : undefined}
 							aria-invalid={!!titleError}
 							className={`
-								w-full rounded-lg border px-3 py-2 text-sm text-terracotta-9
+								w-full rounded-2 border px-3 py-2 text-sm text-terracotta-9
 								focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2
 								${titleError ? "border-red-8" : "border-terracotta-6"}
 							`}
@@ -216,7 +216,7 @@ function EditRequestForm({ request }: { request: RequestData }) {
 							aria-describedby={summaryError ? "edit-summary-error" : undefined}
 							aria-invalid={!!summaryError}
 							className={`
-								w-full rounded-lg border px-3 py-2 text-sm text-terracotta-9
+								w-full rounded-2 border px-3 py-2 text-sm text-terracotta-9
 								focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2
 								${summaryError ? "border-red-8" : "border-terracotta-6"}
 							`}
@@ -246,7 +246,7 @@ function EditRequestForm({ request }: { request: RequestData }) {
 							value={details}
 							onChange={e => setDetails(e.target.value)}
 							rows={5}
-							className="w-full rounded-lg border border-terracotta-6 px-3 py-2 text-sm text-terracotta-9 focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2"
+							className="w-full rounded-2 border border-terracotta-6 px-3 py-2 text-sm text-terracotta-9 focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2"
 						/>
 					</div>
 
@@ -262,7 +262,7 @@ function EditRequestForm({ request }: { request: RequestData }) {
 							id="edit-category"
 							value={category}
 							onChange={e => setCategory(e.target.value as CategoryValue)}
-							className="w-full rounded-lg border border-terracotta-6 bg-white px-3 py-2 text-sm text-terracotta-9 focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2"
+							className="w-full rounded-2 border border-terracotta-6 bg-white px-3 py-2 text-sm text-terracotta-9 focus:outline-none focus:ring-2 focus:ring-terracotta-9 focus:ring-offset-2"
 						>
 							{CATEGORY_OPTIONS.map(opt => (
 								<option key={opt.value} value={opt.value}>
@@ -294,7 +294,7 @@ function EditRequestForm({ request }: { request: RequestData }) {
 					size={3}
 					onPress={() => void handleSave()}
 					isDisabled={isSaving}
-					className="min-h-[44px] min-w-[44px]"
+					className="min-h-11 min-w-11"
 				>
 					{isSaving ? "Saving…" : "Save"}
 				</Button>
@@ -304,7 +304,7 @@ function EditRequestForm({ request }: { request: RequestData }) {
 					size={3}
 					onPress={handleCancel}
 					isDisabled={isSaving}
-					className="min-h-[44px] min-w-[44px]"
+					className="min-h-11 min-w-11"
 				>
 					Cancel
 				</Button>
@@ -355,7 +355,7 @@ export default function EditRequestPage() {
 			<button
 				type="button"
 				onClick={() => router.push(`/app/admin/requests/${requestId}`)}
-				className="mb-6 min-h-[44px] self-start rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+				className="mb-6 min-h-11 self-start rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 				aria-label="Go back to request detail"
 			>
 				← Back
@@ -376,7 +376,7 @@ export default function EditRequestPage() {
 								<button
 									type="button"
 									onClick={() => router.push("/app/admin/requests")}
-									className="min-h-[44px] rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+									className="min-h-11 rounded-full border-2 border-terracotta-6 px-4 py-2 text-sm font-medium text-terracotta-9 transition-colors hover:bg-terracotta-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 								>
 									← Back to requests
 								</button>

@@ -41,8 +41,17 @@ export interface SeedRequest {
 	assignedHelperHandle?: string;
 	helperHandle?: string;
 	emailRelayToken?: string;
-	/** When true, the seeder backdates _creationTime to trigger the attention threshold. */
-	isOld?: boolean;
+	/**
+	 * Days from seed time until the deadline; the seeder resolves it to an
+	 * end-of-day timestamp. Relative rather than absolute so the fixtures stay
+	 * meaningful whenever the seed is run.
+	 *
+	 * Negative values are already overdue. Omit entirely for "no fixed date",
+	 * which is a valid answer and must stay represented in the fixtures.
+	 */
+	neededByInDays?: number;
+	/** Whether the deadline came from a window ("this week") rather than an exact date. */
+	neededByFlexible?: boolean;
 }
 
 export interface SeedNotification {
@@ -89,6 +98,10 @@ export const REQUESTERS: SeedUser[] = [
 
 // Requests spread across categories and statuses so every part of the
 // admin dashboard renders (pending → assignable, plus later states).
+//
+// Deadlines deliberately cover every case the deadline alert has to distinguish:
+// overdue-and-unmatched, due-imminently-and-unmatched, comfortably far off,
+// flexible windows, and no deadline at all.
 export const REQUESTS: SeedRequest[] = [
 	{
 		ownerHandle: "req-jordan",
@@ -97,6 +110,8 @@ export const REQUESTS: SeedRequest[] = [
 		summary: "Need help picking up a grocery order",
 		details: "Recovering from surgery and can't carry bags up the stairs. A pickup from the corner store would be a huge help.",
 		status: "pending",
+		// Unmatched and due tomorrow — the case the deadline alert exists to catch.
+		neededByInDays: 1,
 	},
 	{
 		ownerHandle: "req-sam",
@@ -105,6 +120,9 @@ export const REQUESTS: SeedRequest[] = [
 		summary: "Folding table for a weekend event",
 		details: "Hosting a small community potluck and need one folding table for Saturday afternoon.",
 		status: "pending",
+		// Flexible window, comfortably far out — should not alert.
+		neededByInDays: 6,
+		neededByFlexible: true,
 	},
 	{
 		ownerHandle: "req-jordan",
@@ -114,6 +132,9 @@ export const REQUESTS: SeedRequest[] = [
 		details: "Would appreciate someone to walk with me to a 10am clinic appointment on Tuesday.",
 		status: "assigned",
 		assignedHelperHandle: "vol-amara",
+		// Imminent but already matched — proves the alert checks for a helper, not
+		// just the date.
+		neededByInDays: 2,
 	},
 	{
 		ownerHandle: "req-sam",
@@ -124,6 +145,7 @@ export const REQUESTS: SeedRequest[] = [
 		status: "awaiting_requester_acceptance",
 		assignedHelperHandle: "vol-devin",
 		helperHandle: "vol-devin",
+		neededByInDays: 9,
 	},
 	{
 		ownerHandle: "req-jordan",
@@ -135,6 +157,8 @@ export const REQUESTS: SeedRequest[] = [
 		assignedHelperHandle: "vol-rosa",
 		helperHandle: "vol-rosa",
 		emailRelayToken: "seedrelaytoken01",
+		neededByInDays: 3,
+		neededByFlexible: true,
 	},
 	{
 		ownerHandle: "req-sam",
@@ -153,8 +177,14 @@ export const REQUESTS: SeedRequest[] = [
 		summary: "Help preparing meals for the week",
 		details: "Dealing with a wrist injury and could use help chopping vegetables and prepping meals for the week.",
 		status: "pending",
-		// Seeder will backdate _creationTime by 10 days so it appears in the attention list.
-		isOld: true,
+		// Already overdue and still unmatched — the most urgent combination.
+		//
+		// This request previously carried an `isOld` flag intended to backdate
+		// `_creationTime` and trigger the age-based attention list, but Convex owns
+		// `_creationTime` and the seeder never read the flag, so it did nothing.
+		// A past deadline is seedable and expresses the same "needs attention now"
+		// intent honestly.
+		neededByInDays: -2,
 	},
 	{
 		ownerHandle: "req-sam",
@@ -163,6 +193,7 @@ export const REQUESTS: SeedRequest[] = [
 		summary: "Looking for conversation practice",
 		details: "Would love to practice everyday English with someone over coffee once a week.",
 		status: "cancelled",
+		// No deadline at all: an ongoing, open-ended ask. Must never be alertable.
 	},
 ];
 

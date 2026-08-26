@@ -1,48 +1,7 @@
 "use client";
 
+import { Icon } from "@repo/ui/icons";
 import { useCallback, useId, useRef } from "react";
-
-// --- Icon Components ---
-
-function SearchIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			width={20}
-			height={20}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<circle cx="11" cy="11" r="8" />
-			<line x1="21" y1="21" x2="16.65" y2="16.65" />
-		</svg>
-	);
-}
-
-function ClearIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			width={16}
-			height={16}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<line x1="18" y1="6" x2="6" y2="18" />
-			<line x1="6" y1="6" x2="18" y2="18" />
-		</svg>
-	);
-}
 
 // --- SearchBar Component ---
 
@@ -103,7 +62,7 @@ export function SearchBar({
 			<div className="relative flex items-center">
 				{/* Magnifying glass icon */}
 				<div className="pointer-events-none absolute left-3 flex items-center">
-					<SearchIcon className="text-gray-9" />
+					<Icon name="search" className="size-5 text-gray-9" />
 				</div>
 
 				<input
@@ -121,7 +80,7 @@ export function SearchBar({
 						"py-2.5 pl-10 pr-10",
 						"text-sm text-gray-12 placeholder:text-gray-9",
 						"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
-						"min-h-[44px]",
+						"min-h-11",
 					].join(" ")}
 				/>
 
@@ -139,7 +98,7 @@ export function SearchBar({
 							"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
 						].join(" ")}
 					>
-						<ClearIcon />
+						<Icon name="close" className="size-4" />
 					</button>
 				)}
 			</div>

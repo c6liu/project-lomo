@@ -14,6 +14,7 @@ import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
 import { Checkbox, CheckboxGroup } from "@repo/ui/checkbox";
 import { Heading } from "@repo/ui/heading";
+import { Icon } from "@repo/ui/icons";
 import { Modal, ModalOverlay } from "@repo/ui/modal";
 import { Text } from "@repo/ui/text";
 import { useQuery } from "convex/react";
@@ -56,66 +57,15 @@ type HomeDashboard = NonNullable<
 	FunctionReturnType<typeof api.helpRequests.homeDashboard>
 >;
 
-function FilterIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			width={14}
-			height={14}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden
-		>
-			<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-		</svg>
-	);
-}
-
-function ExclamationIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			width={14}
-			height={14}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden
-		>
-			<circle cx="12" cy="12" r="10" />
-			<line x1="12" y1="8" x2="12" y2="12" />
-			<line x1="12" y1="16" x2="12.01" y2="16" />
-		</svg>
-	);
-}
-
+/** Disclosure chevron that rotates a quarter turn once its section is open. */
 function ChevronIcon({ expanded, className }: { expanded: boolean; className?: string }) {
 	return (
-		<svg
-			className={className}
-			width={16}
-			height={16}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden
-			style={{
-				transform: expanded ? "rotate(90deg)" : "rotate(0deg)",
-				transition: "transform 150ms ease",
-			}}
-		>
-			<polyline points="9 18 15 12 9 6" />
-		</svg>
+		<Icon
+			name="chevronRight"
+			className={`size-4 transition-transform duration-150 ${
+				expanded ? "rotate-90" : ""
+			} ${className ?? ""}`}
+		/>
 	);
 }
 
@@ -547,7 +497,7 @@ function RequestingHelpPanel(props: {
 					className="gap-1.5 !rounded-full"
 					onPress={() => setStatusOpen(true)}
 				>
-					<FilterIcon />
+					<Icon name="filter" className="size-3.5" />
 					Status:
 					{" "}
 					{statusFilterLabel}
@@ -644,26 +594,6 @@ function RequestingHelpPanel(props: {
 				</ul>
 			)}
 		</>
-	);
-}
-
-function MapPinIcon({ className }: { className?: string }) {
-	return (
-		<svg
-			className={className}
-			width={14}
-			height={14}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth={2}
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden
-		>
-			<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-			<circle cx="12" cy="10" r="3" />
-		</svg>
 	);
 }
 
@@ -772,7 +702,7 @@ function OfferingHelpPanel() {
 					className="gap-1.5 !rounded-full"
 					onPress={() => setCategoriesOpen(true)}
 				>
-					<FilterIcon />
+					<Icon name="filter" className="size-3.5" />
 					Categories (
 					{selectedCategoryCount}
 					)
@@ -786,7 +716,7 @@ function OfferingHelpPanel() {
 					className="gap-1.5 !rounded-full"
 					onPress={openLocationModal}
 				>
-					<MapPinIcon />
+					<Icon name="mapPin" className="size-3.5" />
 					Area ·
 					{" "}
 					{locationFilter.radiusKm}
@@ -806,7 +736,7 @@ function OfferingHelpPanel() {
 							urgentOnly: !current.urgentOnly,
 						}))}
 				>
-					<ExclamationIcon />
+					<Icon name="alert" className="size-3.5" />
 					Urgent
 				</Button>
 				{filtersActive && (

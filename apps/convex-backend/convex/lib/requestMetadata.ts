@@ -43,3 +43,28 @@ export function extractIsUrgent(payloadJson: string | undefined): boolean {
 	const draft = parseDraft(payloadJson);
 	return draft?.urgency === "urgent";
 }
+
+/**
+ * The deadline the requester gave, lifted out of the payload so it can be
+ * indexed.
+ *
+ * Returns an empty object rather than nulls when there is no usable deadline, so
+ * the caller can spread it and leave both columns unset — "no fixed date" is a
+ * legitimate answer, distinct from a deadline of zero.
+ */
+export function extractNeededBy(
+	payloadJson: string | undefined,
+): { neededBy?: number; neededByFlexible?: boolean } {
+	const draft = parseDraft(payloadJson);
+	const neededBy = nestedRecord(draft?.neededBy);
+	if (!neededBy) {
+		return {};
+	}
+
+	const at = neededBy.at;
+	if (typeof at !== "number" || !Number.isFinite(at)) {
+		return {};
+	}
+
+	return { neededBy: at, neededByFlexible: neededBy.flexible === true };
+}

@@ -102,7 +102,7 @@ function MiniRequestCard({ request }: { request: MiniRequest }) {
 		<li>
 			<Link
 				href={`/app/admin/requests/${request._id}`}
-				className="block rounded-xl border-2 border-terracotta-6 bg-white p-3 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
+				className="block rounded-3 border-2 border-terracotta-6 bg-white p-3 transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-9 focus-visible:ring-offset-2"
 			>
 				<div className="flex items-center justify-between gap-2">
 					<p className="min-w-0 truncate text-sm font-medium text-terracotta-9">

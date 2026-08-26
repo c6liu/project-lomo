@@ -18,12 +18,7 @@ export function OnboardingFlowShell({ children }: { children: ReactNode }) {
 		// `w-full flex-1` is load-bearing: the parent `/app` layout is a flex *row*,
 		// so without it this panel shrinks to its content width and hugs the left
 		// edge on wide screens instead of centring.
-		// `data-radius="full"` gives the pill buttons and 10px inputs the Figma
-		// onboarding frames use — see ./styles.ts.
-		<div
-			className="flex w-full flex-1 flex-col bg-surface-warm px-4 py-6 sm:px-6 sm:py-10"
-			data-radius="full"
-		>
+		<div className="flex w-full flex-1 flex-col bg-surface-warm px-4 py-6 sm:px-6 sm:py-10">
 			{/*
 			  `m-auto` centres the panel on both axes and, unlike `justify-center`,
 			  lets it overflow downward instead of clipping when a step is tall.

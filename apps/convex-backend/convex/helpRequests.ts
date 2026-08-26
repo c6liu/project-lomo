@@ -15,7 +15,7 @@ import { haversineDistanceKm } from "./lib/geo";
 import { markNotificationsReadForRequest } from "./lib/notificationHelpers";
 import { purgeRequest } from "./lib/purgeRequest";
 import { extractGeocodableAddress, extractPayloadCoordinates } from "./lib/requestLocation";
-import { extractIsUrgent, extractNeedsDelivery } from "./lib/requestMetadata";
+import { extractIsUrgent, extractNeededBy, extractNeedsDelivery } from "./lib/requestMetadata";
 import { redactHelpRequestForVolunteer } from "./redactHelpRequest";
 import { requestCategory, requestStatus } from "./schema";
 
@@ -961,6 +961,7 @@ export const create = mutation({
 			payload: args.payload,
 			needsDelivery: extractNeedsDelivery(args.category, args.payload),
 			isUrgent: extractIsUrgent(args.payload),
+			...extractNeededBy(args.payload),
 			...(coords != null
 				? { locationLat: coords.lat, locationLng: coords.lng }
 				: {}),
