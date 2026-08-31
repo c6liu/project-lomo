@@ -6,6 +6,17 @@ AI agent instructions for the LoMo project. This is the single source of truth â
 
 LoMo is a calm, consent-based community help platform (CivicTechWR Season 7). Bun monorepo orchestrated by Turborepo. Early stage â€” most features are not yet built.
 
+## Working Contract / Staleness Rule
+
+These agent files are a working contract for the current repo, not a historical archive. If a rule in this file conflicts with the implementation, the current app code, tests, or package README wins.
+
+When you find drift between the guidance and reality:
+- prefer the code that is actually shipped,
+- update the agent guidance in the same change,
+- avoid preserving rules that only describe an earlier prototype or a design direction that was never adopted.
+
+This keeps agent instructions useful without turning them into a lock on old decisions.
+
 ## Monorepo Layout
 
 ```

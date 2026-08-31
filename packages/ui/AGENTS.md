@@ -2,12 +2,20 @@
 
 ## Architecture
 
-This is the LoMo design system package. It provides themed, accessible UI components built on:
+This is the LoMo design system package. It is the default source of design tokens, shared primitives, and product UI patterns for the app. The current codebase should be the ground truth; if a rule here conflicts with actual usage in `apps/lomoweb`, prefer the app and tests unless the design-system change is deliberate and clearly validated.
+
+The package is built on:
 
 - **Tailwind CSS v4** — utility-first styling via CSS-first configuration
 - **Tailwind Variants (tv)** — variant composition with tailwind-merge built in
 - **React Aria Components (RAC)** — accessible primitives from Adobe
 - **Custom Radix color palettes** — 12-step scales generated via the Radix color tool
+
+## Living Guidance Rule
+
+This file should describe current practice, not the initial design phase of the project. Historical notes should only remain if they still matter to shipping or reviewing the product today.
+
+If a convention is outdated, noisy, or not enforced anywhere, remove it or rewrite it to focus on the actual contract the package follows today.
 
 ## Directory Structure
 
@@ -25,16 +33,23 @@ src/
 
 ## Key Conventions
 
-1. **`"use client"` directive:** Any `.component.tsx` file that imports from `react-aria-components` or uses React hooks must have `"use client";` as its first line. Variant files, context definitions (`createContext`), barrel `index.ts` files, and utilities must not have it. This keeps Badge, Card, and other pure components usable as React Server Components.
-2. **Component structure:** Each component has `index.ts`, `name.variants.ts`, `name.component.tsx`
-3. **Props pattern:** Component props are typed via `VariantProps<typeof xVariants>` intersected with RAC/HTML base props. Do not manually define type aliases for variant props — the `tv()` call is the single source of truth.
-4. **State selectors:** Use RAC `data-hovered`, `data-pressed`, `data-focus-visible`, `data-disabled` (Tailwind v4 shorthand for `data-[attr]`)
-5. **Color scale:** 12 steps per color — 1-2 backgrounds, 3-5 interactive, 6-8 borders, 9-10 solid, 11 text, 12 high-contrast text
-6. **No accent indirection:** Colors are passed directly, no `--accent-*` CSS variables or ThemeProvider
-7. **Focus rings:** Color-matched step 8, 2px width, 2px offset
-8. **className merging:** Consumer `className` always wins via tv()'s built-in tailwind-merge
-9. **`tw()` for IntelliSense:** Wrap Tailwind class strings in `tw()` when they appear outside of `tv()` or `cn()` calls (e.g., in variant fragment files). It's an identity function that enables Tailwind IntelliSense via `classRegex`. See `.vscode/README.md` for details.
-10. **No inline styles for layout:** Components must not accept props that apply inline styles for layout (e.g., `columns`, `gridTemplateColumns`). Layout is the consumer's responsibility via `className` and Tailwind utilities. Inline styles are a last resort, reserved for truly dynamic values that cannot be expressed as utility classes.
+1. **`"use client"` directive:** Any `.component.tsx` file that imports from `react-aria-components` or uses React hooks must have `"use client";` as its first line. Variant files, context definitions (`createContext`), barrel `index.ts` files, and utilities must not have it. This keeps pure components usable as React Server Components.
+2. **Component structure:** Prefer a small, consistent pattern: `index.ts`, `name.variants.ts`, and `name.component.tsx` for each component.
+3. **Props pattern:** Type component props by intersecting RAC/HTML base props with `VariantProps<typeof xVariants>`. Do not manually define type aliases for variant props when the `tv()` call already defines the contract.
+4. **State selectors:** Use RAC state selectors such as `data-hovered`, `data-pressed`, `data-focus-visible`, and `data-disabled` (Tailwind v4 shorthand for `data-[attr]`).
+5. **Color scale:** Keep colors in 12-step scales: 1-2 backgrounds, 3-5 interactive, 6-8 borders, 9-10 solid, 11 text, 12 high-contrast text.
+6. **No accent indirection:** Pass colors directly; avoid `--accent-*` indirection or a global ThemeProvider unless there is a concrete product need.
+7. **Focus rings:** Match the component color step 8, with a 2px width and 2px offset.
+8. **className merging:** Consumer `className` should win via `tv()`'s built-in `tailwind-merge` behavior.
+9. **`tw()` for IntelliSense:** Wrap Tailwind class strings in `tw()` when they appear outside `tv()` or `cn()` calls (for example, variant fragments). This keeps editor suggestions working without creating a second source of truth.
+10. **Layout is consumer-owned:** Keep layout decisions in `className` and Tailwind utilities instead of adding prop-based inline layout styles (`columns`, `gridTemplateColumns`, etc.). Inline styles remain a last resort for values that cannot be expressed in classes.
+
+## Best-Practice Addendum
+
+- Prefer small, reusable primitives over a growing list of one-off wrappers.
+- Prefer centralized tokens and variant fragments in `@repo/ui` over app-local class duplication.
+- Prefer app tests and actual UI behavior over historical wording in older docs.
+- When new work needs a design-system change, validate it in the app or a lightweight local example before expanding the API.
 
 ## Radius System
 
@@ -199,20 +214,10 @@ If more than one version shows up under
 
 ## Component Review Workflow
 
-This repo no longer includes a separate documentation app. When you add a new
-component to `@repo/ui`, keep the component itself in `packages/ui/src/<name>/`
-and validate it in the active app or in a lightweight design review artifact.
+Validate new components in the app or a lightweight local example before shipping.
 
-1. **Create the component** in `packages/ui/src/<name>/` following the
-   existing structure (`index.ts`, `<name>.variants.ts`, `<name>.component.tsx`).
-
-2. **Export from the barrel** — add the component and its props type to
-   `packages/ui/src/index.ts`.
-
-3. **Review it in context** — use the main app or a temporary local example to
-   verify the component's behavior, accessibility, and visual polish before
-   shipping.
-
-4. **Document the contract** — for any component with multiple variants or
-   behaviors, describe the intended API, sizing, and accessibility notes in the
-   relevant app or design notes instead of relying on a standalone showcase app.
+1. **Create the component** in `packages/ui/src/<name>/` following the existing structure (`index.ts`, `<name>.variants.ts`, `<name>.component.tsx`).
+2. **Export from the barrel** — add the component and its props type to `packages/ui/src/index.ts`.
+3. **Review it in context** — use the active app or a temporary example to verify behavior, accessibility, and visual polish.
+4. **Document the contract** — for any component with multiple variants or behaviors, describe the intended API, sizing, and accessibility notes in the relevant app or design notes instead of relying on a standalone showcase app.
+5. **If the product needs a new pattern, make it reusable** — avoid app-local copies of shared UI logic when the same structure belongs in the design system.
