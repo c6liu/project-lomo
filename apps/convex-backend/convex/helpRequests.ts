@@ -14,7 +14,7 @@ import { haversineDistanceKm } from "./lib/geo";
 import { markNotificationsReadForRequest } from "./lib/notificationHelpers";
 import { purgeRequest } from "./lib/purgeRequest";
 import { extractGeocodableAddress, extractPayloadCoordinates } from "./lib/requestLocation";
-import { extractIsUrgent, extractNeedsDelivery } from "./lib/requestMetadata";
+import { extractIsUrgent, extractNeedsDelivery, resolveIsUrgent } from "./lib/requestMetadata";
 import { redactHelpRequestForVolunteer } from "./redactHelpRequest";
 import { requestCategory, requestStatus } from "./schema";
 
@@ -141,7 +141,10 @@ export const listMine = query({
 					.order("desc")
 					.take(MAX_LIST_ROWS);
 
-		return rows;
+		return rows.map(r => ({
+			...r,
+			isUrgent: resolveIsUrgent(r),
+		}));
 	},
 });
 
@@ -207,7 +210,7 @@ function enrichOpenRequestForHelper(
 	distanceArea: HelpArea | null = profileHelpArea,
 ) {
 	const needsDelivery = r.needsDelivery ?? extractNeedsDelivery(r.category, r.payload);
-	const isUrgent = r.isUrgent ?? extractIsUrgent(r.payload);
+	const isUrgent = resolveIsUrgent(r);
 	let distanceKm: number | null = null;
 	if (
 		distanceArea != null
@@ -331,7 +334,16 @@ export const listPendingFromOthers = query({
 
 		const open = rows
 			.filter(r => user == null || r.ownerUserId !== user._id)
-			.filter(r => filterArea == null || matchesLocationFilter(r, filterArea))
+			.filter((r) => {
+				if (filterArea == null) {
+					return true;
+				}
+				// Urgent requests stay visible community-wide even outside the area filter.
+				if (resolveIsUrgent(r)) {
+					return true;
+				}
+				return matchesLocationFilter(r, filterArea);
+			})
 			.map(r => enrichOpenRequestForHelper(
 				r,
 				profileHelpArea,
@@ -384,7 +396,7 @@ export const homeDashboard = query({
 				status: r.status,
 				category: r.category,
 				role: "requester" as const,
-				isUrgent: r.isUrgent ?? extractIsUrgent(r.payload),
+				isUrgent: resolveIsUrgent(r),
 			}));
 
 		const activeHelping = asHelper
@@ -397,7 +409,7 @@ export const homeDashboard = query({
 				status: r.status,
 				category: r.category,
 				role: "helper" as const,
-				isUrgent: r.isUrgent ?? extractIsUrgent(r.payload),
+				isUrgent: resolveIsUrgent(r),
 			}));
 
 		const active = [...activeOwned, ...activeHelping];
@@ -414,7 +426,7 @@ export const homeDashboard = query({
 				summary: r.summary,
 				status: r.status,
 				category: r.category,
-				isUrgent: r.isUrgent ?? extractIsUrgent(r.payload),
+				isUrgent: resolveIsUrgent(r),
 			}));
 
 		const pendingMineTotal = owned.filter(r => r.status === "pending").length;
@@ -478,7 +490,10 @@ export const getAsHelper = query({
 			return null;
 		}
 		if (doc.status === "pending") {
-			return redactHelpRequestForVolunteer(doc);
+			return {
+				...redactHelpRequestForVolunteer(doc),
+				isUrgent: resolveIsUrgent(doc),
+			};
 		}
 
 		const isAssignedVolunteer
@@ -931,7 +946,10 @@ export const create = mutation({
 			status: "pending",
 			payload: args.payload,
 			needsDelivery: extractNeedsDelivery(args.category, args.payload),
-			isUrgent: extractIsUrgent(args.payload),
+			isUrgent: resolveIsUrgent({
+				payload: args.payload,
+				details: args.details,
+			}),
 			...(coords != null
 				? { locationLat: coords.lat, locationLng: coords.lng }
 				: {}),
