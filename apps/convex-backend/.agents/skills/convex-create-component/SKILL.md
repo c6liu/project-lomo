@@ -92,11 +92,11 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  notifications: defineTable({
-    userId: v.string(),
-    message: v.string(),
-    read: v.boolean(),
-  }).index("by_user_read", ["userId", "read"]),
+	notifications: defineTable({
+		userId: v.string(),
+		message: v.string(),
+		read: v.boolean(),
+	}).index("by_user_read", ["userId", "read"]),
 });
 ```
 
@@ -106,36 +106,35 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server.js";
 
 export const send = mutation({
-  args: { userId: v.string(), message: v.string() },
-  returns: v.id("notifications"),
-  handler: async (ctx, args) => {
-    return await ctx.db.insert("notifications", {
-      userId: args.userId,
-      message: args.message,
-      read: false,
-    });
-  },
+	args: { userId: v.string(), message: v.string() },
+	returns: v.id("notifications"),
+	handler: async (ctx, args) => {
+		return await ctx.db.insert("notifications", {
+			userId: args.userId,
+			message: args.message,
+			read: false,
+		});
+	},
 });
 
 export const listUnread = query({
-  args: { userId: v.string() },
-  returns: v.array(
-    v.object({
-      _id: v.id("notifications"),
-      _creationTime: v.number(),
-      userId: v.string(),
-      message: v.string(),
-      read: v.boolean(),
-    }),
-  ),
-  handler: async (ctx, args) => {
-    return await ctx.db
-      .query("notifications")
-      .withIndex("by_user_read", (q) =>
-        q.eq("userId", args.userId).eq("read", false),
-      )
-      .collect();
-  },
+	args: { userId: v.string() },
+	returns: v.array(
+		v.object({
+			_id: v.id("notifications"),
+			_creationTime: v.number(),
+			userId: v.string(),
+			message: v.string(),
+			read: v.boolean(),
+		}),
+	),
+	handler: async (ctx, args) => {
+		return await ctx.db
+			.query("notifications")
+			.withIndex("by_user_read", q =>
+				q.eq("userId", args.userId).eq("read", false),)
+			.collect();
+	},
 });
 ```
 
@@ -151,37 +150,39 @@ export default app;
 ```
 
 ```ts
+import { getAuthUserId } from "@convex-dev/auth/server";
 // convex/notifications.ts  (app-side wrapper)
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
 import { components } from "./_generated/api";
-import { getAuthUserId } from "@convex-dev/auth/server";
+import { mutation, query } from "./_generated/server";
 
 export const sendNotification = mutation({
-  args: { message: v.string() },
-  returns: v.null(),
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+	args: { message: v.string() },
+	returns: v.null(),
+	handler: async (ctx, args) => {
+		const userId = await getAuthUserId(ctx);
+		if (!userId)
+			throw new Error("Not authenticated");
 
-    await ctx.runMutation(components.notifications.lib.send, {
-      userId,
-      message: args.message,
-    });
-    return null;
-  },
+		await ctx.runMutation(components.notifications.lib.send, {
+			userId,
+			message: args.message,
+		});
+		return null;
+	},
 });
 
 export const myUnread = query({
-  args: {},
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+	args: {},
+	handler: async (ctx) => {
+		const userId = await getAuthUserId(ctx);
+		if (!userId)
+			throw new Error("Not authenticated");
 
-    return await ctx.runQuery(components.notifications.lib.listUnread, {
-      userId,
-    });
-  },
+		return await ctx.runQuery(components.notifications.lib.listUnread, {
+			userId,
+		});
+	},
 });
 ```
 
@@ -227,12 +228,13 @@ const apiKey = process.env.OPENAI_API_KEY;
 ```ts
 // Good: the app resolves auth and env, then passes explicit values
 const userId = await getAuthUserId(ctx);
-if (!userId) throw new Error("Not authenticated");
+if (!userId)
+	throw new Error("Not authenticated");
 
 await ctx.runAction(components.translator.translate, {
-  userId,
-  apiKey: process.env.OPENAI_API_KEY,
-  text: args.text,
+	userId,
+	apiKey: process.env.OPENAI_API_KEY,
+	text: args.text,
 });
 ```
 
@@ -246,18 +248,19 @@ export const send = components.notifications.send;
 ```ts
 // Good: re-export through an app mutation or query
 export const sendNotification = mutation({
-  args: { message: v.string() },
-  returns: v.null(),
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
+	args: { message: v.string() },
+	returns: v.null(),
+	handler: async (ctx, args) => {
+		const userId = await getAuthUserId(ctx);
+		if (!userId)
+			throw new Error("Not authenticated");
 
-    await ctx.runMutation(components.notifications.lib.send, {
-      userId,
-      message: args.message,
-    });
-    return null;
-  },
+		await ctx.runMutation(components.notifications.lib.send, {
+			userId,
+			message: args.message,
+		});
+		return null;
+	},
 });
 ```
 

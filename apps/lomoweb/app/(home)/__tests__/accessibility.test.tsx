@@ -112,13 +112,19 @@ describe("accessibility Audit for Homepage", () => {
 		expect(h1s).toHaveLength(1);
 	});
 
-	it("all images have non-empty alt attributes", () => {
+	it("decorative images are hidden from assistive tech and informative images have alt text", () => {
 		const { container } = render(<AssembledHomePage />);
 		const images = [...container.querySelectorAll("img")];
 		expect(images.length).toBeGreaterThan(0);
 		for (const img of images) {
 			expect(img).toHaveAttribute("alt");
-			expect(img.getAttribute("alt")?.trim()).not.toBe("");
+			const isDecorative = img.getAttribute("aria-hidden") === "true";
+			if (isDecorative) {
+				expect(img.getAttribute("alt")?.trim() ?? "").toBe("");
+			}
+			else {
+				expect(img.getAttribute("alt")?.trim()).not.toBe("");
+			}
 		}
 	});
 

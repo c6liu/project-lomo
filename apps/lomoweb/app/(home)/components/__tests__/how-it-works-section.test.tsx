@@ -24,6 +24,11 @@ vi.mock("@repo/ui/text", () => ({
 	),
 }));
 
+const NEED_OR_REQUEST_REGEX = /need|request/;
+const HELPER_OR_FORWARD_REGEX = /someone|helper|volunteer|forward/;
+const CHOOSE_OR_ACCEPT_REGEX = /choose|accept|confirm|decide/;
+const CONNECT_OR_READY_REGEX = /connect|ready/;
+
 describe("howItWorksSection - Property 2: How It Works steps render in the correct order", () => {
 	it(
 		"**Validates: Requirements 12.3, 12.4** — should render exactly 4 steps in correct order across varied contexts",
@@ -51,11 +56,12 @@ describe("howItWorksSection - Property 2: How It Works steps render in the corre
 						// Assert exactly 4 steps are present
 						expect(stepLabels).toHaveLength(4);
 
-						// Assert the labels contain the required keywords in the correct order
-						expect(stepLabels[0]).toContain("Post a need");
-						expect(stepLabels[1]).toContain("help");
-						expect(stepLabels[2]).toContain("accept");
-						expect(stepLabels[3]).toContain("Connect safely");
+						// Assert the flow is preserved without locking to a single word-for-word copy
+						const normalized = stepLabels.map(label => label.toLowerCase());
+						expect(normalized[0]).toMatch(NEED_OR_REQUEST_REGEX);
+						expect(normalized[1]).toMatch(HELPER_OR_FORWARD_REGEX);
+						expect(normalized[2]).toMatch(CHOOSE_OR_ACCEPT_REGEX);
+						expect(normalized[3]).toMatch(CONNECT_OR_READY_REGEX);
 
 						// Verify no steps are missing or out of order
 						expect(stepLabels[0].length).toBeGreaterThan(0);

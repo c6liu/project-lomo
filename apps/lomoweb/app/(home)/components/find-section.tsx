@@ -3,7 +3,7 @@ import type { CategoryItem } from "./category-badge-selector";
 import { Badge } from "@repo/ui/badge";
 
 import { CategorySection } from "./category-section";
-import { infoBadge } from "./styles";
+import { infoBadge, sectionLabel } from "./styles";
 
 const categories: CategoryItem[] = [
 	{ key: "grocery", label: "Grocery Sharing", color: "yellow" },
@@ -30,6 +30,7 @@ export function FindSection() {
 			body="Ask for fresh food, emergency funds, or companion supports. You control what you request and how much you share."
 			badges={(
 				<div className="flex flex-wrap gap-2 pt-2">
+					<span className={`${sectionLabel} sr-only`}>Mutual Aid In Action</span>
 					<Badge variant="soft" color="sage" size={2} className={infoBadge}>
 						🛡️ Private & Secure
 					</Badge>

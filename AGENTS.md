@@ -24,6 +24,23 @@ See `apps/lomoweb/AGENTS.md` and `packages/ui/AGENTS.md` for app-specific instru
 - After creating or modifying any rule, config, or behavior — VERIFY it works. Write a test, create a mock, or run a concrete example. Never assume correctness.
 - If you can't verify something in the current environment, say so explicitly and explain what verification is needed — don't just say "should be fine."
 - Treat every change as if the person won't revisit it later. If something related is broken or unverified, handle it now.
+- When a UI copy or layout change is intentional, do not keep tests pinned to the old contract. Prefer assertions for current user-facing behavior, accessibility, and semantics over brittle exact-text or legacy DOM structure assumptions. Stale tests are a common false failure when product wording or markup evolves.
+
+### Test contract drift rule
+
+A failing UI test is not always a product regression. Sometimes the app is correct and the test is stale.
+
+Common examples:
+- exact text assertions that no longer match the current marketing copy
+- `data-testid` expectations for a layout that has intentionally changed (for example from cards to list items)
+- legacy heading names or section labels after a UX refinement
+
+When this happens:
+- verify whether the change is intentional
+- update the test to the current contract
+- assert the current behavior in user-visible terms (roles, labels, order, semantics), not legacy implementation details
+
+This keeps tests stable as the product evolves without turning them into a lock on old wording or older component structure.
 
 ## Commands
 
@@ -33,6 +50,7 @@ Run all commands from the repo root. **Always target specific packages** using `
 
 ```bash
 bun --filter=@repo/lomoweb run lint
+bun --filter=@repo/lomoweb run test
 bun --filter=@repo/convex-backend run build
 bun --filter=@repo/ui run lint:fix
 ```

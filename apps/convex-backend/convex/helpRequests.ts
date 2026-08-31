@@ -14,7 +14,7 @@ import { haversineDistanceKm } from "./lib/geo";
 import { markNotificationsReadForRequest } from "./lib/notificationHelpers";
 import { purgeRequest } from "./lib/purgeRequest";
 import { extractGeocodableAddress, extractPayloadCoordinates } from "./lib/requestLocation";
-import { extractIsUrgent, extractNeedsDelivery, resolveIsUrgent } from "./lib/requestMetadata";
+import { extractNeedsDelivery, resolveIsUrgent } from "./lib/requestMetadata";
 import { redactHelpRequestForVolunteer } from "./redactHelpRequest";
 import { requestCategory, requestStatus } from "./schema";
 

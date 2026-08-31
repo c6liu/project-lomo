@@ -1,7 +1,7 @@
 # Todo: Request flow refactor
 
 ## Phase 1: Foundation
-- [ ] Task 1: Lock the request-flow model contract and define the refactor acceptance criteria
+- [x] Task 1: Lock the request-flow model contract and define the refactor acceptance criteria
   - Acceptance: The shared request domain model remains the canonical source of category and draft defaults.
   - Verify: Review the domain contracts in `apps/lomoweb/lib/request-flow` and confirm no route UI owns the source of truth.
   - Files: `apps/lomoweb/lib/request-flow/types.ts`, `apps/lomoweb/lib/request-flow/categories.ts`

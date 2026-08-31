@@ -12,6 +12,8 @@ export function GetConfig(options) {
 			...options,
 			ignores: [
 				"**/convex/_generated/**",
+				"**/.agents/**",
+				".agents/**",
 				...(options?.ignores ?? []),
 			],
 			stylistic: {

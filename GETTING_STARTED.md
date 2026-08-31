@@ -104,6 +104,7 @@ project-lomo/
 | `bun run build` | Build all packages |
 | `bun run lint` | Lint all packages |
 | `bun run lint:fix` | Auto-fix lint issues |
+| `bun --filter=@repo/lomoweb run test` | Run the Next.js app test suite |
 
 ## Convex Backend
 
