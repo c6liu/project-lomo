@@ -15,6 +15,7 @@ import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { useServerRowSync } from "@/lib/use-server-row-sync";
 import {
 	HelperPreferencesFields,
 	helperPreferencesFromProfile,
@@ -105,7 +106,13 @@ function HelperPreferencesForm({ profileRow }: { profileRow: ProfileRow }) {
 		helperPreferencesFromProfile(profileRow),
 	);
 	const [savingPreferences, setSavingPreferences] = useState(false);
+	const [preferencesSaved, setPreferencesSaved] = useState(false);
 	const updateHelperPreferences = useMutation(api.users.updateHelperPreferences);
+	const shouldSync = useServerRowSync(profileRow);
+
+	if (shouldSync) {
+		setPreferenceValues(helperPreferencesFromProfile(profileRow));
+	}
 
 	async function handleSavePreferences() {
 		setSavingPreferences(true);
@@ -117,6 +124,7 @@ function HelperPreferencesForm({ profileRow }: { profileRow: ProfileRow }) {
 				helpAreaCenterLng: preferenceValues.helpAreaCenterLng,
 				helpAreaRadiusKm: preferenceValues.helpAreaRadiusKm,
 			});
+			setPreferencesSaved(true);
 		}
 		catch (e) {
 			console.error(e);
@@ -133,7 +141,10 @@ function HelperPreferencesForm({ profileRow }: { profileRow: ProfileRow }) {
 		<div className="flex flex-col gap-4">
 			<HelperPreferencesFields
 				values={preferenceValues}
-				onChange={setPreferenceValues}
+				onChange={(next) => {
+					setPreferenceValues(next);
+					setPreferencesSaved(false);
+				}}
 			/>
 			<Button
 				variant="solid"
@@ -144,6 +155,19 @@ function HelperPreferencesForm({ profileRow }: { profileRow: ProfileRow }) {
 			>
 				{savingPreferences ? "Saving…" : "Save preferences"}
 			</Button>
+			<div role="status" aria-live="polite">
+				{preferencesSaved
+					? (
+							<Text size={2} color="sage">
+								Preferences saved.
+								{" "}
+								{preferenceValues.canHelpNow
+									? "You'll see open requests again."
+									: "You're now Resting — Open Requests is hidden."}
+							</Text>
+						)
+					: null}
+			</div>
 		</div>
 	);
 }
@@ -217,7 +241,6 @@ export function UserProfile({
 	const user = usePreloadedAuthQuery(preloadedUser);
 	const profileRow = useQuery(api.users.getMyProfileRow, user ? {} : "skip");
 	const deleteMyAccount = useMutation(api.users.deleteMyAccount);
-
 	const [confirmingDelete, setConfirmingDelete] = useState(false);
 	const [deletePassword, setDeletePassword] = useState("");
 	const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -302,6 +325,7 @@ export function UserProfile({
 									key={profileRow._id}
 									profileRow={profileRow}
 								/>
+
 							)}
 				</div>
 

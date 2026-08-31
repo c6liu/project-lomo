@@ -1,5 +1,6 @@
 import { render } from "@testing-library/react";
 import fc from "fast-check";
+import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { HowItWorksSection } from "../how-it-works-section.tsx";
 
@@ -13,7 +14,7 @@ vi.mock("@repo/ui/card", () => ({
 
 vi.mock("@repo/ui/heading", () => ({
 	Heading: ({ children, level, ...props }: { children: React.ReactNode; level: number; [key: string]: any }) => {
-		const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+		const Tag = `h${level}` as React.ElementType;
 		return <Tag {...props}>{children}</Tag>;
 	},
 }));

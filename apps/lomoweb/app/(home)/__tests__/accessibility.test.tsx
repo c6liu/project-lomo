@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react";
+import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
 import { ContactSection } from "../components/contact-section.tsx";
 import { FindSection } from "../components/find-section.tsx";
@@ -45,7 +46,7 @@ vi.mock("@repo/ui/heading", () => ({
 		children: React.ReactNode;
 		className?: string;
 	}) => {
-		const Element = `h${level}` as keyof JSX.IntrinsicElements;
+		const Element = `h${level}` as React.ElementType;
 		return <Element className={className}>{children}</Element>;
 	},
 }));
@@ -131,7 +132,7 @@ describe("accessibility Audit for Homepage", () => {
 		expect(h1s).toHaveLength(1);
 	});
 
-	it("decorative images are hidden from assistive tech and informative images have alt text", () => {
+it("decorative images are hidden from assistive tech and informative images have alt text", () => {
 		const { container } = render(<AssembledHomePage />);
 		const images = [...container.querySelectorAll("img")];
 		expect(images.length).toBeGreaterThan(0);
