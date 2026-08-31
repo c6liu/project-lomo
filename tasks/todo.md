@@ -6,14 +6,14 @@
   - Verify: Review the domain contracts in `apps/lomoweb/lib/request-flow` and confirm no route UI owns the source of truth.
   - Files: `apps/lomoweb/lib/request-flow/types.ts`, `apps/lomoweb/lib/request-flow/categories.ts`
 
-- [ ] Task 2: Add focused tests for draft reset, category navigation, and route metadata regression
+- [x] Task 2: Add focused tests for draft reset, category navigation, and route metadata regression
   - Acceptance: Test coverage exists for draft reset behavior, category metadata mapping, and route selection logic.
   - Verify: `bun --filter=@repo/lomoweb run test`
   - Files: `apps/lomoweb/app/app/request/**`, `apps/lomoweb/lib/request-flow/**`
 
 ## Checkpoint: Foundation
-- [ ] Shared flow contracts and draft behavior are testable before UI changes
-- [ ] Route metadata and state assumptions are reviewed as the refactor foundation
+- [x] Shared flow contracts and draft behavior are testable before UI changes
+- [x] Route metadata and state assumptions are reviewed as the refactor foundation
 
 ## Phase 2: Core refactor
 - [ ] Task 3: Replace the monolithic request draft setters with a reducer or slice-based model
