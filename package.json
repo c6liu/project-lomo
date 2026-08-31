@@ -68,6 +68,6 @@
 	"devDependencies": {
 		"actions-up": "1.14.3",
 		"eslint": "catalog:",
-		"turbo": "^2.8.16"
+		"turbo": "^2.10.12"
 	}
 }

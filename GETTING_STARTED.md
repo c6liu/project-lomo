@@ -37,23 +37,45 @@ bun install
 cp apps/lomoweb/.env.local.example apps/lomoweb/.env.local
 ```
 
-The defaults work for local development — no edits needed.
+This is the local Next.js env file for the app. The defaults work for local development.
 
-### 4. Set Convex environment variables
+### 4. Set the required Convex environment variables
 
-From the repo root:
+From the repo root, set the variables the backend needs before starting the dev server:
 
 ```bash
 bunx convex env set SITE_URL http://localhost:3000 --project-dir apps/convex-backend
 bunx convex env set BETTER_AUTH_SECRET=$(openssl rand -base64 32) --project-dir apps/convex-backend
 ```
 
-These are stored in Convex's cloud config, not in a local file, so you only need to run this once per deployment.
+These values are stored in Convex's deployment config, not in a local file, so you typically only need to run this once per deployment. If the first `bun run dev` fails with `SITE_URL is missing or invalid`, this is the missing setup step.
 
 ### 5. Start everything
 
 ```bash
 bun run dev
+```
+
+This starts the monorepo apps and launches the Convex local dev process for the backend.
+
+### 6. Seed the database
+
+Once Convex is running and the backend has finished its initial push, seed the local database:
+
+```bash
+cd apps/convex-backend
+npx convex run seed:run
+```
+
+This inserts the built-in demo users, requests, and notifications used for local development. You can rerun it anytime to reset the seeded data back to the default fixtures.
+
+### 7. Optional cleanup
+
+To remove only the seeded rows without reinserting them:
+
+```bash
+cd apps/convex-backend
+npx convex run seed:clear
 ```
 
 ## What `bun run dev` starts

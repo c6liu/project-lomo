@@ -71,20 +71,39 @@ When a user asks you to set up their local environment, run these steps in order
 cp apps/lomoweb/.env.local.example apps/lomoweb/.env.local
 ```
 
-**Step 2 — Set Convex environment variables** (run from repo root):
+**Step 2 — Set the required Convex environment variables** (run from repo root):
 ```bash
 bunx convex env set SITE_URL http://localhost:3000 --project-dir apps/convex-backend
 bunx convex env set BETTER_AUTH_SECRET=$(openssl rand -base64 32) --project-dir apps/convex-backend
 ```
 
-These are stored in Convex's cloud config. They only need to be set once per deployment — running them again on an existing setup is safe (it just overwrites with a new secret).
+These are stored in Convex's deployment config, not in a local file. They only need to be set once per deployment; rerunning them is safe and simply replaces the existing values.
 
-After both steps complete, the user can run `bun run dev` to start everything.
+**Step 3 — Start the app stack**:
+```bash
+bun run dev
+```
+
+This launches the monorepo apps, including the Convex backend.
+
+**Step 4 — Seed the local database** (after the backend has started successfully):
+```bash
+cd apps/convex-backend
+npx convex run seed:run
+```
+
+This populates the local database with the built-in demo users, help requests, and notifications for local development. Rerunning it resets the seeded data to the default fixtures.
+
+If you want to remove only the seed data without reinserting it:
+```bash
+cd apps/convex-backend
+npx convex run seed:clear
+```
 
 ## Do NOT
 
 - Do NOT commit `.env` files
-- Do NOT run `bun install` — the user reviews and installs dependencies themselves
+- Do NOT run `bun install` — prompt and wait for the user to review and install dependencies themselves
 
 ## Pending Decisions
 
