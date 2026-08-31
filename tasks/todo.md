@@ -16,24 +16,24 @@
 - [x] Route metadata and state assumptions are reviewed as the refactor foundation
 
 ## Phase 2: Core refactor
-- [ ] Task 3: Replace the monolithic request draft setters with a reducer or slice-based model
+- [x] Task 3: Replace the monolithic request draft setters with a reducer or slice-based model
   - Acceptance: `useRequestDraft` exposes a bounded, predictable state model that supports category-specific updates without a sprawling setter list.
   - Verify: Run the request-flow test suite and confirm draft resets and category updates still work.
   - Files: `apps/lomoweb/app/app/request/request-draft-context.tsx`
 
-- [ ] Task 4: Centralize category route selection in one flow registry
+- [x] Task 4: Centralize category route selection in one flow registry
   - Acceptance: The category step uses a shared flow registry rather than an inlined chain of conditionals.
   - Verify: Route selection remains consistent for food, items, other, support, paperwork, and ceremony categories.
   - Files: `apps/lomoweb/lib/request-flow/categories.ts`, `apps/lomoweb/app/app/request/category-step.tsx`
 
-- [ ] Task 5: Split the dashboard screen into domain-scoped panels and hooks
+- [x] Task 5: Split the dashboard screen into domain-scoped panels and hooks
   - Acceptance: `requests-home.tsx` no longer owns a large amount of unrelated UI state and list rendering logic.
   - Verify: Existing filter chips, request counts, and dashboard actions continue to work with no visible regression.
   - Files: `apps/lomoweb/app/app/requests-home.tsx`, `apps/lomoweb/app/app/status-filter-chips.tsx`
 
 ## Checkpoint: Core refactor
-- [ ] Screens still render and route correctly through the request flow
-- [ ] Draft state and filters behave consistently across request categories
+- [x] Screens still render and route correctly through the request flow
+- [x] Draft state and filters behave consistently across request categories
 
 ## Phase 3: Validation
 - [ ] Task 6: Run frontend validation

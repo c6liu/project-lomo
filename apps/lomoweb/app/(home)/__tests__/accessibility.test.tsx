@@ -11,8 +11,27 @@ import { ShareSection } from "../components/share-section.tsx";
 import { TrustBlock } from "../components/trust-block.tsx";
 
 vi.mock("next/image", () => ({
-	default: ({ alt, src, className }: { alt: string; src: string; className?: string }) => (
-		<img alt={alt} src={src} className={className} />
+	default: ({
+		alt,
+		src,
+		className,
+		"aria-hidden": ariaHidden,
+		fill: _fill,
+		...props
+	}: {
+		"alt"?: string;
+		"src": string;
+		"className"?: string;
+		"aria-hidden"?: string;
+		"fill"?: boolean;
+	}) => (
+		<img
+			alt={alt ?? ""}
+			src={src}
+			className={className}
+			aria-hidden={ariaHidden}
+			{...props}
+		/>
 	),
 }));
 

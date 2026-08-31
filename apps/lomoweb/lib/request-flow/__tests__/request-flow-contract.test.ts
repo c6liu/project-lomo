@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { requestDraftReducer } from "../../../app/app/request/request-draft-context";
 import {
 	getCategoryRoute,
 	REQUEST_CATEGORIES,
@@ -18,6 +19,55 @@ describe("request flow contract", () => {
 		expect(draft.otherDetails.whatNeed).toBe("");
 		expect(draft.micrograntDetails.needType).toBeNull();
 		expect(draft.ceremonyDetails.role).toBeNull();
+	});
+
+	it("merges nested category updates without wiping unrelated draft fields", () => {
+		const draft = {
+			...emptyDraft(),
+			category: "food",
+			foodKind: "meal",
+			urgency: "when_possible",
+			foodDetails: {
+				...emptyDraft().foodDetails,
+				helpfulNote: "Initial note",
+				allergies: "Peanuts",
+			},
+		};
+
+		const next = requestDraftReducer(draft, {
+			type: "setFoodDetails",
+			patch: { helpfulNote: "Updated note", peopleCount: "3" },
+		});
+
+		expect(next.category).toBe("food");
+		expect(next.foodKind).toBe("meal");
+		expect(next.urgency).toBe("when_possible");
+		expect(next.foodDetails).toMatchObject({
+			helpfulNote: "Updated note",
+			peopleCount: "3",
+			allergies: "Peanuts",
+		});
+		expect(next.foodDetails.groceryNoPreference).toBe(false);
+	});
+
+	it("resets the request draft to the shared empty defaults", () => {
+		const draft = {
+			...emptyDraft(),
+			category: "support",
+			foodKind: "groceries",
+			urgency: "urgent",
+			publicWalkDetails: {
+				...emptyDraft().publicWalkDetails,
+				location: "Central park",
+			},
+		};
+
+		const next = requestDraftReducer(draft, { type: "reset" });
+
+		expect(next).toEqual(emptyDraft());
+		expect(next.category).toBeNull();
+		expect(next.foodKind).toBeNull();
+		expect(next.urgency).toBeNull();
 	});
 
 	it("creates a clean reset draft for a new request flow", () => {
