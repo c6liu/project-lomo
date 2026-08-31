@@ -197,12 +197,11 @@ readlink -f node_modules/@internationalized/date
 If more than one version shows up under
 `node_modules/.bun/@internationalized+date@*`, re-pin and reinstall.
 
-## Adding a Component to the Showcase
+## Component Review Workflow
 
-The showcase lives at `apps/documentation/src/routes/showcase/` (Vite +
-TanStack Router) and serves as a development-only documentation site for the
-design system. When you add a new component to `@repo/ui`, add a
-corresponding showcase page:
+This repo no longer includes a separate documentation app. When you add a new
+component to `@repo/ui`, keep the component itself in `packages/ui/src/<name>/`
+and validate it in the active app or in a lightweight design review artifact.
 
 1. **Create the component** in `packages/ui/src/<name>/` following the
    existing structure (`index.ts`, `<name>.variants.ts`, `<name>.component.tsx`).
@@ -210,23 +209,10 @@ corresponding showcase page:
 2. **Export from the barrel** — add the component and its props type to
    `packages/ui/src/index.ts`.
 
-3. **Create a showcase route** at `apps/documentation/src/routes/showcase/<name>.tsx`.
-   Follow the existing pages as a template. Each page should include:
-   - `PageHeader` — component name + one-line description
-   - `PropTable` — all public props with type and default value
-   - `DemoSection` blocks — one per prop dimension (variant, size, color, etc.),
-     each wrapped in a bordered card container
+3. **Review it in context** — use the main app or a temporary local example to
+   verify the component's behavior, accessibility, and visual polish before
+   shipping.
 
-   Import the shared helpers from `./-components`:
-
-   ```tsx
-   import { DemoSection, PageHeader, PropTable } from "./-components";
-   ```
-
-4. **Add to the sidebar** — in `showcase/route.tsx`, add an entry to the
-   appropriate group in the `NAV_GROUPS` array (either "Components" or
-   "Typography"). Keep items alphabetically sorted within each group.
-
-5. **Add to the overview grid** — in `showcase/index.tsx`, add a card to
-   the `COMPONENT_CARDS` array with a name, description, link, and a small
-   visual preview using the component.
+4. **Document the contract** — for any component with multiple variants or
+   behaviors, describe the intended API, sizing, and accessibility notes in the
+   relevant app or design notes instead of relying on a standalone showcase app.

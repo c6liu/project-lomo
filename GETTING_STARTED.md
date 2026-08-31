@@ -111,8 +111,7 @@ Turborepo starts all apps in the monorepo and opens a terminal UI for managing l
 project-lomo/
 ├── apps/
 │   ├── lomoweb/              # Next.js 16 + Convex + Better Auth
-│   ├── convex-backend/       # Convex backend-as-a-service
-│   └── documentation/        # Design system showcase (Vite 7 + TanStack Router)
+│   └── convex-backend/       # Convex backend-as-a-service
 ├── packages/
 │   ├── ui/                   # Component library (Tailwind v4 + react-aria-components)
 │   └── eslint-config/        # Shared ESLint configuration

@@ -41,7 +41,6 @@ A platform for people to post asks and offers, matched with others in their comm
 
 - Main app: Next.js 16 + Convex + Better Auth (`apps/lomoweb`)
 - Backend: Convex backend-as-a-service (`apps/convex-backend`)
-- Design system showcase: Vite 7 + TanStack Router + React 19 (`apps/documentation`)
 - Component library: Tailwind v4 + react-aria-components (`packages/ui`)
 - Shared lint config: ESLint with antfu preset (`packages/eslint-config`)
 - Package manager: Bun 1.3.8+ (monorepo workspaces)
