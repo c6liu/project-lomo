@@ -26,6 +26,23 @@ See `apps/lomoweb/AGENTS.md` and `packages/ui/AGENTS.md` for app-specific instru
 - Treat every change as if the person won't revisit it later. If something related is broken or unverified, handle it now.
 - When a UI copy or layout change is intentional, do not keep tests pinned to the old contract. Prefer assertions for current user-facing behavior, accessibility, and semantics over brittle exact-text or legacy DOM structure assumptions. Stale tests are a common false failure when product wording or markup evolves.
 
+## UI Design Standards
+
+These are the product-level design rules that apply to all user-facing interfaces unless a page is explicitly designated as a different admin context:
+
+- Buttons should have visible borders and clear focus treatment.
+- Links should have a clear link affordance, typically underline or another strong textual cue, rather than relying on color alone.
+- Primary actions should follow the strongest approved brand action for the product, not a generic default color rule. Current product direction favors the warm brand emphasis already used in the homepage and app shell.
+- Clickable objects may use subtle elevation, but shadows should be selective and restrained so they do not overwhelm hierarchy or create visual noise.
+- Every user-facing page should share the same spacing, card, button, and typography language.
+- The product must be mobile-first, touch-friendly, and responsive across breakpoints.
+- Navigation should use a unified design grammar, even when the homepage and app shell differ in structure.
+- The admin interface may have a different operational context, but it should still follow the same spacing, hierarchy, and interaction principles.
+- Design should feel calm, trustworthy, and community-centered rather than performance-driven, transactional, or overly glossy.
+- Use accessible color and contrast decisions; never rely on color alone to communicate state.
+
+These rules should guide all implementation work in the repo and are intended to be the long-term design contract for LoMo UI.
+
 ### Test contract drift rule
 
 A failing UI test is not always a product regression. Sometimes the app is correct and the test is stale.
