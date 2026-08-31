@@ -132,7 +132,7 @@ describe("accessibility Audit for Homepage", () => {
 		expect(h1s).toHaveLength(1);
 	});
 
-it("decorative images are hidden from assistive tech and informative images have alt text", () => {
+	it("decorative images are hidden from assistive tech and informative images have alt text", () => {
 		const { container } = render(<AssembledHomePage />);
 		const images = [...container.querySelectorAll("img")];
 		expect(images.length).toBeGreaterThan(0);

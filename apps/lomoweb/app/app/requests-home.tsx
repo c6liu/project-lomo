@@ -40,7 +40,7 @@ import {
 import { REQUEST_CATEGORIES } from "@/lib/request-flow/categories";
 import { isRequestUrgent } from "@/lib/request-urgency";
 import { canOfferHelp } from "@/lib/user-status";
-import { HomeDashboardPanel } from "./home-dashboard-panel";
+import { HomeDashboardPanel, RequestCardLink } from "./home-dashboard-panel";
 import { StatusFilterChips } from "./status-filter-chips";
 
 const HelpAreaMap = dynamic(
@@ -52,7 +52,6 @@ const HelpAreaMap = dynamic(
 		),
 	},
 );
-
 
 export function RequestsHome({
 	preloadedUser,

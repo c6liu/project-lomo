@@ -16,7 +16,6 @@ import { markNotificationsReadForRequest } from "./lib/notificationHelpers";
 import { purgeRequest } from "./lib/purgeRequest";
 import { extractGeocodableAddress, extractPayloadCoordinates } from "./lib/requestLocation";
 import {
-	extractIsUrgent,
 	extractNeededBy,
 	extractNeedsDelivery,
 	resolveIsUrgent,

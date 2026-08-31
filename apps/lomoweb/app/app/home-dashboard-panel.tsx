@@ -85,7 +85,7 @@ function HomeSection(props: {
 	);
 }
 
-function RequestCardLink(props: {
+export function RequestCardLink(props: {
 	href: string;
 	title: string;
 	summary: string;
