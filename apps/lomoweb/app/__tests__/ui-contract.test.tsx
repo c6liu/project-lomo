@@ -1,9 +1,9 @@
+import { Button } from "@repo/ui/button";
+import { Link } from "@repo/ui/link";
 import { render, screen } from "@testing-library/react";
 import { hydrateRoot } from "react-dom/client";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
-import { Button } from "@repo/ui/button";
-import { Link } from "@repo/ui/link";
 
 describe("core UI contract", () => {
 	it("renders bordered buttons by default", () => {
