@@ -15,10 +15,10 @@ describe("requestCardLink", () => {
 			/>,
 		);
 
-		expect(screen.getByRole("link", { name: LINK_NAME })).toHaveAttribute(
-			"href",
-			"/app/offer/req-1",
-		);
+		const link = screen.getByRole("link", { name: LINK_NAME });
+		expect(link).toHaveAttribute("href", "/app/offer/req-1");
+		expect(link).toHaveClass("shadow-brand");
+		expect(link).toHaveClass("border-black");
 		expect(screen.getByText("I need a couple of groceries this week.")).toBeInTheDocument();
 		expect(screen.getByText("Urgent")).toBeInTheDocument();
 	});

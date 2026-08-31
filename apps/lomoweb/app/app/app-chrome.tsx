@@ -34,7 +34,7 @@ export function AppChrome({ children }: { children: ReactNode }) {
 	return (
 		<HomeModeProvider>
 			<AppSidebar />
-			<main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto pb-16 lg:pb-0">
+			<main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto bg-surface-warm pb-16 lg:pb-0">
 				{children}
 			</main>
 		</HomeModeProvider>
