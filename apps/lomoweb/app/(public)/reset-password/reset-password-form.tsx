@@ -175,9 +175,11 @@ export function ResetPasswordForm({ initialToken, initialUrlError }: ResetPasswo
 			<Button
 				type="submit"
 				variant="solid"
-				color="terracotta"
+				color="yellow"
 				isDisabled={!canSubmit}
 				className="mt-2"
+				border="large"
+				borderColor="terracotta"
 			>
 				{isSubmitting ? "Updating..." : "Update password"}
 			</Button>

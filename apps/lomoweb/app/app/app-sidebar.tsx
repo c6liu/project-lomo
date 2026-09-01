@@ -76,8 +76,9 @@ function getActiveAdminTabId(pathname: string): string {
  * Unified app sidebar navigation.
  *
  * Renders as:
- * - Sidebar on lg+ viewport (left side, fixed width)
- * - Bottom tab bar on smaller viewports (fixed to bottom)
+ * - Labelled sidebar on lg+ viewports (left side, fixed width)
+ * - Floating navigation rail on md viewports
+ * - Bottom tab bar on compact viewports (fixed to bottom)
  *
  * Automatically switches between regular app tabs and admin tabs
  * based on the current route.
@@ -222,24 +223,121 @@ export function AppSidebar() {
 				</div>
 			</nav>
 
-			{/* Mobile/tablet bottom bar (below lg) */}
+			{/* Medium screens use a floating navigation rail, following Material 3's adaptive layout. */}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-terracotta-9 bg-surface-warm/95 backdrop-blur supports-[backdrop-filter]:bg-surface-warm/85 lg:hidden"
+				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-[2rem] border-2 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
 			>
-				<ul role="list" className="flex items-center justify-around px-2 py-1">
+				<Link
+					href="/app"
+					aria-label={isOnAdminRoute ? "LoMo Admin" : "LoMo"}
+					className="flex h-14 shrink-0 items-center gap-3 rounded-full px-3 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
+				>
+					<LomoLogo className="size-7" aria-hidden />
+					<span className="font-display text-lg font-semibold text-gray-12">
+						{isOnAdminRoute ? "LoMo Admin" : "LoMo"}
+					</span>
+				</Link>
+				<ul role="list" className="mt-3 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
 					{tabs.map(tab => (
-						<li key={tab.id} className="flex-1">
-							<BottomTab
+						<li key={tab.id}>
+							<RailTab
 								tab={tab}
 								isActive={activeTabId === tab.id}
 								onTabClick={handleTabClick}
 							/>
 						</li>
 					))}
+					{!isOnAdminRoute && isAdmin && (
+						<li className="mt-1 border-t border-terracotta-9/15 pt-2">
+							<Link
+								href="/app/admin"
+								aria-label="Admin"
+								className="flex h-12 w-full items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+							>
+								<Icon name="admin" className="size-5" />
+								<span>Admin</span>
+							</Link>
+						</li>
+					)}
 				</ul>
+				<button
+					type="button"
+					onClick={() => void handleSignOut()}
+					aria-label="Sign out"
+					className="flex h-12 w-full shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+				>
+					<Icon name="signOut" className="size-5" />
+					<span>Sign out</span>
+				</button>
+			</nav>
+
+			{/* Compact mobile bottom bar (below md) */}
+			<nav
+				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
+				className="fixed inset-x-0 bottom-3 z-40 flex justify-center px-3 md:hidden"
+			>
+				<div className="w-[min(92vw,32rem)] rounded-full border-2 border-terracotta-9 bg-surface-warm shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)]">
+					<ul role="list" className="flex items-center justify-between gap-1 p-1.5">
+						{tabs.map(tab => (
+							<li key={tab.id} className="flex-1">
+								<BottomTab
+									tab={tab}
+									isActive={activeTabId === tab.id}
+									onTabClick={handleTabClick}
+								/>
+							</li>
+						))}
+					</ul>
+				</div>
 			</nav>
 		</>
+	);
+}
+
+function RailTab({
+	tab,
+	isActive,
+	onTabClick,
+}: {
+	tab: NavTab;
+	isActive: boolean;
+	onTabClick: (tab: NavTab) => void;
+}) {
+	const handleClick = useCallback(
+		(e: React.MouseEvent) => {
+			if (tab.homeMode) {
+				e.preventDefault();
+				onTabClick(tab);
+				return;
+			}
+			if (isActive) {
+				e.preventDefault();
+				onTabClick(tab);
+			}
+		},
+		[isActive, onTabClick, tab],
+	);
+
+	return (
+		<Link
+			href={tab.href}
+			aria-current={isActive ? "page" : undefined}
+			onClick={handleClick}
+			className={[
+				"flex h-12 w-full items-center gap-3 rounded-full border-2 px-3 text-sm font-medium",
+				"outline-none transition-colors focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
+				isActive
+					? "border-terracotta-9 bg-terracotta-3 text-terracotta-11"
+					: "border-transparent text-gray-11 hover:bg-terracotta-1 hover:text-gray-12",
+			].join(" ")}
+		>
+			<Icon
+				name={tab.icon}
+				className={`size-5 ${isActive ? "text-terracotta-11" : "text-gray-11"}`}
+			/>
+			<span>{tab.label}</span>
+		</Link>
 	);
 }
 
@@ -328,18 +426,18 @@ function BottomTab({
 			aria-current={isActive ? "page" : undefined}
 			onClick={handleClick}
 			className={[
-				"flex w-full flex-col items-center justify-center gap-0.5",
-				"min-h-11 min-w-11 rounded-2 border-t-2 px-2 py-1",
-				"text-xs font-medium transition-colors",
+				"flex w-full flex-col items-center justify-center gap-1",
+				"min-h-11 min-w-0 rounded-full px-2 py-1.5",
+				"text-[11px] font-medium leading-none transition-all duration-150",
 				"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
 				isActive
-					? "border-terracotta-9 bg-terracotta-3 text-terracotta-11"
-					: "border-transparent text-gray-11 hover:bg-terracotta-1 hover:text-gray-12",
+					? "bg-terracotta-9 text-white shadow-[0_4px_12px_rgba(74,53,47,0.18)]"
+					: "bg-transparent text-gray-11 hover:bg-terracotta-1 hover:text-gray-12",
 			].join(" ")}
 		>
 			<Icon
 				name={tab.icon}
-				className={`size-5 ${isActive ? "text-terracotta-11" : "text-gray-11"}`}
+				className={`size-5 ${isActive ? "text-white" : "text-gray-11"}`}
 			/>
 			<span>{tab.label}</span>
 		</Link>

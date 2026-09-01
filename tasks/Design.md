@@ -364,12 +364,14 @@ Border width should signal enclosure hierarchy, not be chosen ad hoc per compone
 - `darkred` — used for the safety/emergency disclaimer footer in the auth layout (`(public)/layout.tsx`), **and** the admin "Mark Urgent" toggle button (`app/admin/requests/[id]/page.tsx`). Corrected from an earlier version of this entry, which claimed the disclaimer was the only use — it wasn't; the admin toggle was missed in that pass. Both remaining uses are singular, rare, high-consequence actions (never a default/ambient state), so the semantic stays coherent: don't reuse `darkred` for ordinary error states or as a third status color, that would dilute it.
 - `amber` — "Pending" request status.
 - `sage` — "Complete" request status, "Mark Complete" action, and success/confirmation messaging.
-- `terracotta` — the single CTA color (see §11.5), plus brand primary, selected/active state, and "Assigned" / "In progress" status.
-- `yellow` — retired from CTA use (see §11.5). Kept in the palette for a small, momentary, non-CTA indicator only — e.g. the "Resting" status badge (`app/app/requests-home.tsx`) already uses it this way and should stay as-is.
+- `terracotta` — brand primary, selected/active state, and "Assigned" / "In progress" status. No longer the CTA color (see §11.6).
+- `yellow` — the universal CTA color (see §11.6, supersedes the earlier "retired from CTA use" note), plus small, momentary, non-CTA indicators like the "Resting" status badge (`app/app/requests-home.tsx`).
 
 **Correction to an earlier internal plan:** A prior pass assumed there was a "Blocked" status colliding with "Urgent" on `red`, and proposed moving it to `darkred`. There is no "Blocked" status in `HelpRequestStatus` (`apps/lomoweb/lib/help-request-status.ts` — the six values are `pending`, `assigned`, `awaiting_requester_acceptance`, `in_progress`, `complete`, `cancelled`). That fix does not apply and should not be made. This is recorded here specifically so it isn't reintroduced from a stale plan.
 
 ### 11.5 — Yellow CTA retired; solid terracotta is the single "important action" treatment
+
+> **Status: SUPERSEDED by §11.6.** Kept here for history — do not reintroduce solid terracotta as the universal CTA color; see §11.6 for the current decision.
 
 **Context:** The original design intent (per the product owner) was that every important CTA should use yellow to signal importance. In practice, individual contributors implemented this inconsistently over time — some primary actions ended up solid terracotta (homepage "Sign Up", app dashboard "New request", 404 back-link, admin dashboard link) while others used `color="yellow"` with a `border="large" borderColor="terracotta"` override (all four auth-form submits, plus three admin actions: "Edit Request", "Assign Helper", "Add Note"). Revisiting this with the actual token values rather than the color names:
 
@@ -383,3 +385,25 @@ Pairing `bg-yellow-9` with a 4px `border-terracotta-9` outline reads as hazard-s
 **What does NOT change:** `yellow` stays in the palette, scoped narrowly to small, momentary, non-CTA indicators (e.g. the existing "Resting" status badge). Selection/filter-chip use of `sage` (e.g. active status filter chips in `requests-home.tsx`) is a distinct "selected state" semantic, not a CTA, and is out of scope for this decision.
 
 **Rule going forward:** Don't reintroduce `color="yellow"` on a `Button`. If a new primary action is needed, use solid terracotta with the default border. If you need a small non-actionable highlight (badge, dot, tag), yellow is available for that narrow purpose.
+
+### 11.6 — Yellow CTA restored as the universal treatment (supersedes §11.5)
+
+**Context:** §11.5 was reasoned from token hex values and general "calm design" theory, without checking what the Figma file actually specifies for the primary CTA. Pulling the real spec for the "Make a request" component (node 351:466, `Frame12`) shows it is unambiguously:
+
+```
+bg-[var(--highlight,#f3c600)] border-4 border-[var(--backgound-dark,#4a352f)] border-solid rounded-[90px]
+text: black
+```
+
+That is exactly the yellow-fill + thick dark-ink-border pill the product owner originally specified ("every important CTA should use yellow") — not an approximation, not a deprecated pattern. §11.5's "hazard stripe" read was a plausible theory but was wrong once checked against the source of truth.
+
+**Decision:** Restore `variant="solid" color="yellow" border="large" borderColor="terracotta"` as the single treatment for every primary/important CTA that this project's own flows control, reverting every button §11.5 had converted to solid terracotta:
+
+- `app/app/home-dashboard-panel.tsx` — "New request" (home hero)
+- `app/app/requests-home.tsx` — "New request" (My requests header), "Start a request" (empty state), "Update helper preferences" (resting panel)
+- Auth forms — "Login", "Sign up", "Send reset link", "Update password"
+- Admin — "Edit Request", "Assign Helper", "Add Note"
+
+**What does NOT change:** The pre-existing homepage/marketing terracotta CTAs (hero "Sign Up", `home-nav.tsx`, `join-section.tsx`), the 404 "Back home" link, and the admin dashboard link were never part of either ADR — they predate this whole CTA-color investigation and are protected by §5's explicit carve-out ("terracotta on the homepage is an approved decision, not a rule every surface must follow"). They stay terracotta. `View all my/open requests` (outline terracotta, § badge/button contrast fix) are secondary actions, not primary CTAs, and are also unaffected.
+
+**Rule going forward:** Yellow (`color="yellow" border="large" borderColor="terracotta"`) is the CTA treatment for every primary action inside the app shell and auth flows. Don't convert it back to solid terracotta based on abstract color-theory arguments — if the treatment is questioned again, check the actual Figma component first (as this entry does) before changing it.

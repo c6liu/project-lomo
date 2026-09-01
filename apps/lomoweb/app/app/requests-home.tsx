@@ -144,8 +144,10 @@ function RequestingHelpPanel(props: {
 				<div className="flex shrink-0 flex-wrap items-center gap-2">
 					<Button
 						variant="solid"
-						color="terracotta"
+						color="yellow"
 						size={2}
+						border="large"
+						borderColor="terracotta"
 						onPress={() => router.push("/app/request?fresh=1")}
 					>
 						New request
@@ -227,8 +229,10 @@ function RequestingHelpPanel(props: {
 					<div className="mt-4 flex justify-center">
 						<Button
 							variant="solid"
-							color="terracotta"
+							color="yellow"
 							size={2}
+							border="large"
+							borderColor="terracotta"
 							onPress={() => router.push("/app/request?fresh=1")}
 						>
 							Start a request
@@ -327,8 +331,10 @@ function RestingPanel({ blocked }: { blocked: boolean }) {
 					{!blocked && (
 						<Button
 							variant="solid"
-							color="terracotta"
+							color="yellow"
 							size={2}
+							border="large"
+							borderColor="terracotta"
 							onPress={() => router.push("/app/profile")}
 						>
 							Update helper preferences

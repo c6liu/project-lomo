@@ -42,6 +42,14 @@ describe("desktop sidebar stays pinned to the viewport", () => {
 		).toContain("lg:h-screen");
 	});
 
+	it("uses a floating navigation rail at the tablet breakpoint", () => {
+		const source = read(SIDEBAR);
+
+		expect(source).toContain("md:flex lg:hidden");
+		expect(source).toContain("rounded-4xl");
+		expect(source).toContain("shadow-[0_12px_28px");
+	});
+
 	it("lets a taller-than-viewport nav list scroll inside the sidebar", () => {
 		const source = read(SIDEBAR);
 

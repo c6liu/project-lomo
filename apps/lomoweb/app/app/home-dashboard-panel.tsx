@@ -70,9 +70,9 @@ function HomeSection(props: {
 				<Heading level={2} size={5} className="min-w-0 flex-1">
 					{title}
 				</Heading>
-				<Badge variant="outline" size={1} color={count > 0 ? "terracotta" : "gray"}>
+				<span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full border-2 border-darkred-9 text-(length:--text-2) font-semibold text-darkred-9">
 					{count}
-				</Badge>
+				</span>
 			</button>
 			{expanded
 				? (
@@ -186,8 +186,9 @@ export function HomeDashboardPanel(props: {
 	}, [dashboard]);
 
 	const { activeOpen, pendingOpen, openRequestsOpen } = sectionState;
-	const showPending = dashboard === undefined || dashboard.pendingMineTotal > 0;
-	const showOpenRequests = dashboard !== undefined && dashboard.canHelpNow;
+	const showActive = dashboard !== undefined && dashboard.active.length > 0;
+	const showPending = dashboard !== undefined && dashboard.pendingMineTotal > 0;
+	const showOpenRequests = dashboard !== undefined && dashboard.canHelpNow && dashboard.openTotal > 0;
 
 	return (
 		<>
@@ -206,8 +207,10 @@ export function HomeDashboardPanel(props: {
 				<div className="flex shrink-0 flex-wrap items-center gap-2">
 					<Button
 						variant="solid"
-						color="terracotta"
+						color="yellow"
 						size={2}
+						border="large"
+						borderColor="terracotta"
 						onPress={onNewRequest}
 					>
 						New request
@@ -223,62 +226,64 @@ export function HomeDashboardPanel(props: {
 
 			{dashboard !== undefined && (
 				<div className="flex flex-col gap-8">
-					<HomeSection
-						id="active-matches"
-						title="Support in progress"
-						count={dashboard.active.length}
-						expanded={activeOpen}
-						onExpandedChange={() => dispatch({ type: "toggleActive" })}
-					>
-						{dashboard.active.length === 0
-							? (
-									<Card size={2} variant="surface" className="p-6">
-										<Text size={3} color="gray" className="text-center">
-											No active matches right now. When someone offers help — or
-											you&apos;re helping someone — it will show up here.
-										</Text>
-									</Card>
-								)
-							: (
-									<ul className="flex flex-col gap-3">
-										{dashboard.active.map(item => (
-											<li key={`${item.role}-${item._id}`}>
-												<RequestCardLink
-													href={
-														item.role === "requester"
-															? `/app/requests/${item._id}`
-															: `/app/offer/${item._id}`
-													}
-													title={item.title}
-													summary={item.summary}
-													badges={(
-														<>
-															<Badge
-																variant="soft"
-																size={1}
-																color={
-																	item.status === "awaiting_requester_acceptance"
-																		? "terracotta"
-																		: "sage"
-																}
-															>
-																{activeRoleLabel(item)}
-															</Badge>
-															<Badge
-																variant="soft"
-																size={1}
-																color={statusBadgeColor(item.status as HelpRequestStatus)}
-															>
-																{HELP_REQUEST_STATUS_LABEL[item.status as HelpRequestStatus]}
-															</Badge>
-														</>
-													)}
-												/>
-											</li>
-										))}
-									</ul>
-								)}
-					</HomeSection>
+					{showActive && (
+						<HomeSection
+							id="active-matches"
+							title="Support in progress"
+							count={dashboard.active.length}
+							expanded={activeOpen}
+							onExpandedChange={() => dispatch({ type: "toggleActive" })}
+						>
+							{dashboard.active.length === 0
+								? (
+										<Card size={2} variant="surface" className="p-6">
+											<Text size={3} color="gray" className="text-center">
+												No active matches right now. When someone offers help — or
+												you&apos;re helping someone — it will show up here.
+											</Text>
+										</Card>
+									)
+								: (
+										<ul className="flex flex-col gap-3">
+											{dashboard.active.map(item => (
+												<li key={`${item.role}-${item._id}`}>
+													<RequestCardLink
+														href={
+															item.role === "requester"
+																? `/app/requests/${item._id}`
+																: `/app/offer/${item._id}`
+														}
+														title={item.title}
+														summary={item.summary}
+														badges={(
+															<>
+																<Badge
+																	variant="soft"
+																	size={1}
+																	color={
+																		item.status === "awaiting_requester_acceptance"
+																			? "terracotta"
+																			: "sage"
+																	}
+																>
+																	{activeRoleLabel(item)}
+																</Badge>
+																<Badge
+																	variant="soft"
+																	size={1}
+																	color={statusBadgeColor(item.status as HelpRequestStatus)}
+																>
+																	{HELP_REQUEST_STATUS_LABEL[item.status as HelpRequestStatus]}
+																</Badge>
+															</>
+														)}
+													/>
+												</li>
+											))}
+										</ul>
+									)}
+						</HomeSection>
+					)}
 
 					{showPending && (
 						<HomeSection
@@ -385,7 +390,7 @@ export function HomeDashboardPanel(props: {
 												))}
 											</ul>
 											<Button
-												variant="outline"
+												variant="solid"
 												color="terracotta"
 												size={2}
 												className="self-start"

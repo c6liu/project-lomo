@@ -181,10 +181,12 @@ export function SignUpForm() {
 			<Button
 				type="submit"
 				variant="solid"
-				color="terracotta"
+				color="yellow"
 				isDisabled={isSubmitting}
 				className="mt-2"
 				size={3}
+				border="large"
+				borderColor="terracotta"
 			>
 				{isSubmitting ? "Creating account..." : "Sign up"}
 			</Button>
