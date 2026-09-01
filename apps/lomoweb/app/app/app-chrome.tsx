@@ -33,11 +33,11 @@ export function AppChrome({ children }: { children: ReactNode }) {
 
 	return (
 		<HomeModeProvider>
-			{/* Added a wrapper to control the layout and enforce a white background behind everything */}
-			<div className="flex h-screen w-full bg-white">
+			{/* min-h-screen lets the white background grow with long content */}
+			<div className="flex min-h-screen w-full bg-white">
 				<AppSidebar />
-				{/* Removed bg-white from here since the parent div now handles it */}
-				<main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto pb-16 md:pb-0">
+				{/* Removed overflow-auto so the main window handles page scrolling */}
+				<main className="flex min-w-0 flex-1 flex-col pb-16 md:pb-0">
 					{children}
 				</main>
 			</div>

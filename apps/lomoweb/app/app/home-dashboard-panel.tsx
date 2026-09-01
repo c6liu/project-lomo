@@ -194,10 +194,7 @@ export function HomeDashboardPanel(props: {
 		<>
 			<div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
 				<div>
-					<span className="font-display text-xs font-black uppercase tracking-[0.18em] text-terracotta-11">
-						Community support
-					</span>
-					<Heading level={1} size={7} className="mt-2">
+					<Heading level={1} size={7}>
 						Home
 					</Heading>
 					<Text size={2} color="gray" className="mt-1">
