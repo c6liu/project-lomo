@@ -149,14 +149,14 @@ export function AppSidebar() {
 			*/}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col border-r-2 border-terracotta-9 bg-surface-warm/90 p-2"
+				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col border-r-3 border-terracotta-9 bg-surface-warm p-2"
 			>
 				<Link
 					href="/app"
 					className="flex h-14 shrink-0 items-center gap-3 rounded-full px-3 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
 				>
-					<LomoLogo className="size-7 shrink-0" aria-hidden />
-					<span className="font-display text-lg font-semibold text-gray-12">
+					<LomoLogo className="size-8 shrink-0" aria-hidden />
+					<span className="font-logo text-2xl font-semibold text-gray-12">
 						{isOnAdminRoute ? "LoMo Admin" : "LoMo"}
 					</span>
 				</Link>
@@ -223,7 +223,7 @@ export function AppSidebar() {
 			{/* Medium screens use a floating navigation rail, following Material 3's adaptive layout. */}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-4xl border-2 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
+				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-4xl border-3 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
 			>
 				<Link
 					href="/app"

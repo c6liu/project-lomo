@@ -33,10 +33,14 @@ export function AppChrome({ children }: { children: ReactNode }) {
 
 	return (
 		<HomeModeProvider>
-			<AppSidebar />
-			<main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto bg-surface-warm pb-16 md:pb-0">
-				{children}
-			</main>
+			{/* Added a wrapper to control the layout and enforce a white background behind everything */}
+			<div className="flex h-screen w-full bg-white">
+				<AppSidebar />
+				{/* Removed bg-white from here since the parent div now handles it */}
+				<main className="flex min-h-0 min-w-0 flex-1 flex-col overflow-auto pb-16 md:pb-0">
+					{children}
+				</main>
+			</div>
 		</HomeModeProvider>
 	);
 }
