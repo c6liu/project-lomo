@@ -18,7 +18,7 @@ describe("requestCardLink", () => {
 		const link = screen.getByRole("link", { name: LINK_NAME });
 		expect(link).toHaveAttribute("href", "/app/offer/req-1");
 		expect(link).toHaveClass("shadow-brand");
-		expect(link).toHaveClass("border-black");
+		expect(link).toHaveClass("border-terracotta-9");
 		expect(screen.getByText("I need a couple of groceries this week.")).toBeInTheDocument();
 		expect(screen.getByText("Urgent")).toBeInTheDocument();
 	});

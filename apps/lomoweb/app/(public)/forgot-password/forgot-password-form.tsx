@@ -130,7 +130,7 @@ export function ForgotPasswordForm() {
 			<Button
 				type="submit"
 				variant="solid"
-				color="yellow"
+				color="terracotta"
 				isDisabled={isSubmitting}
 				className="mt-2"
 			>

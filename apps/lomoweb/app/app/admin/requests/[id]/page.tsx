@@ -393,7 +393,7 @@ function ActivitySection({
 					/>
 					<Button
 						variant="solid"
-						color="yellow"
+						color="terracotta"
 						size={2}
 						onPress={() => void handleSubmitNote()}
 						isDisabled={isSubmitting || noteText.trim().length === 0}
@@ -572,7 +572,7 @@ function ActionButtons({
 			<section aria-label="Request actions" className="flex flex-col gap-3 sm:flex-row">
 				<Button
 					variant="solid"
-					color="yellow"
+					color="terracotta"
 					size={3}
 					className="flex-1"
 					onPress={() => router.push(`/app/admin/requests/${requestId}/edit`)}
@@ -602,7 +602,7 @@ function ActionButtons({
 				{/* Assign Helper */}
 				<Button
 					variant="solid"
-					color="yellow"
+					color="terracotta"
 					size={3}
 					className="flex-1"
 					onPress={() => router.push(`/app/admin/requests/${requestId}/assign`)}

@@ -144,7 +144,7 @@ function RequestingHelpPanel(props: {
 				<div className="flex shrink-0 flex-wrap items-center gap-2">
 					<Button
 						variant="solid"
-						color="sage"
+						color="terracotta"
 						size={2}
 						onPress={() => router.push("/app/request?fresh=1")}
 					>
@@ -227,7 +227,7 @@ function RequestingHelpPanel(props: {
 					<div className="mt-4 flex justify-center">
 						<Button
 							variant="solid"
-							color="sage"
+							color="terracotta"
 							size={2}
 							onPress={() => router.push("/app/request?fresh=1")}
 						>
@@ -327,7 +327,7 @@ function RestingPanel({ blocked }: { blocked: boolean }) {
 					{!blocked && (
 						<Button
 							variant="solid"
-							color="sage"
+							color="terracotta"
 							size={2}
 							onPress={() => router.push("/app/profile")}
 						>

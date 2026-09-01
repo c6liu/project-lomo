@@ -186,12 +186,10 @@ export function SignInForm() {
 			<Button
 				type="submit"
 				variant="solid"
-				color="yellow"
+				color="terracotta"
 				isDisabled={isSubmitting}
 				className="mt-2"
 				size={3}
-				border="large"
-				borderColor="terracotta"
 			>
 				{isSubmitting ? "Signing in..." : "Login"}
 			</Button>

@@ -319,3 +319,67 @@ This will keep the product aligned with the design board while ensuring the repo
 LoMo’s product language should not feel like a marketplace, a social platform, or a performance-oriented productivity app. It should feel like a calm and trustworthy local support tool — one that makes asking for help feel emotionally safe and easy to act on.
 
 That is the central design principle this Figma page is communicating, and it is the principle that should guide the implementation in the codebase.
+
+---
+
+## 11. Implementation Decisions Log (ADR-style)
+
+This section records specific, verified decisions about color and border usage so future agents don't have to re-derive them from scratch — or worse, "fix" something that was already intentional. Each entry was written after reading the actual token file (`packages/ui/src/theme/theme.css`) and every current call site, not from assumption.
+
+### 11.1 — Two CTA treatments exist on purpose: solid terracotta vs. solid yellow + terracotta border
+
+> **Status: SUPERSEDED by §11.5.** Kept here for history — do not reintroduce the yellow CTA treatment described below.
+
+**Context:** The app has two visually distinct primary-button treatments, and it's tempting to "fix" this into one for consistency.
+
+- **Solid terracotta** (`variant="solid" color="terracotta"`) — used for navigational / marketing primary actions: homepage "Sign Up", app dashboard "New request", 404 "Back home", admin dashboard link.
+- **Solid yellow + thick terracotta border** (`variant="solid" color="yellow" border="large" borderColor="terracotta"`) — used *only* for auth-form submission actions: Sign in, Sign up, Forgot password, Reset password, and the admin "Add Note" action. This is consistent across all four auth forms, not a one-off.
+
+**Decision:** Keep both. This is an intentional two-tier system, not an inconsistency:
+- Terracotta solid = "go somewhere / start something" (navigation-flavored primary action).
+- Yellow + terracotta border = "submit this form" (a data-committing action, visually distinguished from navigation so a user pauses before submitting credentials or personal data).
+
+This also matches Design.md §5's own note that mustard/amber reads as a "confirmation or highlighted accent" color family — the yellow submit button *is* that accent, scoped to confirmation-of-input moments.
+
+**Rule going forward:** Don't introduce yellow solid buttons outside of auth-form submission and don't introduce sage/terracotta-only buttons inside auth forms. If a new form needs a submit CTA and it's a "commit data" moment (not simple navigation), reuse the yellow + terracotta-border pattern rather than inventing a third treatment. Any new usage should update this entry.
+
+### 11.2 — Border color: use `terracotta-9`, not `border-black`
+
+**Verified:** `--terracotta-9` resolves to the same ink tone (`#4a352f`-family) used as the "dark border" color in the reference Figma frame (node 351:466). Pure `black` was an approximation introduced during earlier iteration, not the actual token match.
+
+**Rule:** Card, panel, and chrome borders that need a strong "ink" outline should use `border-terracotta-9` (or the design system's `borderColor="terracotta"` prop), not `border-black`. Reserve literal black only for one-off illustrative accents, if any — not structural UI borders.
+
+### 11.3 — Border width hierarchy
+
+Border width should signal enclosure hierarchy, not be chosen ad hoc per component:
+- **2px** — outer enclosing containers: cards, section panels, sidebar/bottom-nav chrome edges. This is the "this is a distinct surface" signal.
+- **1px hairline** — internal dividers and separators *within* an already-enclosed surface (e.g. a divider between list rows).
+- **0 / none** — interactive elements nested inside an already-bordered container (e.g. nav items inside the sidebar) should not add their own competing border; use background fill and/or the focus ring for state instead.
+
+**Rule:** Before adding a border, ask "is this establishing a new surface boundary, or is it inside one already?" — that answer picks the tier, not visual taste in the moment.
+
+### 11.4 — Status/severity color mapping (verified against actual usage)
+
+- `red` — used for two things today: the "Urgent" request badge (`isRequestUrgent`) and inline form validation error text. Both read as "needs attention now," so this overload is acceptable.
+- `darkred` — used for the safety/emergency disclaimer footer in the auth layout (`(public)/layout.tsx`), **and** the admin "Mark Urgent" toggle button (`app/admin/requests/[id]/page.tsx`). Corrected from an earlier version of this entry, which claimed the disclaimer was the only use — it wasn't; the admin toggle was missed in that pass. Both remaining uses are singular, rare, high-consequence actions (never a default/ambient state), so the semantic stays coherent: don't reuse `darkred` for ordinary error states or as a third status color, that would dilute it.
+- `amber` — "Pending" request status.
+- `sage` — "Complete" request status, "Mark Complete" action, and success/confirmation messaging.
+- `terracotta` — the single CTA color (see §11.5), plus brand primary, selected/active state, and "Assigned" / "In progress" status.
+- `yellow` — retired from CTA use (see §11.5). Kept in the palette for a small, momentary, non-CTA indicator only — e.g. the "Resting" status badge (`app/app/requests-home.tsx`) already uses it this way and should stay as-is.
+
+**Correction to an earlier internal plan:** A prior pass assumed there was a "Blocked" status colliding with "Urgent" on `red`, and proposed moving it to `darkred`. There is no "Blocked" status in `HelpRequestStatus` (`apps/lomoweb/lib/help-request-status.ts` — the six values are `pending`, `assigned`, `awaiting_requester_acceptance`, `in_progress`, `complete`, `cancelled`). That fix does not apply and should not be made. This is recorded here specifically so it isn't reintroduced from a stale plan.
+
+### 11.5 — Yellow CTA retired; solid terracotta is the single "important action" treatment
+
+**Context:** The original design intent (per the product owner) was that every important CTA should use yellow to signal importance. In practice, individual contributors implemented this inconsistently over time — some primary actions ended up solid terracotta (homepage "Sign Up", app dashboard "New request", 404 back-link, admin dashboard link) while others used `color="yellow"` with a `border="large" borderColor="terracotta"` override (all four auth-form submits, plus three admin actions: "Edit Request", "Assign Helper", "Add Note"). Revisiting this with the actual token values rather than the color names:
+
+- `--yellow-9` is `#ffce00` — a raw, highly saturated caution-yellow.
+- `--terracotta-9` is `#4a352f` — despite the name, a dark, muted ink-brown, not an orange/warm accent.
+
+Pairing `bg-yellow-9` with a 4px `border-terracotta-9` outline reads as hazard-stripe coloring (bright fill + thick dark border), which actively works against this project's "calm, non-pressured, low-arousal" design mandate (§2). The 4px border width was also the only 4px border anywhere in the app, breaking the 2px-max enclosure hierarchy in §11.3 independent of color.
+
+**Decision:** Standardize on solid terracotta (`variant="solid" color="terracotta"`, default `border="small"`, no `borderColor` override) as the single treatment for every important/primary CTA, including the seven buttons that used the yellow treatment. `bg-terracotta-9 text-white` is the only solid-dark-fill block on an otherwise light, warm-neutral page, so it still reads as the unmistakable primary action without needing a heavy contrasting border to "shout." This also directly resolves the original inconsistency complaint: there is now exactly one CTA color, not two competing interpretations.
+
+**What does NOT change:** `yellow` stays in the palette, scoped narrowly to small, momentary, non-CTA indicators (e.g. the existing "Resting" status badge). Selection/filter-chip use of `sage` (e.g. active status filter chips in `requests-home.tsx`) is a distinct "selected state" semantic, not a CTA, and is out of scope for this decision.
+
+**Rule going forward:** Don't reintroduce `color="yellow"` on a `Button`. If a new primary action is needed, use solid terracotta with the default border. If you need a small non-actionable highlight (badge, dot, tag), yellow is available for that narrow purpose.

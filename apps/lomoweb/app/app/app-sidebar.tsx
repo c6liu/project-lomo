@@ -144,10 +144,10 @@ export function AppSidebar() {
 			*/}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col border-r-2 border-black bg-surface-warm/90"
+				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col border-r-2 border-terracotta-9 bg-surface-warm/90"
 			>
 				{/* Logo header */}
-				<div className="flex h-14 shrink-0 items-center border-b-2 border-black px-4">
+				<div className="flex h-14 shrink-0 items-center border-b-2 border-terracotta-9 px-4">
 					<Link
 						href="/app"
 						className="flex items-center gap-2 rounded-1 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
@@ -164,7 +164,7 @@ export function AppSidebar() {
 					<div className="shrink-0 px-3 pt-3">
 						<Link
 							href="/app"
-							className="flex items-center gap-2 rounded-2 border border-black/10 bg-white/40 px-3 py-2 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-2 hover:text-gray-12"
+							className="flex items-center gap-2 rounded-2 px-3 py-2 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-1 hover:text-gray-12"
 						>
 							<Icon name="back" className="size-4" />
 							<span>Back to app</span>
@@ -197,10 +197,10 @@ export function AppSidebar() {
 					{/* Admin link for non-admin routes */}
 					{!isOnAdminRoute && isAdmin && (
 						<li>
-							<div role="presentation" className="my-2 border-t border-gray-6" />
+							<div role="presentation" className="my-2 border-t border-terracotta-9/15" />
 							<Link
 								href="/app/admin"
-								className="flex min-h-11 items-center gap-3 rounded-2 px-3 py-2.5 text-sm font-medium text-gray-11 transition-colors hover:bg-gray-3 hover:text-gray-12"
+								className="flex min-h-11 items-center gap-3 rounded-2 px-3 py-2.5 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-1 hover:text-gray-12"
 							>
 								<Icon name="admin" className="size-5 text-gray-11" />
 								<span>Admin</span>
@@ -210,11 +210,11 @@ export function AppSidebar() {
 				</ul>
 
 				{/* Sign out, pinned to the bottom of the viewport-height sidebar */}
-				<div className="shrink-0 border-t-2 border-black/10 p-3">
+				<div className="shrink-0 border-t border-terracotta-9/15 p-3">
 					<button
 						type="button"
 						onClick={() => void handleSignOut()}
-						className="flex w-full items-center gap-3 rounded-2 border border-black/10 bg-white/40 px-3 py-2.5 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-2 hover:text-gray-12"
+						className="flex w-full items-center gap-3 rounded-2 px-3 py-2.5 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-1 hover:text-gray-12"
 					>
 						<Icon name="signOut" className="size-5" />
 						<span>Sign out</span>
@@ -225,11 +225,11 @@ export function AppSidebar() {
 			{/* Mobile/tablet bottom bar (below lg) */}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-black bg-surface-warm/95 backdrop-blur supports-[backdrop-filter]:bg-surface-warm/85 lg:hidden"
+				className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-terracotta-9 bg-surface-warm/95 backdrop-blur supports-[backdrop-filter]:bg-surface-warm/85 lg:hidden"
 			>
 				<ul role="list" className="flex items-center justify-around px-2 py-1">
 					{tabs.map(tab => (
-						<li key={tab.id}>
+						<li key={tab.id} className="flex-1">
 							<BottomTab
 								tab={tab}
 								isActive={activeTabId === tab.id}
@@ -276,19 +276,19 @@ function SidebarTab({
 			aria-current={isActive ? "page" : undefined}
 			onClick={handleClick}
 			className={[
-				"flex items-center gap-3 rounded-2 border px-3 py-2.5",
+				"flex items-center gap-3 rounded-2 border-l-2 px-3 py-2.5",
 				"min-h-11 min-w-11",
 				"text-sm font-medium transition-colors",
 				"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
 				isActive
-					? "border-black bg-terracotta-2 text-gray-12 shadow-brand"
+					? "border-terracotta-9 bg-terracotta-3 text-terracotta-11"
 					: "border-transparent text-gray-11 hover:bg-terracotta-1 hover:text-gray-12",
 			].join(" ")}
 		>
 			{/* size-5 matches BottomTab so both nav variants read at the same weight. */}
 			<Icon
 				name={tab.icon}
-				className={`size-5 ${isActive ? "text-gray-12" : "text-gray-11"}`}
+				className={`size-5 ${isActive ? "text-terracotta-11" : "text-gray-11"}`}
 			/>
 			<span>{tab.label}</span>
 		</Link>
@@ -328,18 +328,18 @@ function BottomTab({
 			aria-current={isActive ? "page" : undefined}
 			onClick={handleClick}
 			className={[
-				"flex flex-col items-center justify-center gap-0.5",
-				"min-h-11 min-w-11 rounded-2 border px-2 py-1",
+				"flex w-full flex-col items-center justify-center gap-0.5",
+				"min-h-11 min-w-11 rounded-2 border-t-2 px-2 py-1",
 				"text-xs font-medium transition-colors",
 				"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
 				isActive
-					? "border-black bg-terracotta-2 text-gray-12 shadow-brand"
+					? "border-terracotta-9 bg-terracotta-3 text-terracotta-11"
 					: "border-transparent text-gray-11 hover:bg-terracotta-1 hover:text-gray-12",
 			].join(" ")}
 		>
 			<Icon
 				name={tab.icon}
-				className={`size-5 ${isActive ? "text-gray-12" : "text-gray-11"}`}
+				className={`size-5 ${isActive ? "text-terracotta-11" : "text-gray-11"}`}
 			/>
 			<span>{tab.label}</span>
 		</Link>

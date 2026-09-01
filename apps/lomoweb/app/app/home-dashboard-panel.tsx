@@ -61,7 +61,7 @@ function HomeSection(props: {
 		<section className="flex flex-col gap-3">
 			<button
 				type="button"
-				className="flex w-full items-center gap-2 rounded-[var(--radius-3)] border border-black bg-terracotta-2 px-3 py-2.5 text-left shadow-brand outline-none ring-gray-8 transition-colors hover:bg-terracotta-3 focus-visible:ring-2"
+				className="flex w-full items-center gap-2 rounded-2 px-1 py-2 text-left outline-none ring-gray-8 transition-colors hover:bg-terracotta-1 focus-visible:ring-2"
 				aria-expanded={expanded}
 				aria-controls={panelId}
 				onClick={() => onExpandedChange(!expanded)}
@@ -70,7 +70,7 @@ function HomeSection(props: {
 				<Heading level={2} size={5} className="min-w-0 flex-1">
 					{title}
 				</Heading>
-				<Badge variant="soft" size={1} color="gray">
+				<Badge variant="outline" size={1} color={count > 0 ? "terracotta" : "gray"}>
 					{count}
 				</Badge>
 			</button>
@@ -95,13 +95,13 @@ export function RequestCardLink(props: {
 	return (
 		<Link
 			href={href}
-			className="block rounded-[max(var(--radius-4),12px)] border-2 border-black bg-white/90 shadow-brand outline-none transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+			className="block rounded-[max(var(--radius-4),12px)] border-2 border-terracotta-9 bg-white shadow-brand outline-none transition-transform duration-150 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
 		>
 			<Card
 				size={2}
-				variant="surface"
+				variant="ghost"
 				color="gray"
-				className="border-0 bg-white/90 p-4 transition-colors hover:bg-terracotta-1"
+				className="bg-white p-4 transition-colors hover:bg-terracotta-1"
 			>
 				<div className="flex items-start justify-between gap-3">
 					<div className="min-w-0 flex-1">
@@ -191,29 +191,27 @@ export function HomeDashboardPanel(props: {
 
 	return (
 		<>
-			<div className="rounded-[var(--radius-5)] border-2 border-black bg-white/85 p-4 shadow-brand sm:p-5">
-				<div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-					<div>
-						<span className="font-display text-xs font-black uppercase tracking-[0.18em] text-terracotta-11">
-							Community support
-						</span>
-						<Heading level={1} size={7} className="mt-2">
-							Home
-						</Heading>
-						<Text size={2} color="gray" className="mt-1">
-							Your active matches, pending requests for support, and nearby open requests.
-						</Text>
-					</div>
-					<div className="flex shrink-0 flex-wrap items-center gap-2">
-						<Button
-							variant="solid"
-							color="terracotta"
-							size={2}
-							onPress={onNewRequest}
-						>
-							New request
-						</Button>
-					</div>
+			<div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+				<div>
+					<span className="font-display text-xs font-black uppercase tracking-[0.18em] text-terracotta-11">
+						Community support
+					</span>
+					<Heading level={1} size={7} className="mt-2">
+						Home
+					</Heading>
+					<Text size={2} color="gray" className="mt-1">
+						Your active matches, pending requests for support, and nearby open requests.
+					</Text>
+				</div>
+				<div className="flex shrink-0 flex-wrap items-center gap-2">
+					<Button
+						variant="solid"
+						color="terracotta"
+						size={2}
+						onPress={onNewRequest}
+					>
+						New request
+					</Button>
 				</div>
 			</div>
 
@@ -326,8 +324,8 @@ export function HomeDashboardPanel(props: {
 												))}
 											</ul>
 											<Button
-												variant="soft"
-												color="gray"
+												variant="outline"
+												color="terracotta"
 												size={2}
 												className="self-start"
 												onPress={onViewAllMine}
@@ -387,8 +385,8 @@ export function HomeDashboardPanel(props: {
 												))}
 											</ul>
 											<Button
-												variant="soft"
-												color="gray"
+												variant="outline"
+												color="terracotta"
 												size={2}
 												className="self-start"
 												onPress={onViewAllOpen}
