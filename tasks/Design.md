@@ -174,6 +174,13 @@ The homepage navigation and in-app navigation should not be treated as the same 
 - both should honor the same typography, border treatment, colors, and affordances
 - the product shell should remain consistent even when the layout role differs
 
+**App shell navigation (verified, see §11.7):** the in-app nav (`AppSidebar`) uses Material Design 3's adaptive layout as its explicit behavioral reference — three structural tiers, one shared pill-based visual grammar:
+- phone (`<768px`): a floating bottom pill bar
+- tablet (`768–1023px`): a floating navigation rail
+- laptop/PC (`≥1024px`): the same rail styling, attached to the viewport edge instead of floating
+
+All three tiers use the same terracotta-outlined active-item pill, warm solid surface, and restrained elevation — only the phone tier is structurally distinct (bottom-anchored, Material 3's own bottom-bar vs. rail/drawer distinction), not stylistically different.
+
 ---
 
 ## 5. Color and Visual Language
@@ -407,3 +414,34 @@ That is exactly the yellow-fill + thick dark-ink-border pill the product owner o
 **What does NOT change:** The pre-existing homepage/marketing terracotta CTAs (hero "Sign Up", `home-nav.tsx`, `join-section.tsx`), the 404 "Back home" link, and the admin dashboard link were never part of either ADR — they predate this whole CTA-color investigation and are protected by §5's explicit carve-out ("terracotta on the homepage is an approved decision, not a rule every surface must follow"). They stay terracotta. `View all my/open requests` (outline terracotta, § badge/button contrast fix) are secondary actions, not primary CTAs, and are also unaffected.
 
 **Rule going forward:** Yellow (`color="yellow" border="large" borderColor="terracotta"`) is the CTA treatment for every primary action inside the app shell and auth flows. Don't convert it back to solid terracotta based on abstract color-theory arguments — if the treatment is questioned again, check the actual Figma component first (as this entry does) before changing it.
+
+### 11.7 — App shell nav: three Material 3 tiers, one shared pill grammar
+
+**Context:** The app shell nav (`apps/lomoweb/app/app/app-sidebar.tsx`) originally had only two states — a full labelled sidebar at `lg+` and a bottom bar below it — which forced tablet widths into the phone-sized bottom bar. This was corrected to three tiers, explicitly using Material Design 3's adaptive layout as the behavioral reference (bottom bar / rail / drawer), not just a visual restyle.
+
+**Decision:**
+- Phone (`<768px`, `md:hidden`): floating bottom pill bar, fixed to the viewport bottom.
+- Tablet (`768–1023px`, `md:flex lg:hidden`): floating navigation rail — `rounded-4xl`, `ml-3` offset, visible drop shadow.
+- Laptop/PC (`≥1024px`, `lg:flex`): the *same* pill-item styling as the tablet rail (`RailTab`, rounded-full active indicator, rounded-full logo/admin/sign-out affordances), reused verbatim — but attached to the viewport edge (`border-r-2`, no margin, no rounding, no shadow) instead of floating.
+
+Tablet and laptop deliberately share one inner-nav visual language; only the phone tier is allowed to diverge structurally, because bottom-bar vs. rail is a genuine Material 3 pattern distinction, not a stylistic one.
+
+**Rule going forward:** Any new nav affordance (new tab, new admin action, new sign-out-adjacent control) must be added to all three tiers using the same pill treatment. Don't let the laptop and tablet tiers drift into different visual languages again — if one is restyled, restyle the other tier that shares its grammar in the same change.
+
+### 11.8 — Minimum viewport width: 320px floor must be enforced on `fixed` elements explicitly
+
+**Context:** `apps/lomoweb/app/layout.tsx`'s `<body>` carries `min-w-80` (320px) so the app never renders narrower than a standard small-phone width. This was insufficient on its own: the phone bottom nav uses `position: fixed`, which sizes against the true browser viewport, not the body's enforced minimum. Its inner pill also used `w-[min(92vw,32rem)]` — a `vw`-based width, which by definition ignores any ancestor's `min-width` and re-measures against the real (potentially sub-320px) viewport.
+
+**Verified:** at a 250px real viewport, the body correctly held 320px (`scrollWidth: 320`), but the fixed bottom nav still measured only ~235px wide before the fix.
+
+**Decision:** any `position: fixed` element must carry its own explicit `min-w-80` (or equivalent) rather than relying on the body's constraint, and must not size itself from `vw` units. The phone bottom nav's container now has `min-w-80` directly, and its inner pill sizes from `w-full max-w-lg` (relative to that constrained flex container) instead of `min(92vw, 32rem)`.
+
+**Rule going forward:** Before adding any `fixed`- or `absolute`-positioned full-bleed element, check whether it needs to respect the 320px floor. If so, it needs its own `min-w-80` — the body's `min-w-80` alone does not propagate to elements taken out of normal flow.
+
+### 11.9 — Gray `Card`/`Button` surface tint fixed at the token level, not per-instance
+
+**Context:** Every default-gray `Card` (`variant="surface"`, `color="gray"` — the default) and every `Button` (`variant="soft" color="gray"`) rendered a visible light-gray fill (`bg-gray-3`) instead of a clean white surface — visible on empty-state cards, the profile page card, and the open-requests filter pills ("Status", "Categories", "Area", "Urgent").
+
+**Decision:** fixed at the shared token level rather than patching each call site — `cardSurfaceColors.gray` (`packages/ui/src/variants/card-styles.ts`) and `softColors.gray` (`packages/ui/src/variants/color-styles.ts`) both changed their base fill from `bg-gray-3` to `bg-white`. Every current and future `Card`/`Button` consumer that relies on the default/explicit gray color inherits the fix automatically.
+
+**Rule going forward:** Don't reintroduce `bg-gray-3` (or similar) as a default *fill* for gray surfaces — a light-gray fill on this palette reads as "disabled/inert," not "neutral," which conflicts with §2's calm-but-clear mandate. `gray-3`/`gray-4` remain correct for hover/pressed *states* layered on top of the white base (already how `softColors.gray`'s hover/press steps work) — the problem was only the resting-state fill.

@@ -143,34 +143,33 @@ export function AppSidebar() {
 			  The document remains the scroll container, so the `window.scrollTo` in
 			  `handleTabClick` still works.
 			*/}
+			{/*
+			  Same pill-based tab style as the tablet rail below, just attached to
+			  the viewport edge instead of floating — no margin, rounding, or shadow.
+			*/}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col border-r-2 border-terracotta-9 bg-surface-warm/90"
+				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col border-r-2 border-terracotta-9 bg-surface-warm/90 p-2"
 			>
-				{/* Logo header */}
-				<div className="flex h-14 shrink-0 items-center border-b-2 border-terracotta-9 px-4">
-					<Link
-						href="/app"
-						className="flex items-center gap-2 rounded-1 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
-					>
-						<LomoLogo className="size-7 shrink-0" aria-hidden />
-						<span className="font-display text-lg font-semibold text-gray-12">
-							{isOnAdminRoute ? "LoMo Admin" : "LoMo"}
-						</span>
-					</Link>
-				</div>
+				<Link
+					href="/app"
+					className="flex h-14 shrink-0 items-center gap-3 rounded-full px-3 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
+				>
+					<LomoLogo className="size-7 shrink-0" aria-hidden />
+					<span className="font-display text-lg font-semibold text-gray-12">
+						{isOnAdminRoute ? "LoMo Admin" : "LoMo"}
+					</span>
+				</Link>
 
 				{/* Back to app link (admin only) */}
 				{isOnAdminRoute && (
-					<div className="shrink-0 px-3 pt-3">
-						<Link
-							href="/app"
-							className="flex items-center gap-2 rounded-2 px-3 py-2 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-1 hover:text-gray-12"
-						>
-							<Icon name="back" className="size-4" />
-							<span>Back to app</span>
-						</Link>
-					</div>
+					<Link
+						href="/app"
+						className="mt-3 flex h-12 shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+					>
+						<Icon name="back" className="size-4" />
+						<span>Back to app</span>
+					</Link>
 				)}
 
 				{/*
@@ -184,10 +183,10 @@ export function AppSidebar() {
 				  below its content, so a nav list taller than the viewport would overflow
 				  the pinned sidebar instead of scrolling inside it.
 				*/}
-				<ul role="list" className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-3">
+				<ul role="list" className="mt-3 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
 					{tabs.map(tab => (
 						<li key={tab.id}>
-							<SidebarTab
+							<RailTab
 								tab={tab}
 								isActive={activeTabId === tab.id}
 								onTabClick={handleTabClick}
@@ -197,36 +196,34 @@ export function AppSidebar() {
 
 					{/* Admin link for non-admin routes */}
 					{!isOnAdminRoute && isAdmin && (
-						<li>
-							<div role="presentation" className="my-2 border-t border-terracotta-9/15" />
+						<li className="mt-1 border-t border-terracotta-9/15 pt-2">
 							<Link
 								href="/app/admin"
-								className="flex min-h-11 items-center gap-3 rounded-2 px-3 py-2.5 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-1 hover:text-gray-12"
+								aria-label="Admin"
+								className="flex h-12 w-full items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
 							>
-								<Icon name="admin" className="size-5 text-gray-11" />
+								<Icon name="admin" className="size-5" />
 								<span>Admin</span>
 							</Link>
 						</li>
 					)}
 				</ul>
 
-				{/* Sign out, pinned to the bottom of the viewport-height sidebar */}
-				<div className="shrink-0 border-t border-terracotta-9/15 p-3">
-					<button
-						type="button"
-						onClick={() => void handleSignOut()}
-						className="flex w-full items-center gap-3 rounded-2 px-3 py-2.5 text-sm font-medium text-gray-11 transition-colors hover:bg-terracotta-1 hover:text-gray-12"
-					>
-						<Icon name="signOut" className="size-5" />
-						<span>Sign out</span>
-					</button>
-				</div>
+				<button
+					type="button"
+					onClick={() => void handleSignOut()}
+					aria-label="Sign out"
+					className="flex h-12 w-full shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+				>
+					<Icon name="signOut" className="size-5" />
+					<span>Sign out</span>
+				</button>
 			</nav>
 
 			{/* Medium screens use a floating navigation rail, following Material 3's adaptive layout. */}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-[2rem] border-2 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
+				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-4xl border-2 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
 			>
 				<Link
 					href="/app"
@@ -273,11 +270,17 @@ export function AppSidebar() {
 			</nav>
 
 			{/* Compact mobile bottom bar (below md) */}
+			{/*
+			  `fixed` positions relative to the viewport, not the body — so `vw` units
+			  here would ignore the body's `min-w-80` and keep shrinking below 320px.
+			  `min-w-80` on the nav itself, sized from the flex container instead of
+			  `vw`, keeps it in step with the rest of the page's minimum width.
+			*/}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="fixed inset-x-0 bottom-3 z-40 flex justify-center px-3 md:hidden"
+				className="fixed inset-x-0 bottom-3 z-40 flex min-w-80 justify-center px-3 md:hidden"
 			>
-				<div className="w-[min(92vw,32rem)] rounded-full border-2 border-terracotta-9 bg-surface-warm shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)]">
+				<div className="w-full max-w-lg rounded-full border-2 border-terracotta-9 bg-surface-warm shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)]">
 					<ul role="list" className="flex items-center justify-between gap-1 p-1.5">
 						{tabs.map(tab => (
 							<li key={tab.id} className="flex-1">
@@ -328,65 +331,13 @@ function RailTab({
 				"flex h-12 w-full items-center gap-3 rounded-full border-2 px-3 text-sm font-medium",
 				"outline-none transition-colors focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
 				isActive
-					? "border-terracotta-9 bg-terracotta-3 text-terracotta-11"
+					? "border-transparent bg-terracotta-9 text-white"
 					: "border-transparent text-gray-11 hover:bg-terracotta-1 hover:text-gray-12",
 			].join(" ")}
 		>
 			<Icon
 				name={tab.icon}
-				className={`size-5 ${isActive ? "text-terracotta-11" : "text-gray-11"}`}
-			/>
-			<span>{tab.label}</span>
-		</Link>
-	);
-}
-
-// --- SidebarTab Component ---
-
-function SidebarTab({
-	tab,
-	isActive,
-	onTabClick,
-}: {
-	tab: NavTab;
-	isActive: boolean;
-	onTabClick: (tab: NavTab) => void;
-}) {
-	const handleClick = useCallback(
-		(e: React.MouseEvent) => {
-			// For mode-based tabs, always prevent default link behavior
-			if (tab.homeMode) {
-				e.preventDefault();
-				onTabClick(tab);
-				return;
-			}
-			if (isActive) {
-				e.preventDefault();
-				onTabClick(tab);
-			}
-		},
-		[isActive, onTabClick, tab],
-	);
-
-	return (
-		<Link
-			href={tab.href}
-			aria-current={isActive ? "page" : undefined}
-			onClick={handleClick}
-			className={[
-				"flex items-center gap-3 rounded-2 border-l-2 px-3 py-2.5",
-				"min-h-11 min-w-11",
-				"text-sm font-medium transition-colors",
-				"outline-none focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2",
-				isActive
-					? "border-terracotta-9 bg-terracotta-3 text-terracotta-11"
-					: "border-transparent text-gray-11 hover:bg-terracotta-1 hover:text-gray-12",
-			].join(" ")}
-		>
-			{/* size-5 matches BottomTab so both nav variants read at the same weight. */}
-			<Icon
-				name={tab.icon}
-				className={`size-5 ${isActive ? "text-terracotta-11" : "text-gray-11"}`}
+				className={`size-5 ${isActive ? "text-white" : "text-gray-11"}`}
 			/>
 			<span>{tab.label}</span>
 		</Link>
