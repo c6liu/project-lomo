@@ -4,7 +4,7 @@
 Accepted (Supersedes prior internal proposal)
 
 ## Date
-2025-01-20
+2026-09-01
 
 ## Context
 Initial design explorations in Figma specified that primary call-to-action (CTA) buttons in app flows should use a high-visibility yellow fill (`--yellow-9` / `#f3c600`) with a thick dark ink border (`border-4 border-terracotta-9` / `#4a352f`).
