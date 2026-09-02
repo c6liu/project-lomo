@@ -24,9 +24,9 @@ describe("request flow contract", () => {
 	it("merges nested category updates without wiping unrelated draft fields", () => {
 		const draft = {
 			...emptyDraft(),
-			category: "food",
-			foodKind: "meal",
-			urgency: "when_possible",
+			category: "food" as const,
+			foodKind: "meal" as const,
+			urgency: "when_possible" as const,
 			foodDetails: {
 				...emptyDraft().foodDetails,
 				helpfulNote: "Initial note",
@@ -53,9 +53,9 @@ describe("request flow contract", () => {
 	it("resets the request draft to the shared empty defaults", () => {
 		const draft = {
 			...emptyDraft(),
-			category: "support",
-			foodKind: "groceries",
-			urgency: "urgent",
+			category: "support" as const,
+			foodKind: "groceries" as const,
+			urgency: "urgent" as const,
 			publicWalkDetails: {
 				...emptyDraft().publicWalkDetails,
 				location: "Central park",

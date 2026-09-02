@@ -50,7 +50,7 @@ function createVariantColorCompoundVariants() {
 	] as const;
 
 	return variants.flatMap(({ variant, map }) =>
-		colors.map((color) => ({
+		colors.map(color => ({
 			variant,
 			color,
 			class: map[color],
@@ -70,8 +70,8 @@ function createBorderCompoundVariants() {
 		"darkred",
 	] as const;
 
-	return borders.flatMap((border) =>
-		colors.map((borderColor) => ({
+	return borders.flatMap(border =>
+		colors.map(borderColor => ({
 			border,
 			borderColor,
 			class: borderColors[borderColor],

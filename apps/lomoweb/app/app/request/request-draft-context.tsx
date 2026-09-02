@@ -39,6 +39,7 @@ export type RequestDraftAction
 		| { type: "setCeremonyDetails"; patch: Partial<CeremonyRequestDetails> }
 		| { type: "setCeremonyDetailsAll"; details: CeremonyRequestDetails }
 		| { type: "setUrgency"; urgency: RequestUrgencyId | null }
+		| { type: "setNeededBy"; neededBy: NeededBy | null }
 		| { type: "reset" };
 
 export function requestDraftReducer(
@@ -94,6 +95,8 @@ export function requestDraftReducer(
 			return { ...draft, ceremonyDetails: { ...action.details } };
 		case "setUrgency":
 			return { ...draft, urgency: action.urgency };
+		case "setNeededBy":
+			return { ...draft, neededBy: action.neededBy };
 		case "reset":
 			return emptyDraft();
 		default:
@@ -191,7 +194,7 @@ export function RequestDraftProvider({ children }: { children: ReactNode }) {
 	}, []);
 
 	const setNeededBy = useCallback((neededBy: NeededBy | null) => {
-		setDraft(prev => ({ ...prev, neededBy }));
+		dispatch({ type: "setNeededBy", neededBy });
 	}, []);
 
 	const resetDraft = useCallback(() => {
