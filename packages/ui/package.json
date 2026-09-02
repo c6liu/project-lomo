@@ -23,7 +23,7 @@
 	},
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"test": "echo \"No tests for @repo/ui yet\"",
+		"test": "bun test",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix"
 	},
