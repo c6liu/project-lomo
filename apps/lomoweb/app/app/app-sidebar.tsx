@@ -223,7 +223,7 @@ export function AppSidebar() {
 			{/* Medium screens use a floating navigation rail, following Material 3's adaptive layout. */}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
-				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-4xl border-3 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
+				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-6 border-3 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
 			>
 				<Link
 					href="/app"
