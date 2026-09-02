@@ -11,7 +11,7 @@
 		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
-		"@convex-dev/better-auth": "0.11.4",
+		"@convex-dev/better-auth": "^0.12.5",
 		"better-auth": "1.6.22",
 		"convex": "^1.39.1",
 		"zod": "catalog:"
