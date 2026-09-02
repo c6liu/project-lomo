@@ -46,7 +46,7 @@ describe("desktop sidebar stays pinned to the viewport", () => {
 		const source = read(SIDEBAR);
 
 		expect(source).toContain("md:flex lg:hidden");
-		expect(source).toContain("rounded-4xl");
+		expect(source).toContain("rounded-6");
 		expect(source).toContain("shadow-[0_12px_28px");
 	});
 

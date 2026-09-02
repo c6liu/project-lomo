@@ -39,7 +39,7 @@ export function Button({
 		return (
 			<AriaLink
 				{...props}
-				className={cn(className, renderStyles)}
+				className={cn(renderStyles, className)}
 			/>
 		);
 	}
@@ -47,7 +47,7 @@ export function Button({
 	return (
 		<AriaButton
 			{...props}
-			className={cn(className, renderStyles)}
+			className={cn(renderStyles, className)}
 		/>
 	);
 }
