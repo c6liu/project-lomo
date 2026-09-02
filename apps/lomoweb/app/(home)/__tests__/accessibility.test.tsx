@@ -18,6 +18,9 @@ vi.mock("next/image", () => ({
 		className,
 		"aria-hidden": ariaHidden,
 		fill: _fill,
+		priority: _priority,
+		placeholder: _placeholder,
+		quality: _quality,
 		...props
 	}: {
 		"alt"?: string;
@@ -25,6 +28,10 @@ vi.mock("next/image", () => ({
 		"className"?: string;
 		"aria-hidden"?: boolean | "true" | "false";
 		"fill"?: boolean;
+		"priority"?: boolean;
+		"placeholder"?: string;
+		"quality"?: number | string;
+		[key: string]: any;
 	}) => (
 		<img
 			alt={alt ?? ""}
