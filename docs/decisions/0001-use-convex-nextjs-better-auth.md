@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-15
+2026-09-01
 
 ## Context
 LoMo is a calm, consent-based community support platform designed for real-time community interactions (asks and offers for community help). Key architectural requirements:
