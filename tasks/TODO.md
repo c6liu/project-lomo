@@ -1,19 +1,18 @@
 # Navigation Follow-ups
 
-## Share the tablet and laptop rail content
+## Share the tablet and laptop rail content (Completed)
 
-The tablet and laptop navigation wrappers render the same logo, destination list, admin link, and sign-out controls independently.
+The tablet and laptop navigation wrappers now render shared inner rail content (`RailContent`) extracted from `apps/lomoweb/app/app/app-sidebar.tsx`.
 
-- Extract the shared inner rail content from `apps/lomoweb/app/app/app-sidebar.tsx` into one local component.
-- Keep the outer wrappers distinct: tablet remains floating; laptop remains attached to the viewport edge.
-- Preserve the existing phone bottom-navigation implementation.
-- Verify that active-state styling and the Open Requests visibility rule remain identical across all three breakpoints.
+- Extracted `RailContent` containing logo, admin exit link, navigation tabs, admin link, and sign-out button.
+- Kept laptop and tablet outer styling wrappers distinct.
+- Preserved existing phone bottom-navigation implementation.
+- Verified active-state styling and Open Requests visibility rules across all three breakpoints.
 
-## Provide an admin exit on tablet and phone
+## Provide an admin exit on tablet and phone (Completed)
 
-The laptop admin sidebar includes a visible "Back to app" control, but the tablet rail and phone bottom navigation do not.
+The laptop sidebar, tablet rail, and phone bottom navigation all render a visible, accessible "Back to app" control on admin routes.
 
-- Add a consistent, keyboard-accessible path from admin navigation back to `/app` on tablet and phone.
-- Reuse the established pill navigation grammar and avoid overcrowding the phone bottom bar.
-- Confirm the control appears only on admin routes and that regular app navigation is unchanged.
-- Add focused coverage for all three responsive navigation tiers.
+- Added "Back to app" link to tablet rail and mobile bottom bar on admin routes.
+- Reused established pill navigation grammar.
+- Added focused unit tests in `apps/lomoweb/app/app/__tests__/sidebar-responsive-navigation.test.tsx` for all three responsive navigation tiers.

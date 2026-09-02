@@ -37,6 +37,13 @@ const ADMIN_TABS: NavTab[] = [
 	{ id: "settings", label: "Settings", href: "/app/admin/settings", icon: "settings" },
 ];
 
+const ADMIN_EXIT_TAB: NavTab = {
+	id: "exit-admin",
+	label: "Back to App",
+	href: "/app",
+	icon: "back",
+};
+
 // --- Helpers ---
 
 function getActiveAppTabId(pathname: string, homeMode: string): string {
@@ -106,6 +113,10 @@ export function AppSidebar() {
 		? getActiveAdminTabId(pathname)
 		: getActiveAppTabId(pathname, mode);
 
+	const phoneTabs = isOnAdminRoute
+		? [...ADMIN_TABS, ADMIN_EXIT_TAB]
+		: tabs;
+
 	const handleTabClick = useCallback(
 		(tab: NavTab) => {
 			// If the tab has a homeMode, set it and navigate to /app
@@ -135,89 +146,18 @@ export function AppSidebar() {
 	return (
 		<>
 			{/* Desktop sidebar (lg+) */}
-			{/*
-			  Pinned to the viewport rather than stretching with the page.
-			  `h-screen` gives it a definite height so the flex row can't grow it to the
-			  full content height — which is what previously pushed Sign out and
-			  Settings to the bottom of a long page instead of the bottom of the screen.
-			  The document remains the scroll container, so the `window.scrollTo` in
-			  `handleTabClick` still works.
-			*/}
-			{/*
-			  Same pill-based tab style as the tablet rail below, just attached to
-			  the viewport edge instead of floating — no margin, rounding, or shadow.
-			*/}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
 				className="hidden lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-60 lg:shrink-0 lg:flex-col border-r-3 border-terracotta-9 bg-surface-warm p-2"
 			>
-				<Link
-					href="/app"
-					className="flex h-14 shrink-0 items-center gap-3 rounded-full px-3 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
-				>
-					<LomoLogo className="size-8 shrink-0" aria-hidden />
-					<span className="font-logo text-2xl font-semibold text-gray-12">
-						{isOnAdminRoute ? "LoMo Admin" : "LoMo"}
-					</span>
-				</Link>
-
-				{/* Back to app link (admin only) */}
-				{isOnAdminRoute && (
-					<Link
-						href="/app"
-						className="mt-3 flex h-12 shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
-					>
-						<Icon name="back" className="size-4" />
-						<span>Back to app</span>
-					</Link>
-				)}
-
-				{/*
-				  A list of links, not a tablist. Activating one is a route change, and
-				  there are no tabpanels for a `tablist` to own — so `role="tab"` would
-				  promise arrow-key traversal and panel swapping that never happen. The
-				  enclosing <nav> supplies the landmark and label.
-				*/}
-				{/*
-				  `min-h-0` is load-bearing: without it a flex child refuses to shrink
-				  below its content, so a nav list taller than the viewport would overflow
-				  the pinned sidebar instead of scrolling inside it.
-				*/}
-				<ul role="list" className="mt-3 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
-					{tabs.map(tab => (
-						<li key={tab.id}>
-							<RailTab
-								tab={tab}
-								isActive={activeTabId === tab.id}
-								onTabClick={handleTabClick}
-							/>
-						</li>
-					))}
-
-					{/* Admin link for non-admin routes */}
-					{!isOnAdminRoute && isAdmin && (
-						<li className="mt-1 border-t border-terracotta-9/15 pt-2">
-							<Link
-								href="/app/admin"
-								aria-label="Admin"
-								className="flex h-12 w-full items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
-							>
-								<Icon name="admin" className="size-5" />
-								<span>Admin</span>
-							</Link>
-						</li>
-					)}
-				</ul>
-
-				<button
-					type="button"
-					onClick={() => void handleSignOut()}
-					aria-label="Sign out"
-					className="flex h-12 w-full shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
-				>
-					<Icon name="signOut" className="size-5" />
-					<span>Sign out</span>
-				</button>
+				<RailContent
+					isOnAdminRoute={isOnAdminRoute}
+					isAdmin={isAdmin ?? false}
+					tabs={tabs}
+					activeTabId={activeTabId}
+					onTabClick={handleTabClick}
+					onSignOut={handleSignOut}
+				/>
 			</nav>
 
 			{/* Medium screens use a floating navigation rail, following Material 3's adaptive layout. */}
@@ -225,64 +165,24 @@ export function AppSidebar() {
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
 				className="sticky top-3 ml-3 hidden h-[calc(100vh-1.5rem)] w-56 shrink-0 flex-col rounded-6 border-3 border-terracotta-9 bg-surface-warm p-2 shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)] md:flex lg:hidden"
 			>
-				<Link
-					href="/app"
-					aria-label={isOnAdminRoute ? "LoMo Admin" : "LoMo"}
-					className="flex h-14 shrink-0 items-center gap-3 rounded-full px-3 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
-				>
-					<LomoLogo className="size-7" aria-hidden />
-					<span className="font-display text-lg font-semibold text-gray-12">
-						{isOnAdminRoute ? "LoMo Admin" : "LoMo"}
-					</span>
-				</Link>
-				<ul role="list" className="mt-3 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
-					{tabs.map(tab => (
-						<li key={tab.id}>
-							<RailTab
-								tab={tab}
-								isActive={activeTabId === tab.id}
-								onTabClick={handleTabClick}
-							/>
-						</li>
-					))}
-					{!isOnAdminRoute && isAdmin && (
-						<li className="mt-1 border-t border-terracotta-9/15 pt-2">
-							<Link
-								href="/app/admin"
-								aria-label="Admin"
-								className="flex h-12 w-full items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
-							>
-								<Icon name="admin" className="size-5" />
-								<span>Admin</span>
-							</Link>
-						</li>
-					)}
-				</ul>
-				<button
-					type="button"
-					onClick={() => void handleSignOut()}
-					aria-label="Sign out"
-					className="flex h-12 w-full shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
-				>
-					<Icon name="signOut" className="size-5" />
-					<span>Sign out</span>
-				</button>
+				<RailContent
+					isOnAdminRoute={isOnAdminRoute}
+					isAdmin={isAdmin ?? false}
+					tabs={tabs}
+					activeTabId={activeTabId}
+					onTabClick={handleTabClick}
+					onSignOut={handleSignOut}
+				/>
 			</nav>
 
 			{/* Compact mobile bottom bar (below md) */}
-			{/*
-			  `fixed` positions relative to the viewport, not the body — so `vw` units
-			  here would ignore the body's `min-w-80` and keep shrinking below 320px.
-			  `min-w-80` on the nav itself, sized from the flex container instead of
-			  `vw`, keeps it in step with the rest of the page's minimum width.
-			*/}
 			<nav
 				aria-label={isOnAdminRoute ? "Admin navigation" : "App navigation"}
 				className="fixed inset-x-0 bottom-3 z-40 flex min-w-80 justify-center px-3 md:hidden"
 			>
 				<div className="w-full max-w-lg rounded-full border-2 border-terracotta-9 bg-surface-warm shadow-[0_12px_28px_rgba(74,53,47,0.18),0_2px_10px_rgba(74,53,47,0.10)]">
 					<ul role="list" className="flex items-center justify-between gap-1 p-1.5">
-						{tabs.map(tab => (
+						{phoneTabs.map(tab => (
 							<li key={tab.id} className="flex-1">
 								<BottomTab
 									tab={tab}
@@ -294,6 +194,86 @@ export function AppSidebar() {
 					</ul>
 				</div>
 			</nav>
+		</>
+	);
+}
+
+// --- Shared Rail Content Component ---
+
+function RailContent({
+	isOnAdminRoute,
+	isAdmin,
+	tabs,
+	activeTabId,
+	onTabClick,
+	onSignOut,
+}: {
+	isOnAdminRoute: boolean;
+	isAdmin: boolean;
+	tabs: NavTab[];
+	activeTabId: string;
+	onTabClick: (tab: NavTab) => void;
+	onSignOut: () => Promise<void>;
+}) {
+	return (
+		<>
+			<Link
+				href="/app"
+				aria-label={isOnAdminRoute ? "LoMo Admin" : "LoMo"}
+				className="flex h-14 shrink-0 items-center gap-3 rounded-full px-3 outline-none ring-gray-8 focus-visible:ring-2 focus-visible:ring-offset-2"
+			>
+				<LomoLogo className="size-8 shrink-0" aria-hidden />
+				<span className="font-logo text-2xl font-semibold text-gray-12">
+					{isOnAdminRoute ? "LoMo Admin" : "LoMo"}
+				</span>
+			</Link>
+
+			{/* Back to app link (admin only) */}
+			{isOnAdminRoute && (
+				<Link
+					href="/app"
+					className="mt-3 flex h-12 shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+				>
+					<Icon name="back" className="size-4" />
+					<span>Back to app</span>
+				</Link>
+			)}
+
+			<ul role="list" className="mt-3 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
+				{tabs.map(tab => (
+					<li key={tab.id}>
+						<RailTab
+							tab={tab}
+							isActive={activeTabId === tab.id}
+							onTabClick={onTabClick}
+						/>
+					</li>
+				))}
+
+				{/* Admin link for non-admin routes */}
+				{!isOnAdminRoute && isAdmin && (
+					<li className="mt-1 border-t border-terracotta-9/15 pt-2">
+						<Link
+							href="/app/admin"
+							aria-label="Admin"
+							className="flex h-12 w-full items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+						>
+							<Icon name="admin" className="size-5" />
+							<span>Admin</span>
+						</Link>
+					</li>
+				)}
+			</ul>
+
+			<button
+				type="button"
+				onClick={() => void onSignOut()}
+				aria-label="Sign out"
+				className="flex h-12 w-full shrink-0 items-center gap-3 rounded-full px-3 text-sm font-medium text-gray-11 outline-none transition-colors hover:bg-terracotta-1 hover:text-gray-12 focus-visible:ring-2 focus-visible:ring-gray-8 focus-visible:ring-offset-2"
+			>
+				<Icon name="signOut" className="size-5" />
+				<span>Sign out</span>
+			</button>
 		</>
 	);
 }
