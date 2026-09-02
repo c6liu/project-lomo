@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-22
+2026-09-01
 
 ## Context
 LoMo must support devices ranging from small mobile screens (320px minimum) to large desktop monitors (`≥1024px`), while maintaining a calm, accessible navigation experience.
