@@ -85,6 +85,14 @@ This starts all apps via Turborepo. Turbo's TUI keeps each process in its own lo
 **How this strengthens Waterloo Region's civic fabric:**
 By lowering the barrier to asking for and offering help, LoMo helps build the trust networks and mutual aid capacity that communities need to be resilient.
 
+## Architecture & Decision Records
+
+Key architectural decisions are recorded as Architecture Decision Records (ADRs) in [`docs/decisions/`](docs/decisions/):
+- [ADR-0001: Next.js 16, Convex, and Better Auth Stack](docs/decisions/0001-use-convex-nextjs-better-auth.md)
+- [ADR-0002: Tailwind v4 and React Aria Design System (`@repo/ui`)](docs/decisions/0002-tailwind-v4-react-aria-design-system.md)
+- [ADR-0003: Yellow CTA Button Treatment](docs/decisions/0003-yellow-cta-button-treatment.md)
+- [ADR-0004: Adaptive Three-Tier Responsive Navigation Layout](docs/decisions/0004-adaptive-three-tier-navigation.md)
+
 ## AI Agents
 
 See [AGENTS.md](AGENTS.md) for AI agent instructions (code style, conventions, project structure).

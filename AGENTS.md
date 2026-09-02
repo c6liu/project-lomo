@@ -151,6 +151,10 @@ npx convex run seed:clear
 - Do NOT commit `.env` files
 - Do NOT run `bun install` — prompt and wait for the user to review and install dependencies themselves
 
+## Architecture Decision Records (ADRs)
+
+Architectural decisions are formally recorded in `docs/decisions/`. Before introducing major dependencies, layout overhauls, or API changes, consult existing ADRs and document new significant decisions in `docs/decisions/`.
+
 ## Pending Decisions
 
 These are not yet decided. Do not introduce them without explicit instruction:
