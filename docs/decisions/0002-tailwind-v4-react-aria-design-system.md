@@ -4,7 +4,7 @@
 Accepted
 
 ## Date
-2025-01-16
+2026-09-01
 
 ## Context
 LoMo requires a calm, trustworthy, mobile-first, and highly accessible user interface.
