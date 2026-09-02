@@ -8,6 +8,8 @@
 	},
 	"scripts": {
 		"clean": "rm -rf dist .turbo ./tsbuildinfo.json",
+		"typecheck": "echo \"No typecheck for @repo/eslint-config\"",
+		"test": "echo \"No tests for @repo/eslint-config\"",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix"
 	},

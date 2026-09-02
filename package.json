@@ -45,6 +45,8 @@
 		"release": "echo 'Use GitHub Releases for official releases'",
 		"lint": "turbo run lint",
 		"lint:fix": "bun run --filter='*' lint:fix",
+		"typecheck": "turbo run typecheck",
+		"test": "turbo run test",
 		"build": "turbo run build",
 		"dev": "turbo run dev --ui=tui"
 	},

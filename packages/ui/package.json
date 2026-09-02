@@ -22,6 +22,8 @@
 		"./theme.css": "./src/theme/theme.css"
 	},
 	"scripts": {
+		"typecheck": "tsc --noEmit",
+		"test": "echo \"No tests for @repo/ui yet\"",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix"
 	},

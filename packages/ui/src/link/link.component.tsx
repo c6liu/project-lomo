@@ -23,10 +23,11 @@ export function Link({
 	return (
 		<AriaLink
 			{...props}
-			className={cn(
-				className,
-				linkVariants({ color, size, weight, underline, highContrast, trim, truncate, wrap }),
-			)}
+			className={values =>
+				cn(
+					linkVariants({ color, size, weight, underline, highContrast, trim, truncate, wrap }),
+					typeof className === "function" ? className(values) : className,
+				)}
 		/>
 	);
 }

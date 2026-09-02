@@ -23,14 +23,14 @@ vi.mock("next/image", () => ({
 		"alt"?: string;
 		"src": string;
 		"className"?: string;
-		"aria-hidden"?: string;
+		"aria-hidden"?: boolean | "true" | "false";
 		"fill"?: boolean;
 	}) => (
 		<img
 			alt={alt ?? ""}
 			src={src}
 			className={className}
-			aria-hidden={ariaHidden}
+			aria-hidden={ariaHidden as unknown as boolean}
 			{...props}
 		/>
 	),

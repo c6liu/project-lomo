@@ -6,6 +6,7 @@
 		"dev": "convex dev",
 		"logs": "convex logs",
 		"typecheck": "tsc -p convex",
+		"test": "echo \"No tests for @repo/convex-backend yet\"",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix"
 	},
