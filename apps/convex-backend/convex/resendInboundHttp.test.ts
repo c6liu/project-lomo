@@ -1,5 +1,10 @@
-import { describe, expect, it } from "bun:test";
 import { stripHtmlToText } from "./resendInboundHttp";
+
+declare const describe: (name: string, fn: () => void) => void;
+declare const it: (name: string, fn: () => void) => void;
+declare const expect: (actual: unknown) => {
+	toBe: (expected: unknown) => void;
+};
 
 describe("stripHtmlToText", () => {
 	it("strips standard script and style tags along with content", () => {
