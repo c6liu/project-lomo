@@ -77,6 +77,8 @@ This starts all apps via Turborepo. Turbo's TUI keeps each process in its own lo
 |---------|-------------|
 | `bun run dev` | Start all apps in Turbo's terminal UI |
 | `bun run build` | Build all packages |
+| `bun run typecheck` | Run type checking across all packages |
+| `bun run test` | Run test suites across all packages |
 | `bun run lint` | Lint all packages |
 | `bun run lint:fix` | Auto-fix lint issues |
 

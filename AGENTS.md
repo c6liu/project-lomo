@@ -27,7 +27,7 @@ project-lomo/
   packages/eslint-config/        @repo/eslint-config          Shared ESLint config (antfu)
 ```
 
-See `apps/lomoweb/AGENTS.md` and `packages/ui/AGENTS.md` for app-specific instructions.
+See `packages/ui/AGENTS.md` for package-specific design system instructions.
 
 ## Code Quality Standards
 
@@ -89,6 +89,8 @@ bun --filter=@repo/ui run lint:fix
 |---------|-------------|
 | `bun run dev` | Start all apps in Turbo TUI |
 | `bun run build` | Build all packages |
+| `bun run typecheck` | Run type checking across all packages |
+| `bun run test` | Run test suites across all packages |
 | `bun run lint` | Lint all packages |
 | `bun run lint:fix` | Auto-fix lint issues |
 
@@ -135,7 +137,7 @@ This launches the monorepo apps, including the Convex backend.
 **Step 4 — Seed the local database** (after the backend has started successfully):
 ```bash
 cd apps/convex-backend
-npx convex run seed:run
+bunx convex run seed:run
 ```
 
 This populates the local database with the built-in demo users, help requests, and notifications for local development. Rerunning it resets the seeded data to the default fixtures.
@@ -143,7 +145,7 @@ This populates the local database with the built-in demo users, help requests, a
 If you want to remove only the seed data without reinserting it:
 ```bash
 cd apps/convex-backend
-npx convex run seed:clear
+bunx convex run seed:clear
 ```
 
 ## Do NOT
