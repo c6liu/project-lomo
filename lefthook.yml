@@ -2,5 +2,5 @@ pre-commit:
   commands:
     lint:
       glob: "*.{js,ts,jsx,tsx}"
-      run: bun run lint:fix
+      run: bun run lint:fix {staged_files}
       stage_fixed: true
