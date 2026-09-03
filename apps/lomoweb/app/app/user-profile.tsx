@@ -1,9 +1,9 @@
 "use client";
 
+import type { api } from "@repo/convex-backend/convex/_generated/api";
 import type { Doc } from "@repo/convex-backend/convex/_generated/dataModel";
 import type { Preloaded } from "convex/react";
 import { usePreloadedAuthQuery } from "@convex-dev/better-auth/nextjs/client";
-import { api } from "@repo/convex-backend/convex/_generated/api";
 import { Badge } from "@repo/ui/badge";
 import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
@@ -11,10 +11,16 @@ import { Group, Label } from "@repo/ui/field";
 import { Heading } from "@repo/ui/heading";
 import { Text } from "@repo/ui/text";
 import { Input, TextField } from "@repo/ui/text-field";
-import { useMutation, useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import {
+	useAcknowledgeSafety,
+	useDeleteMyAccount,
+	useMyProfileRow,
+	useUpdateHelperPreferences,
+	useUpdatePublicProfile,
+} from "@/lib/hooks/use-user-profile";
 import { useServerRowSync } from "@/lib/use-server-row-sync";
 import {
 	HelperPreferencesFields,
@@ -29,7 +35,7 @@ function ProfileForm({ profileRow }: { profileRow: ProfileRow }) {
 	const [pronouns, setPronouns] = useState(() => profileRow.pronouns ?? "");
 	const [phone, setPhone] = useState(() => profileRow.phone ?? "");
 	const [savingProfile, setSavingProfile] = useState(false);
-	const updatePublicProfile = useMutation(api.users.updatePublicProfile);
+	const updatePublicProfile = useUpdatePublicProfile();
 
 	async function handleSaveVolunteerFields() {
 		setSavingProfile(true);
@@ -107,7 +113,7 @@ function HelperPreferencesForm({ profileRow }: { profileRow: ProfileRow }) {
 	);
 	const [savingPreferences, setSavingPreferences] = useState(false);
 	const [preferencesSaved, setPreferencesSaved] = useState(false);
-	const updateHelperPreferences = useMutation(api.users.updateHelperPreferences);
+	const updateHelperPreferences = useUpdateHelperPreferences();
 	const shouldSync = useServerRowSync(profileRow);
 
 	if (shouldSync) {
@@ -177,7 +183,7 @@ function SafetyForm({ profileRow }: { profileRow: ProfileRow }) {
 		Boolean(profileRow.safetyAcknowledgedAt),
 	);
 	const [savingSafety, setSavingSafety] = useState(false);
-	const acknowledgeSafety = useMutation(api.users.acknowledgeSafety);
+	const acknowledgeSafety = useAcknowledgeSafety();
 
 	async function handleSaveSafety() {
 		if (!safetyAcknowledged) {
@@ -239,8 +245,8 @@ export function UserProfile({
 }) {
 	const router = useRouter();
 	const user = usePreloadedAuthQuery(preloadedUser);
-	const profileRow = useQuery(api.users.getMyProfileRow, user ? {} : "skip");
-	const deleteMyAccount = useMutation(api.users.deleteMyAccount);
+	const profileRow = useMyProfileRow(user);
+	const deleteMyAccount = useDeleteMyAccount();
 	const [confirmingDelete, setConfirmingDelete] = useState(false);
 	const [deletePassword, setDeletePassword] = useState("");
 	const [deleteError, setDeleteError] = useState<string | null>(null);

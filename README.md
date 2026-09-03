@@ -94,6 +94,7 @@ Key architectural decisions are recorded as Architecture Decision Records (ADRs)
 - [ADR-0002: Tailwind v4 and React Aria Design System (`@repo/ui`)](docs/decisions/0002-tailwind-v4-react-aria-design-system.md)
 - [ADR-0003: Yellow CTA Button Treatment](docs/decisions/0003-yellow-cta-button-treatment.md)
 - [ADR-0004: Adaptive Three-Tier Responsive Navigation Layout](docs/decisions/0004-adaptive-three-tier-navigation.md)
+- [ADR-0005: Modular Domain Architecture and Custom Data Hooks Layer](docs/decisions/0005-modular-domain-architecture-and-data-hooks.md)
 
 ## AI Agents
 
