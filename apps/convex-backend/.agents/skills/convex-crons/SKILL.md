@@ -18,6 +18,6 @@ Define recurring jobs in convex/crons.ts targeting internal functions, with sane
 
 ## Rules
 
-- Schedule internal._functions, never api._.
+- Schedule internal.* functions, never api.*.
 - Keep cron handlers small + idempotent.
 - Don't poll tight intervals for things a subscription can push.
