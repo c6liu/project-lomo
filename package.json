@@ -37,17 +37,17 @@
 		"node": ">=22"
 	},
 	"scripts": {
-		"actions:up": "actions-up",
-		"version": "echo 'Template version:' $npm_package_version",
-		"changelog": "echo 'See CHANGELOG.md for release notes'",
-		"release": "echo 'Use GitHub Releases for official releases'",
-		"lint": "turbo run lint",
-		"lint:fix": "bun run --filter='*' lint:fix",
-		"typecheck": "turbo run typecheck",
-		"test": "turbo run test",
-		"build": "turbo run build",
-		"dev": "turbo run dev --ui=tui",
-		"prepare": "lefthook install"
+    	"actions:up": "actions-up",
+    	"version": "echo 'Template version:' $npm_package_version",
+    	"changelog": "echo 'See CHANGELOG.md for release notes'",
+    	"release": "echo 'Use GitHub Releases for official releases'",
+    	"lint": "turbo run lint",
+    	"lint:fix": "turbo run lint:fix",
+    	"typecheck": "turbo run typecheck",
+    	"test": "turbo run test",
+    	"build": "turbo run build",
+    	"dev": "turbo run dev --ui=tui",
+    	"prepare": "lefthook install"
 	},
 	"civictechwr": {
 		"template_version": "1.0.0",
