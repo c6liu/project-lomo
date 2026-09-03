@@ -14,6 +14,7 @@ export function GetConfig(options) {
 				"**/convex/_generated/**",
 				"**/.agents/**",
 				".agents/**",
+				"**/skills-lock.json",
 				/*
 				 * Local dev deployment state written by `convex dev`. Generated, holds
 				 * an adminKey and instanceSecret, and is gitignored via a nested

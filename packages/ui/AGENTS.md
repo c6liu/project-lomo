@@ -27,6 +27,8 @@ src/
     types.ts       # Shared type definitions (Colors)
   variants/        # Shared variant fragments (reusable across components)
   utils/           # Utility functions (cn, etc.)
+  icons/           # Font Awesome semantic icon registry and component
+  date-picker/     # PlainDate DatePicker wrapping RAC DatePicker + Calendar
   button/          # Reference component
   index.ts         # Package barrel export
 ```
