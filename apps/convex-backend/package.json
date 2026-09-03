@@ -11,15 +11,15 @@
 		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
-  		"@convex-dev/better-auth": "catalog:",
-  		"better-auth": "catalog:",
-  		"convex": "catalog:",
-  		"zod": "catalog:"
+		"@convex-dev/better-auth": "catalog:",
+		"better-auth": "catalog:",
+		"convex": "catalog:",
+		"zod": "catalog:"
 	},
 	"devDependencies": {
-  		"@repo/eslint-config": "workspace:*",
-  		"@types/node": "catalog:",
-  		"eslint": "catalog:",
-  		"typescript": "catalog:"
+		"@repo/eslint-config": "workspace:*",
+		"@types/node": "catalog:",
+		"eslint": "catalog:",
+		"typescript": "catalog:"
 	}
 }
