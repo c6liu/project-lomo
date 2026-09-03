@@ -37,7 +37,7 @@
 		"@vitejs/plugin-react": "5.1.4",
 		"eslint": "catalog:",
 		"fast-check": "4.9.0",
-		"jsdom": "26.1.0",
+		"jsdom": "30.0.1",
 		"tailwindcss": "catalog:",
 		"typescript": "catalog:",
 		"vitest": "3.2.6"
