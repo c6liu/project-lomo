@@ -116,6 +116,8 @@ project-lomo/
 |---------|-------------|
 | `bun run dev` | Start all apps in Turbo's terminal UI |
 | `bun run build` | Build all packages |
+| `bun run typecheck` | Run type checking across all packages |
+| `bun run test` | Run test suites across all monorepo packages |
 | `bun run lint` | Lint all packages |
 | `bun run lint:fix` | Auto-fix lint issues |
 | `bun --filter=@repo/lomoweb run test` | Run the Next.js app test suite |

@@ -123,6 +123,7 @@ cp apps/lomoweb/.env.local.example apps/lomoweb/.env.local
 ```bash
 bunx convex env set SITE_URL http://localhost:3000 --project-dir apps/convex-backend
 bunx convex env set BETTER_AUTH_SECRET=$(openssl rand -base64 32) --project-dir apps/convex-backend
+bunx convex env set ADMIN_EMAILS "your@email.com" --project-dir apps/convex-backend
 ```
 
 These are stored in Convex's deployment config, not in a local file. They only need to be set once per deployment; rerunning them is safe and simply replaces the existing values.
