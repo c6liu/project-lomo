@@ -18,6 +18,9 @@
 		"./field": "./src/field/index.ts",
 		"./text-field": "./src/text-field/index.ts",
 		"./icons": "./src/icons/index.ts",
+		"./progress": "./src/progress/index.ts",
+		"./selection-card": "./src/selection-card/index.ts",
+		"./step-footer": "./src/step-footer/index.ts",
 		"./utils": "./src/utils/index.ts",
 		"./theme.css": "./src/theme/theme.css"
 	},
