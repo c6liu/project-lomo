@@ -1,6 +1,7 @@
 "use client";
 
 import { Heading } from "@repo/ui/heading";
+import { SelectionCard } from "@repo/ui/selection-card";
 import { Text } from "@repo/ui/text";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
@@ -10,7 +11,6 @@ import {
 } from "@/lib/request-flow/categories";
 import { useRequestDraft } from "./request-draft-context";
 import { RequestStepFooter } from "./request-step-footer";
-import { SelectionCard } from "./selection-card";
 
 export function CategoryStep() {
 	const router = useRouter();
