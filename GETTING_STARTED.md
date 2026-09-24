@@ -84,7 +84,26 @@ This inserts sample users, requests, messages, and notifications used for local 
 
 Seeded requests carry a spread of deadlines (`neededByInDays` in `apps/convex-backend/convex/lib/seedData.ts`, resolved relative to seed time) — including one already overdue and unmatched, and one no-deadline request — so the admin dashboard has something to show under every "needs attention" case without waiting for real data to accumulate.
 
-### 8. Optional cleanup
+### 8. Install Playwright browsers and CLI
+
+```bash
+bun playwright install
+bun playwright install-deps
+bun playwright-cli install
+```
+
+This installs Playwright browser binaries, system dependencies, and initializes the `.playwright-cli/` workspace configuration for CLI/agent-driven runs.
+
+For AI agent browser testing, the workspace includes `@playwright/cli`. Agents can launch and inspect local pages interactively:
+
+```bash
+bunx playwright-cli open http://localhost:3000/
+bunx playwright-cli snapshot
+bunx playwright-cli click <ref>
+bunx playwright-cli close
+```
+
+### 9. Optional cleanup
 
 To remove only the seeded rows without reinserting them:
 
@@ -118,6 +137,7 @@ project-lomo/
 | `bun run build` | Build all packages |
 | `bun run typecheck` | Run type checking across all packages |
 | `bun run test` | Run test suites across all monorepo packages |
+| `bun run test:e2e` | Run Playwright end-to-end tests |
 | `bun run lint` | Lint all packages |
 | `bun run lint:fix` | Auto-fix lint issues |
 | `bun --filter=@repo/lomoweb run test` | Run the Next.js app test suite |

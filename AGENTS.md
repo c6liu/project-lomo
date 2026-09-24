@@ -91,8 +91,23 @@ bun --filter=@repo/ui run lint:fix
 | `bun run build` | Build all packages |
 | `bun run typecheck` | Run type checking across all packages |
 | `bun run test` | Run test suites across all packages |
+| `bun run test:e2e` | Run Playwright end-to-end tests |
 | `bun run lint` | Lint all packages |
 | `bun run lint:fix` | Auto-fix lint issues |
+
+### Browser testing with playwright-cli
+
+For interactive or agent-driven browser automation and UI verification, `@playwright/cli` is configured in the root:
+
+```bash
+bunx playwright-cli open http://localhost:3000/   # Open page
+bunx playwright-cli snapshot                      # View accessibility snapshot & element refs
+bunx playwright-cli click <ref>                   # Click element (e.g. e9)
+bunx playwright-cli find "<text>"                 # Search snapshot for text
+bunx playwright-cli eval "<code>"                 # Run JS expression in page
+bunx playwright-cli screenshot                    # Capture page screenshot
+bunx playwright-cli close                         # Terminate browser session
+```
 
 ### Fixing lint errors
 
